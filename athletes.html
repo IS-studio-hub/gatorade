@@ -5,8 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Gatorade Athletes - Champions Who Fuel Performance</title>
-<meta name="description" lang="en" content="Meet the Gatorade athlete roster — from Michael Jordan to Caitlin Clark, Jayson Tatum, Sydney McLaughlin-Levrone, and more.">
-<meta name="keywords" content="Gatorade athletes, Michael Jordan, Caitlin Clark, Jayson Tatum, Sydney McLaughlin, Josh Allen">
+<meta name="description" lang="en" content="Meet the Gatorade Athletes Lab — a fictional roster of next-gen athletes powered by the brand’s performance energy.">
+<meta name="keywords" content="Gatorade athletes, Athletes Lab, fictional roster, Maya Voss, Nova Hale, Blair Quinn">
 <link rel="image_src" href="#">
 <link rel="apple-touch-icon" sizes="180x180" href="#">
 <link rel="icon" type="image/svg+xml" href="img/Gatorade_logo_Favi.svg">
@@ -18,13 +18,13 @@
 <meta name="msapplication-config" content="#">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:title" content="Gatorade Athletes - Champions Who Fuel Performance">
-<meta property="og:description" content="Meet the Gatorade athlete roster — from Michael Jordan to Caitlin Clark, Jayson Tatum, Sydney McLaughlin-Levrone, and more.">
+<meta property="og:description" content="Meet the Gatorade Athletes Lab — a fictional roster of next-gen athletes powered by the brand’s performance energy.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="#" id="ogurl">
 <meta property="og:image" content="#">
 <meta property="fb:app_id" content="0">
 <meta name="twitter:title" content="Gatorade Athletes - Champions Who Fuel Performance">
-<meta name="twitter:description" content="Meet the Gatorade athlete roster — from Michael Jordan to Caitlin Clark, Jayson Tatum, Sydney McLaughlin-Levrone, and more.">
+<meta name="twitter:description" content="Meet the Gatorade Athletes Lab — a fictional roster of next-gen athletes powered by the brand’s performance energy.">
 <meta name="twitter:image" content="#">
 <meta name="twitter:card" content="summary_large_image">
 <script>
@@ -49,10 +49,9 @@ var SITEKEY = "";
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
-
 <style>
 /* Global animation optimization */
 * {
@@ -530,30 +529,101 @@ body.impact-active .about-values__item-text {
 
 .about-hero__visual {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.about-hero__visual-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #fff;
+  pointer-events: none;
+}
+
+.about-hero__stage {
+  position: absolute;
   top: 0;
   right: 0;
   width: 50%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
-  transform-origin: center center;
-  will-change: transform, opacity;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.about-hero__visual img {
+.about-hero__canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
+  display: block;
+  touch-action: none;
+  background: transparent;
 }
 
-.about-hero__visual.revealed img {
-  transform: translateX(0);
-  opacity: 1;
+.about-hero__visual-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border: 2px solid rgba(20, 104, 162, 0.2);
+  border-top-color: #1468a2;
+  border-radius: 50%;
+  animation: heroSpin 0.9s linear infinite;
+  pointer-events: none;
+}
+
+.about-hero__visual.is-loaded .about-hero__visual-loader {
+  display: none;
+}
+
+@keyframes heroSpin {
+  to { transform: rotate(360deg); }
+}
+
+.about-hero__container {
+  pointer-events: none;
+}
+
+.about-hero__container a,
+.about-hero .work-cta {
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-hero__visual-bg {
+    background: #fff;
+  }
+
+  .about-hero__stage {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    right: auto;
+  }
+
+  .about-hero__container {
+    position: relative;
+    z-index: 2;
+    padding: 6rem 1.25rem 5rem;
+  }
+
+  .about-hero__content {
+    max-width: 100%;
+  }
 }
 
 /* Work CTA component - left bottom corner */
@@ -1315,6 +1385,11 @@ cubic-bezier(0.16, 1, 0.3, 1);
     min-height: auto;
     padding: 4rem 0;
   }
+
+  .athletes-hero.about-hero {
+    min-height: 100vh;
+    padding: 0;
+  }
   
   .about-history {
     padding: 4rem 0;
@@ -1600,7 +1675,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1667,10 +1742,6 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 
 /* ========== PRODUCTS PAGE ========== */
-.products-hero .about-hero__visual img {
-  filter: contrast(1.05) saturate(1.1);
-}
-
 .products-section {
   padding: 6rem 0 8rem;
   background: #fff;
@@ -2270,6 +2341,349 @@ button.athlete-card *,
 button.athlete-card:hover * {
   cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, auto !important;
 }
+/* ========== ATHLETES LAB (same design as nutrition-info) ========== */
+body.athletes-lab-page .footer.ft,
+body.athletes-lab-page .anchor-bar,
+body.athletes-lab-page .page-marquee {
+  display: none !important;
+}
+body.athletes-lab-page .main-content {
+  --nx-bg: #000000;
+  background: #2f2e29 !important;
+  min-height: 100vh;
+  padding: 0 !important;
+  position: relative;
+}
+body.athletes-lab-page .main-content * {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+
+.nx-lab {
+  /* --nx-bg: #2f2e29; */
+  --nx-ink: #f4f2ea;
+  --nx-dim: rgba(244, 242, 234, 0.55);
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--nx-bg);
+  color: var(--nx-ink);
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.nx-lab a { color: inherit; text-decoration: none; }
+.nx-lab button {
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+.nx-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: var(--nx-bg);
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+.nx-loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.nx-loader__row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-weight: 400;
+}
+.nx-loader__bracket {
+  display: inline-flex;
+  gap: 0.35rem;
+  min-width: 2.2rem;
+  justify-content: center;
+}
+.nx-loader__dot {
+  animation: nxPulse 1s steps(2, end) infinite;
+}
+@keyframes nxPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.nx-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  pointer-events: none;
+  font-size: clamp(0.62rem, 1.05vw, 0.78rem);
+  line-height: 1.35;
+}
+.nx-header__brand { justify-self: start; }
+.nx-header__role { justify-self: center; text-align: center; color: var(--nx-dim); }
+.nx-header__role strong { display: block; color: var(--nx-ink); font-weight: 500; }
+.nx-header__loc { justify-self: end; text-align: right; color: var(--nx-dim); }
+.nx-header__loc span { display: block; color: var(--nx-ink); }
+
+.nx-side {
+  position: absolute;
+  top: 50%;
+  z-index: 18;
+  transform: translateY(-50%);
+  font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+  max-width: 10rem;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.nx-side--left { left: 1.25rem; }
+.nx-side--right { right: 1.25rem; text-align: right; color: var(--nx-dim); }
+
+.nx-follower {
+  position: fixed;
+  z-index: 30;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -120%);
+  pointer-events: none;
+  font-size: 0.7rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  mix-blend-mode: difference;
+}
+.nx-lab.is-hovering .nx-follower { opacity: 1; }
+
+.nx-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  perspective: 1400px;
+  perspective-origin: 50% 48%;
+}
+.nx-ring {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translate(-50%, -50%) rotateY(0deg);
+  will-change: transform;
+}
+.nx-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(28vw, 280px);
+  height: min(40vw, 400px);
+  margin-left: calc(min(28vw, 280px) / -2);
+  margin-top: calc(min(40vw, 400px) / -2);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1c1b18;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.nx-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.92) contrast(1.05);
+  transition: filter 0.4s ease;
+}
+.nx-card.is-active img { filter: none; }
+.nx-card__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(20,18,14,0.72) 100%);
+  pointer-events: none;
+}
+.nx-card__label {
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  font-size: 0.62rem;
+  line-height: 1.3;
+  z-index: 2;
+}
+
+.nx-list {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  overflow: auto;
+  padding: 6.5rem 8vw 7rem;
+  display: none;
+  scrollbar-width: none;
+}
+.nx-lab[data-view="list"] .nx-list { display: block; }
+.nx-lab[data-view="list"] .nx-stage,
+.nx-lab[data-view="list"] .nx-side { display: none; }
+.nx-list::-webkit-scrollbar { display: none; }
+.nx-list__item {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgba(244,242,234,0.14);
+  cursor: pointer;
+  transition: color 0.25s ease, padding-left 0.35s ease;
+}
+.nx-list__item:hover {
+  color: #fff;
+  padding-left: 0.5rem;
+}
+.nx-list__num { color: var(--nx-dim); }
+.nx-list__meta {
+  text-align: right;
+  color: var(--nx-dim);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+.nx-list__title { font-size: clamp(0.95rem, 2vw, 1.35rem); }
+.nx-list__type { display: block; color: var(--nx-dim); font-size: 0.68rem; margin-top: 0.25rem; }
+
+.nx-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 22;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1.1rem 1.35rem 1.25rem;
+  font-size: clamp(0.62rem, 1.05vw, 0.75rem);
+  /* background: linear-gradient(180deg, transparent, rgba(47, 46, 41, 0.88) 40%); */
+}
+.nx-nav__col { display: flex; flex-direction: column; gap: 0.35rem; }
+.nx-nav__col--center { align-items: center; }
+.nx-nav__col--right { align-items: flex-end; }
+.nx-nav__item.is-active { color: var(--nx-ink); }
+.nx-nav__item:not(.is-active) { color: var(--nx-dim); }
+.nx-nav__item:hover { color: var(--nx-ink); }
+
+.nx-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 35;
+  background: rgba(20, 18, 14, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.nx-detail.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.nx-detail__panel {
+  width: min(520px, 92vw);
+  background: #26251f;
+  border: 1px solid rgba(244,242,234,0.12);
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem 1.35rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.nx-detail__panel * { text-transform: none !important; letter-spacing: 0 !important; }
+.nx-detail__kicker {
+  font-size: 0.68rem;
+  text-transform: uppercase !important;
+  letter-spacing: 0.14em !important;
+  color: var(--nx-dim);
+  margin-bottom: 0.65rem;
+}
+.nx-detail__title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin: 0 0 0.75rem;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-weight: 500;
+}
+.nx-detail__text {
+  margin: 0 0 1.25rem;
+  color: rgba(244,242,234,0.78);
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+.nx-detail__close {
+  font-size: 0.72rem;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--nx-dim);
+}
+.nx-detail__close:hover { color: var(--nx-ink); }
+
+.nx-detail__points {
+  margin: 0 0 1rem;
+  padding: 0 0 0 1.1rem;
+  color: rgba(244,242,234,0.78);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.nx-detail__points li { margin-bottom: 0.35rem; }
+.nx-detail__note {
+  margin: 0 0 1.15rem;
+  font-size: 0.78rem;
+  color: rgba(244,242,234,0.55);
+  line-height: 1.45;
+}
+
+@media (max-width: 768px) {
+  .nx-header {
+    grid-template-columns: 1fr 1fr;
+    padding: 0.9rem 0.9rem;
+  }
+  .nx-header__role { display: none; }
+  .nx-side { display: none; }
+  .nx-card {
+    width: min(58vw, 220px);
+    height: min(82vw, 310px);
+    margin-left: calc(min(58vw, 220px) / -2);
+    margin-top: calc(min(82vw, 310px) / -2);
+  }
+  .nx-nav {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+  }
+  .nx-nav__col,
+  .nx-nav__col--center,
+  .nx-nav__col--right {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+  .nx-list { padding: 5.5rem 1.1rem 8rem; }
+  .nx-list__item { grid-template-columns: 2.2rem 1fr; }
+  .nx-list__meta { display: none; }
+}
+
 </style>
 <!-- css include END -->
 <!--  -->
@@ -2297,7 +2711,7 @@ button.athlete-card:hover * {
 <!-- End Google Tag Manager -->
 
 </head>
-<body class="landing" data-at-top="false" data-menu-active="false">
+<body class="landing athletes-lab-page" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LQNJBNQ" height="0" width="0" style="display:none;visibility:hidden"></iframe>
@@ -2485,156 +2899,62 @@ button.athlete-card:hover * {
         </div>
       </div>
     </div>
-    <main id="skip-to-start" class="main-content">
-      <section class="about-hero athletes-hero" id="athletesHero">
-        <div class="about-hero__visual">
-          <img src="img/athletes/hero-athletes-orange.png" alt="Gatorade Athletes" />
-        </div>
-        <div class="about-hero__container">
-          <div class="about-hero__content">
-            <h1 class="about-hero__title">
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Is</span>
-                <span class="about-hero__title-word">It</span>
-              </span>
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">In</span>
-                <span class="about-hero__title-word">You?</span>
-              </span>
-            </h1>
-            <div class="about-hero__subtitle">
-              <div>
-                <div>The athletes who define Gatorade — champions across basketball, football, track, tennis, and soccer.</div>
-              </div>
-            </div>
+        <main id="skip-to-start" class="main-content">
+      <section class="nx-lab" id="nxLab" data-view="gallery" aria-label="Athletes Lab">
+        <div class="nx-loader" id="nxLoader" aria-hidden="true">
+          <div class="nx-loader__row">
+            <span>Loading experience</span>
+            <span class="nx-loader__bracket">[<span class="nx-loader__dot">·</span>]</span>
+            <span>it won't be long</span>
           </div>
         </div>
-      </section>
 
-      <section class="athletes-section" id="athletes">
-        <div class="athletes-section__container">
-          <div class="athletes-section__header">
-            <div class="athletes-section__surtitle">Athlete Roster</div>
-            <h2 class="athletes-section__title">
-              <span class="athletes-section__title-line">
-                <span class="athletes-section__title-word">Fueling</span>
-                <span class="athletes-section__title-word">the</span>
-              </span>
-              <span class="athletes-section__title-line">
-                <span class="athletes-section__title-word">Greats</span>
-              </span>
-            </h2>
-            <p class="athletes-section__intro">Click any athlete to explore their sport, story, and place in the Gatorade family.</p>
+        <header class="nx-header">
+          <div class="nx-header__brand">Gatorade<br>Athletes</div>
+          <div class="nx-header__role">
+            <strong>Athlete Roster</strong>
+            Is it in you?
           </div>
+          <div class="nx-header__loc">
+            <span id="nxClock">--:--</span>
+            <span id="nxStatus">Champions on fuel</span>
+          </div>
+        </header>
 
-          <div class="athletes-grid" id="athletesGrid">
-                        <button type="button" class="athlete-card" data-athlete="michael-jordan" style="--accent:#EF3C42">
-              <div class="athlete-card__media">
-                <img src="img/athletes/michael-jordan.webp" alt="Michael Jordan" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Basketball</span>
-                <h3 class="athlete-card__title">Michael Jordan</h3>
-                <p class="athlete-card__text">The face of “Is It In You?” — Jordan’s partnership helped turn Gatorade into a global sports culture brand.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
+        <div class="nx-side nx-side--left" id="nxSideTitle">Maya Voss</div>
+        <div class="nx-side nx-side--right" id="nxSideType">Soccer</div>
+        <div class="nx-follower" id="nxFollower">[VIEW PROFILE]</div>
 
-            <button type="button" class="athlete-card" data-athlete="caitlin-clark" style="--accent:#F15A22">
-              <div class="athlete-card__media">
-                <img src="img/athletes/caitlin-clark.webp" alt="Caitlin Clark" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Basketball</span>
-                <h3 class="athlete-card__title">Caitlin Clark</h3>
-                <p class="athlete-card__text">Part of Gatorade’s largest “Is It In You?” campaign revival — a new generation face of the brand.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
+        <div class="nx-stage" id="nxStage">
+          <div class="nx-ring" id="nxRing"></div>
+        </div>
 
-            <button type="button" class="athlete-card" data-athlete="jayson-tatum" style="--accent:#00A3E0">
-              <div class="athlete-card__media">
-                <img src="img/athletes/jayson-tatum-blue.png" alt="Jayson Tatum" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Basketball</span>
-                <h3 class="athlete-card__title">Jayson Tatum</h3>
-                <p class="athlete-card__text">Boston Celtics star and Gatorade roster member — featured in the brand’s colored-sweat “Is It In You?” creative.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
+        <div class="nx-list" id="nxList" aria-label="Athletes list"></div>
 
-            <button type="button" class="athlete-card" data-athlete="sydney-mclaughlin" style="--accent:#FBB031">
-              <div class="athlete-card__media">
-                <img src="img/athletes/sydney-mclaughlin.png" alt="Sydney McLaughlin-Levrone" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Track & Field</span>
-                <h3 class="athlete-card__title">Sydney McLaughlin-Levrone</h3>
-                <p class="athlete-card__text">Olympic hurdles champion and world-record force — a centerpiece of Gatorade’s performance and women’s science storytelling.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
+        <nav class="nx-nav" aria-label="Athletes navigation">
+          <div class="nx-nav__col">
+            <a class="nx-nav__item is-active" href="athletes.html">[ · ] Athletes</a>
+            <a class="nx-nav__item" href="products.html">[ ] Products</a>
+            <a class="nx-nav__item" href="about.html">[ ] About</a>
+          </div>
+          <div class="nx-nav__col nx-nav__col--center">
+            <button type="button" class="nx-nav__item is-active" data-nx-view="gallery">[ · ] Gallery</button>
+            <button type="button" class="nx-nav__item" data-nx-view="list">[ ] List</button>
+          </div>
+          <div class="nx-nav__col nx-nav__col--right">
+            <a class="nx-nav__item" href="nutrition-info.html">[Nutrition]</a>
+            <a class="nx-nav__item" href="training-videos.html">[Training]</a>
+          </div>
+        </nav>
 
-            <button type="button" class="athlete-card" data-athlete="aja-wilson" style="--accent:#2F9E44">
-              <div class="athlete-card__media">
-                <img src="img/athletes/aja-wilson.jpg" alt="A’ja Wilson" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Basketball</span>
-                <h3 class="athlete-card__title">A’ja Wilson</h3>
-                <p class="athlete-card__text">Las Vegas Aces star and Gatorade athlete powering the brand’s women’s performance and science push.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
-
-            <button type="button" class="athlete-card" data-athlete="josh-allen" style="--accent:#C5D445">
-              <div class="athlete-card__media">
-                <img src="img/athletes/josh-allen.jpg" alt="Josh Allen" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Football</span>
-                <h3 class="athlete-card__title">Josh Allen</h3>
-                <p class="athlete-card__text">Buffalo Bills quarterback and Gatorade roster member featured alongside Clark, Tatum, and McLaughlin-Levrone.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
-
-            <button type="button" class="athlete-card" data-athlete="serena-williams" style="--accent:#6B2D7B">
-              <div class="athlete-card__media">
-                <img src="img/athletes/serena-williams.jpg" alt="Serena Williams" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Tennis</span>
-                <h3 class="athlete-card__title">Serena Williams</h3>
-                <p class="athlete-card__text">Tennis icon connected to Gatorade’s global “GOAT Camp” lineage of all-time greats.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
-
-            <button type="button" class="athlete-card" data-athlete="lionel-messi" style="--accent:#7EC8E3">
-              <div class="athlete-card__media">
-                <img src="img/athletes/lionel-messi.jpg" alt="Lionel Messi" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Soccer</span>
-                <h3 class="athlete-card__title">Lionel Messi</h3>
-                <p class="athlete-card__text">Soccer’s defining modern genius — part of Gatorade’s global conversation around all-time greatness.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
-
-            <button type="button" class="athlete-card" data-athlete="usain-bolt" style="--accent:#111111">
-              <div class="athlete-card__media">
-                <img src="img/athletes/usain-bolt.jpg" alt="Usain Bolt" />
-              </div>
-              <div class="athlete-card__body">
-                <span class="athlete-card__tag">Track & Field</span>
-                <h3 class="athlete-card__title">Usain Bolt</h3>
-                <p class="athlete-card__text">The fastest man in history — forever tied to Gatorade’s global “greatest of all time” athlete mythology.</p>
-                <span class="athlete-card__cta">View profile →</span>
-              </div>
-            </button>
+        <div class="nx-detail" id="nxDetail" aria-hidden="true">
+          <div class="nx-detail__panel" role="dialog" aria-modal="true" aria-labelledby="nxDetailTitle">
+            <div class="nx-detail__kicker" id="nxDetailKicker"></div>
+            <h2 class="nx-detail__title" id="nxDetailTitle"></h2>
+            <p class="nx-detail__text" id="nxDetailText"></p>
+            <ul class="nx-detail__points" id="nxDetailPoints"></ul>
+            <p class="nx-detail__note" id="nxDetailNote"></p>
+            <button type="button" class="nx-detail__close" id="nxDetailClose">[Close]</button>
           </div>
         </div>
       </section>
@@ -2845,10 +3165,6 @@ document.addEventListener('DOMContentLoaded', function() {
     gsap.registerPlugin(ScrollTrigger);
   }
 
-  var heroVisual = document.querySelector('.about-hero__visual');
-  if (heroVisual) {
-    setTimeout(function() { heroVisual.classList.add('revealed'); }, 400);
-  }
   document.querySelectorAll('.about-hero__title-word').forEach(function(word, i) {
     setTimeout(function() { word.classList.add('animate'); }, 200 + i * 120);
   });
@@ -2898,7 +3214,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   initAthletesTitleScrollAnimation();
 
-  var ATHLETES = {"michael-jordan": {"name": "Michael Jordan", "tag": "Legacy Icon", "sport": "Basketball", "accent": "#EF3C42", "desc": "The face of “Is It In You?” — Jordan’s partnership helped turn Gatorade into a global sports culture brand.", "chips": ["NBA Legend", "Is It In You?", "Global Icon"], "points": ["Central figure of Gatorade’s most iconic campaign era", "Symbol of competitive drive and championship culture", "Still anchors Gatorade’s legacy storytelling today"], "note": "Legacy ambassador and all-time face of the brand.", "image": "img/athletes/michael-jordan.webp", "gallery": ["img/athletes/athlete-master.jpg", "img/athletes/athlete-training.jpg"]}, "caitlin-clark": {"name": "Caitlin Clark", "tag": "WNBA Superstar", "sport": "Basketball", "accent": "#F15A22", "desc": "Part of Gatorade’s largest “Is It In You?” campaign revival — a new generation face of the brand.", "chips": ["Indiana Fever", "Is It In You?", "Women’s Game"], "points": ["Featured in Gatorade’s landmark modern campaign", "Signed with Gatorade during her college rise", "Represents the next era of women’s basketball excellence"], "note": "Headline athlete in Gatorade’s current cultural moment.", "image": "img/athletes/caitlin-clark.webp", "gallery": ["img/athletes/caitlin-clark-action.jpg", "img/athletes/athlete-master.jpg"]}, "jayson-tatum": {"name": "Jayson Tatum", "tag": "NBA Champion", "sport": "Basketball", "accent": "#00A3E0", "desc": "Boston Celtics star and Gatorade roster member — featured in the brand’s colored-sweat “Is It In You?” creative.", "chips": ["Boston Celtics", "Colored Sweat", "Elite Scorer"], "points": ["Featured athlete in Gatorade’s modern campaign imagery", "One of the NBA’s premier two-way stars", "Brings championship pedigree to the Gatorade roster"], "note": "Core NBA presence on Gatorade’s current athlete team.", "image": "img/athletes/jayson-tatum-blue.png", "gallery": ["img/athletes/jayson-tatum.webp", "img/athletes/jayson-tatum-action.jpg"]}, "sydney-mclaughlin": {"name": "Sydney McLaughlin-Levrone", "tag": "Olympic Champion", "sport": "Track & Field", "accent": "#FBB031", "desc": "Olympic hurdles champion and world-record force — a centerpiece of Gatorade’s performance and women’s science storytelling.", "chips": ["Olympics", "World Record", "Body of Science"], "points": ["Olympic gold and world-record hurdling excellence", "Featured in Gatorade women’s science and campaign films", "Embodies elite preparation and recovery standards"], "note": "Track & field royalty on the Gatorade roster.", "image": "img/athletes/sydney-mclaughlin.png", "gallery": ["img/athletes/sydney-action.jpg", "img/athletes/athlete-training.jpg"]}, "aja-wilson": {"name": "A’ja Wilson", "tag": "WNBA MVP", "sport": "Basketball", "accent": "#2F9E44", "desc": "Las Vegas Aces star and Gatorade athlete powering the brand’s women’s performance and science push.", "chips": ["Las Vegas Aces", "MVP", "Body of Science"], "points": ["Headline partner for Gatorade women’s science initiatives", "Multiple-time WNBA champion and MVP presence", "Brings elite physicality and leadership to the roster"], "note": "One of the defining forces in women’s basketball.", "image": "img/athletes/aja-wilson.jpg", "gallery": ["img/athletes/athlete-training.jpg", "img/athletes/athlete-master.jpg"]}, "josh-allen": {"name": "Josh Allen", "tag": "NFL Star", "sport": "Football", "accent": "#C5D445", "desc": "Buffalo Bills quarterback and Gatorade roster member featured alongside Clark, Tatum, and McLaughlin-Levrone.", "chips": ["Buffalo Bills", "NFL", "Is It In You?"], "points": ["Featured in Gatorade’s major modern campaign wave", "Dual-threat QB known for toughness and clutch play", "Represents football excellence on the brand roster"], "note": "Key NFL face of Gatorade’s current athlete lineup.", "image": "img/athletes/josh-allen.jpg", "gallery": ["img/athletes/athlete-master.jpg", "img/athletes/athlete-training.jpg"]}, "serena-williams": {"name": "Serena Williams", "tag": "GOAT Camp", "sport": "Tennis", "accent": "#6B2D7B", "desc": "Tennis icon connected to Gatorade’s global “GOAT Camp” lineage of all-time greats.", "chips": ["23 Grand Slams", "GOAT", "Global Icon"], "points": ["Among the most decorated athletes in tennis history", "Linked to Gatorade’s all-time greats storytelling", "Embodies longevity, power, and competitive fire"], "note": "Legacy greatness in the Gatorade universe.", "image": "img/athletes/serena-williams.jpg", "gallery": ["img/athletes/athlete-training.jpg", "img/athletes/usain-bolt.jpg"]}, "lionel-messi": {"name": "Lionel Messi", "tag": "GOAT Camp", "sport": "Soccer", "accent": "#7EC8E3", "desc": "Soccer’s defining modern genius — part of Gatorade’s global conversation around all-time greatness.", "chips": ["World Cup", "Inter Miami", "Playmaker"], "points": ["World Cup champion and generational talent", "Featured in Gatorade’s global GOAT-level athlete narrative", "Represents creativity and sustained excellence"], "note": "Global football icon in Gatorade’s legacy constellation.", "image": "img/athletes/lionel-messi.jpg", "gallery": ["img/athletes/athlete-master.jpg", "img/athletes/serena-williams.jpg"]}, "usain-bolt": {"name": "Usain Bolt", "tag": "GOAT Camp", "sport": "Track & Field", "accent": "#111111", "desc": "The fastest man in history — forever tied to Gatorade’s global “greatest of all time” athlete mythology.", "chips": ["8 Olympic Golds", "Sprint King", "Legend"], "points": ["Unmatched Olympic sprint dominance", "Global face of speed and celebration culture", "Anchors Gatorade’s GOAT Camp legacy set"], "note": "Speed incarnate — a forever Gatorade legend.", "image": "img/athletes/usain-bolt.jpg", "gallery": ["img/athletes/sydney-action.jpg", "img/athletes/athlete-training.jpg"]}};
+  var ATHLETES = {"maya-voss": {"name": "Maya Voss", "tag": "Attack Force", "sport": "Soccer", "accent": "#9B4DCA", "desc": "A fictional forward built for late-game surges — purple energy trails mark every cut, press, and breakthrough on the pitch.", "chips": ["Striker", "Night Pitch", "Is It In You?"], "points": ["Explosive first step under stadium lights", "Campaign face for high-output hydration storytelling", "Designed as a next-gen soccer archetype"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/maya-voss.jpg", "gallery": ["img/athletes/fake/maya-voss.jpg", "img/athletes/athlete-master.jpg"]}, "kane-rivera": {"name": "Kane Rivera", "tag": "Ring Voltage", "sport": "Boxing", "accent": "#F15A22", "desc": "A fictional heavy-hitter whose orange muscle charge visualizes grit between rounds — pure fight-night intensity.", "chips": ["Power Punch", "Ember Core", "Arena Ready"], "points": ["Built for endurance across long fight cards", "Represents toughness and recovery under pressure", "Signature ember-glow performance look"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/kane-rivera.jpg", "gallery": ["img/athletes/fake/kane-rivera.jpg", "img/athletes/athlete-master.jpg"]}, "nova-hale": {"name": "Nova Hale", "tag": "Sprint Signal", "sport": "Track & Field", "accent": "#00A3E0", "desc": "A fictional sprinter defined by electric blue stride lines — speed, focus, and finish-line hunger in one frame.", "chips": ["100m", "Blue Current", "World Stage"], "points": ["Track archetype for peak acceleration moments", "Highlight athlete for fuel-before-the-gun storytelling", "Clean, modern sprint aesthetic"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/nova-hale.jpg", "gallery": ["img/athletes/fake/nova-hale.jpg", "img/athletes/athlete-master.jpg"]}, "reed-okonkwo": {"name": "Reed Okonkwo", "tag": "Pool Pulse", "sport": "Swimming", "accent": "#2F9E44", "desc": "A fictional butterfly specialist with neon-green charge across the water — power through every pull and breath.", "chips": ["Butterfly", "Neon Surge", "Lane One"], "points": ["Endurance and explosive turn-focused profile", "Visualizes hydration under high-intensity intervals", "Aquatic counterpart to the lab’s energy aesthetic"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/reed-okonkwo.jpg", "gallery": ["img/athletes/fake/reed-okonkwo.jpg", "img/athletes/athlete-master.jpg"]}, "blair-quinn": {"name": "Blair Quinn", "tag": "Floor General", "sport": "Basketball", "accent": "#EF3C42", "desc": "A fictional point guard mid-drive with orange kinetic lines — speed, vision, and clutch control on hardwood.", "chips": ["Point Guard", "Court Fire", "Drive Mode"], "points": ["Built for tempo control and late-clock decisions", "Campaign energy for indoor high-output play", "Represents next-wave basketball storytelling"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/blair-quinn.jpg", "gallery": ["img/athletes/fake/blair-quinn.jpg", "img/athletes/athlete-master.jpg"]}, "anika-shore": {"name": "Anika Shore", "tag": "Aerial Edge", "sport": "Gymnastics", "accent": "#E85A7A", "desc": "A fictional artistic gymnast captured mid-power pose — orange-pink nodes map balance, torque, and landing control.", "chips": ["Floor", "Precision Spark", "Apparatus"], "points": ["Precision athlete for focus and recovery narratives", "Highlights micro-movements and explosive holds", "Arena-ready artistic performance archetype"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/anika-shore.jpg", "gallery": ["img/athletes/fake/anika-shore.jpg", "img/athletes/athlete-master.jpg"]}, "jax-moreau": {"name": "Jax Moreau", "tag": "Cockpit Charge", "sport": "Motorsport", "accent": "#FBB031", "desc": "A fictional race driver locked into the wheel — gold energy lines trace reaction time, grip, and night-race focus.", "chips": ["Open Wheel", "Gold Circuit", "Night Race"], "points": ["High-concentration endurance under heat and G-force", "Represents precision hydration for long sessions", "Futuristic motorsport face of the roster"], "note": "Demo athlete for the Gatorade Athletes Lab.", "image": "img/athletes/fake/jax-moreau.jpg", "gallery": ["img/athletes/fake/jax-moreau.jpg", "img/athletes/athlete-master.jpg"]}}};
 
   var popup = document.getElementById('athletePopup');
   var hero = document.getElementById('athletePopupHero');
@@ -3164,7 +3480,310 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
+
+<script>
+(function() {
+  document.body.classList.add('athletes-lab-page');
+
+  var items = [
+    {
+      "id": "maya-voss",
+      "title": "Maya Voss",
+      "type": "Soccer",
+      "tech": "Striker · Night Pitch · Is It In You?",
+      "year": "Attack Force",
+      "text": "A fictional forward built for late-game surges — purple energy trails mark every cut, press, and breakthrough on the pitch.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "Explosive first step under stadium lights",
+        "Campaign face for high-output hydration storytelling",
+        "Designed as a next-gen soccer archetype"
+      ],
+      "image": "img/athletes/fake/maya-voss.jpg"
+    },
+    {
+      "id": "kane-rivera",
+      "title": "Kane Rivera",
+      "type": "Boxing",
+      "tech": "Power Punch · Ember Core · Arena Ready",
+      "year": "Ring Voltage",
+      "text": "A fictional heavy-hitter whose orange muscle charge visualizes grit between rounds — pure fight-night intensity.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "Built for endurance across long fight cards",
+        "Represents toughness and recovery under pressure",
+        "Signature ember-glow performance look"
+      ],
+      "image": "img/athletes/fake/kane-rivera.jpg"
+    },
+    {
+      "id": "nova-hale",
+      "title": "Nova Hale",
+      "type": "Track & Field",
+      "tech": "100m · Blue Current · World Stage",
+      "year": "Sprint Signal",
+      "text": "A fictional sprinter defined by electric blue stride lines — speed, focus, and finish-line hunger in one frame.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "Track archetype for peak acceleration moments",
+        "Highlight athlete for fuel-before-the-gun storytelling",
+        "Clean, modern sprint aesthetic"
+      ],
+      "image": "img/athletes/fake/nova-hale.jpg"
+    },
+    {
+      "id": "reed-okonkwo",
+      "title": "Reed Okonkwo",
+      "type": "Swimming",
+      "tech": "Butterfly · Neon Surge · Lane One",
+      "year": "Pool Pulse",
+      "text": "A fictional butterfly specialist with neon-green charge across the water — power through every pull and breath.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "Endurance and explosive turn-focused profile",
+        "Visualizes hydration under high-intensity intervals",
+        "Aquatic counterpart to the lab’s energy aesthetic"
+      ],
+      "image": "img/athletes/fake/reed-okonkwo.jpg"
+    },
+    {
+      "id": "blair-quinn",
+      "title": "Blair Quinn",
+      "type": "Basketball",
+      "tech": "Point Guard · Court Fire · Drive Mode",
+      "year": "Floor General",
+      "text": "A fictional point guard mid-drive with orange kinetic lines — speed, vision, and clutch control on hardwood.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "Built for tempo control and late-clock decisions",
+        "Campaign energy for indoor high-output play",
+        "Represents next-wave basketball storytelling"
+      ],
+      "image": "img/athletes/fake/blair-quinn.jpg"
+    },
+    {
+      "id": "anika-shore",
+      "title": "Anika Shore",
+      "type": "Gymnastics",
+      "tech": "Floor · Precision Spark · Apparatus",
+      "year": "Aerial Edge",
+      "text": "A fictional artistic gymnast captured mid-power pose — orange-pink nodes map balance, torque, and landing control.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "Precision athlete for focus and recovery narratives",
+        "Highlights micro-movements and explosive holds",
+        "Arena-ready artistic performance archetype"
+      ],
+      "image": "img/athletes/fake/anika-shore.jpg"
+    },
+    {
+      "id": "jax-moreau",
+      "title": "Jax Moreau",
+      "type": "Motorsport",
+      "tech": "Open Wheel · Gold Circuit · Night Race",
+      "year": "Cockpit Charge",
+      "text": "A fictional race driver locked into the wheel — gold energy lines trace reaction time, grip, and night-race focus.",
+      "note": "Demo athlete for the Gatorade Athletes Lab.",
+      "points": [
+        "High-concentration endurance under heat and G-force",
+        "Represents precision hydration for long sessions",
+        "Futuristic motorsport face of the roster"
+      ],
+      "image": "img/athletes/fake/jax-moreau.jpg"
+    }
+  ];
+
+  var lab = document.getElementById('nxLab');
+  if (!lab) return;
+
+  var ring = document.getElementById('nxRing');
+  var list = document.getElementById('nxList');
+  var loader = document.getElementById('nxLoader');
+  var sideTitle = document.getElementById('nxSideTitle');
+  var sideType = document.getElementById('nxSideType');
+  var follower = document.getElementById('nxFollower');
+  var detail = document.getElementById('nxDetail');
+  var clock = document.getElementById('nxClock');
+  var statusEl = document.getElementById('nxStatus');
+
+  var radius = Math.min(window.innerWidth * 0.42, 520);
+  var angleStep = 360 / items.length;
+  var rotation = 0;
+  var targetRotation = 0;
+  var active = 0;
+  var dragging = false;
+  var lastX = 0;
+  var cards = [];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function updateClock() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var hr = h % 12 || 12;
+    if (clock) clock.textContent = hr + ':' + pad(m) + ' ' + ampm;
+    if (statusEl) {
+      var hour = d.getHours();
+      statusEl.textContent = hour < 11 ? 'Game day prep' : hour < 17 ? 'In the arena' : 'Legacy mode on';
+    }
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  items.forEach(function(item, i) {
+    var card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'nx-card';
+    card.setAttribute('data-index', String(i));
+    card.innerHTML = '<img src="' + item.image + '" alt="' + item.title + '" loading="lazy"><div class="nx-card__veil"></div><div class="nx-card__label">' + item.title + '</div>';
+    ring.appendChild(card);
+    cards.push(card);
+
+    var row = document.createElement('div');
+    row.className = 'nx-list__item';
+    row.setAttribute('data-index', String(i));
+    row.innerHTML = '<div class="nx-list__num">' + pad(i + 1) + '</div><div><div class="nx-list__title">' + item.title + '</div><span class="nx-list__type">' + item.type + '</span></div><div class="nx-list__meta">' + item.tech + '<br>' + item.year + '</div>';
+    list.appendChild(row);
+  });
+
+  function layoutCards() {
+    radius = Math.min(window.innerWidth * 0.42, 520);
+    cards.forEach(function(card, i) {
+      var a = i * angleStep;
+      card.style.transform = 'rotateY(' + a + 'deg) translateZ(' + radius + 'px)';
+    });
+  }
+  layoutCards();
+
+  function nearestIndex() {
+    var normalized = ((-targetRotation % 360) + 360) % 360;
+    return Math.round(normalized / angleStep) % items.length;
+  }
+
+  function setActive(i) {
+    active = (i + items.length) % items.length;
+    cards.forEach(function(c, idx) { c.classList.toggle('is-active', idx === active); });
+    sideTitle.textContent = items[active].title;
+    sideType.textContent = items[active].type;
+  }
+
+  function animate() {
+    rotation += (targetRotation - rotation) * 0.08;
+    ring.style.transform = 'translate(-50%, -50%) rotateY(' + rotation + 'deg)';
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  function snapTo(i) {
+    var current = ((-targetRotation / angleStep) % items.length + items.length) % items.length;
+    var delta = i - current;
+    if (delta > items.length / 2) delta -= items.length;
+    if (delta < -items.length / 2) delta += items.length;
+    targetRotation -= delta * angleStep;
+    setActive(i);
+  }
+
+  function onWheel(e) {
+    if (lab.getAttribute('data-view') !== 'gallery') return;
+    e.preventDefault();
+    targetRotation -= Math.sign(e.deltaY) * (angleStep * 0.35);
+    setActive(nearestIndex());
+  }
+  lab.addEventListener('wheel', onWheel, { passive: false });
+
+  lab.addEventListener('pointerdown', function(e) {
+    if (lab.getAttribute('data-view') !== 'gallery') return;
+    if (e.target.closest('.nx-nav, .nx-detail, .nx-loader')) return;
+    dragging = true;
+    lastX = e.clientX;
+    lab.setPointerCapture(e.pointerId);
+  });
+  lab.addEventListener('pointermove', function(e) {
+    if (!dragging) {
+      if (follower) {
+        follower.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px) translate(-50%, -120%)';
+      }
+      return;
+    }
+    var dx = e.clientX - lastX;
+    lastX = e.clientX;
+    targetRotation += dx * 0.25;
+    setActive(nearestIndex());
+  });
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    snapTo(nearestIndex());
+  }
+  lab.addEventListener('pointerup', endDrag);
+  lab.addEventListener('pointercancel', endDrag);
+
+  lab.addEventListener('pointerover', function(e) {
+    if (e.target.closest('.nx-card, .nx-list__item')) lab.classList.add('is-hovering');
+  });
+  lab.addEventListener('pointerout', function(e) {
+    if (!e.relatedTarget || !lab.contains(e.relatedTarget) || !e.relatedTarget.closest('.nx-card, .nx-list__item')) {
+      lab.classList.remove('is-hovering');
+    }
+  });
+
+  function openDetail(i) {
+    var item = items[i];
+    document.getElementById('nxDetailKicker').textContent = item.type + ' · ' + item.year;
+    document.getElementById('nxDetailTitle').textContent = item.title;
+    document.getElementById('nxDetailText').textContent = item.text;
+    document.getElementById('nxDetailNote').textContent = item.note || '';
+    var points = document.getElementById('nxDetailPoints');
+    points.innerHTML = (item.points || []).map(function(p) { return '<li>' + p + '</li>'; }).join('');
+    detail.classList.add('is-open');
+    detail.setAttribute('aria-hidden', 'false');
+  }
+  function closeDetail() {
+    detail.classList.remove('is-open');
+    detail.setAttribute('aria-hidden', 'true');
+  }
+
+  ring.addEventListener('click', function(e) {
+    var card = e.target.closest('.nx-card');
+    if (!card) return;
+    var i = Number(card.getAttribute('data-index'));
+    if (i === active) openDetail(i);
+    else snapTo(i);
+  });
+  list.addEventListener('click', function(e) {
+    var row = e.target.closest('.nx-list__item');
+    if (!row) return;
+    openDetail(Number(row.getAttribute('data-index')));
+  });
+  document.getElementById('nxDetailClose').addEventListener('click', closeDetail);
+  detail.addEventListener('click', function(e) {
+    if (e.target === detail) closeDetail();
+  });
+
+  lab.querySelectorAll('[data-nx-view]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var view = btn.getAttribute('data-nx-view');
+      lab.setAttribute('data-view', view);
+      lab.querySelectorAll('[data-nx-view]').forEach(function(b) {
+        var on = b.getAttribute('data-nx-view') === view;
+        b.classList.toggle('is-active', on);
+        b.textContent = on ? '[ · ] ' + (view === 'gallery' ? 'Gallery' : 'List') : '[ ] ' + (b.getAttribute('data-nx-view') === 'gallery' ? 'Gallery' : 'List');
+      });
+    });
+  });
+
+  window.addEventListener('resize', function() {
+    layoutCards();
+    snapTo(active);
+  });
+
+  setActive(0);
+  window.setTimeout(function() {
+    if (loader) loader.classList.add('is-done');
+  }, 1200);
+})();
+</script>
 
 </body>
 </html>

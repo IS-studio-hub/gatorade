@@ -52,6 +52,9 @@ var SITEKEY = "";
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preload" href="img/3d/home-bottle.splinecode" as="fetch" crossorigin="anonymous">
+<link rel="modulepreload" href="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js">
 
 <style>
 /* Global font family override - Helvetica Neue */
@@ -601,6 +604,13 @@ body::-webkit-scrollbar {
   transition: all 0.2s linear;
 }
 
+/* Mobile only: lift the circular 3D/scroll button a bit */
+@media (max-width: 767.98px) {
+  .landing-hero__bottom {
+    transform: translateY(-3rem);
+  }
+}
+
 .circle-btn.js-anchor-btn-scroll {
   opacity: 100;
 }
@@ -897,7 +907,7 @@ body::-webkit-scrollbar {
     </div>
     <main id="skip-to-start" class="main-content">
       <div class="unicorn-container">
-        <spline-viewer url="https://prod.spline.design/imye6mlWMn6jj51l/scene.splinecode"></spline-viewer>
+        <spline-viewer url="img/3d/home-bottle.splinecode" loading-anim-type="spinner-small-dark"></spline-viewer>
       </div>
       <div class="landing-hero js-kv">
         <div class="landing-hero__container">
@@ -952,7 +962,7 @@ body::-webkit-scrollbar {
                     <div class="row-list__l">
                       <div class="exhi-list__title inview-group__item">The New Gatorade Experience</div>
                       <div class="exhi-list__banner inview-group__item">
-                        <img src="img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp" alt="Gatorade Sports Drink">
+                        <img src="img/athlete-soccer-energy.jpg" alt="Gatorade Sports Drink">
                       </div>
                       <div class="exhi-list__desc inview-group__item">
                         <p>Introducing the new Gatorade formula, engineered for athletes who demand more. Our advanced electrolyte blend doesn't just hydrate; it powers your performance from the first drop to the final push. With enhanced sodium, potassium, and carbohydrate ratios, every sip is optimized to keep you at your peak longer.
@@ -996,7 +1006,7 @@ body::-webkit-scrollbar {
                     <div class="row-list__l">
                       <div class="exhi-list__title inview-group__item">Advanced Electrolyte Science</div>
                       <div class="exhi-list__banner inview-group__item">
-                        <img src="img/rawImage.jpg" alt="Gatorade Electrolyte Formula">
+                        <img src="img/athlete-swimmer-energy.jpg" alt="Gatorade Electrolyte Formula">
                       </div>
                       <div class="exhi-list__desc inview-group__item">
                         <p>The new Gatorade formula is built on decades of sports science research.
@@ -1048,7 +1058,7 @@ body::-webkit-scrollbar {
                     <div class="row-list__l">
                       <div class="exhi-list__title inview-group__item">Performance That Fuels Champions</div>
                       <div class="exhi-list__banner inview-group__item">
-                        <img src="img/Gatorade_Master.0005857.jpg" alt="Gatorade Performance">
+                        <img src="img/athlete-racer-energy.jpg" alt="Gatorade Performance">
                       </div>
                       <div class="exhi-list__desc inview-group__item">
                         <p>Trusted by athletes for over 50 years, Gatorade has been the secret weapon behind countless championships, record-breaking performances, and unforgettable moments in sports history. From the training field to the podium, champions choose Gatorade.&nbsp;</p>
@@ -1522,7 +1532,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
+
 
 </body>
 </html>

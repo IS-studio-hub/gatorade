@@ -3,7 +3,7 @@
 <head>
 <base href="./">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Find a Store - Gatorade</title>
 <meta name="description" lang="en" content="Find where to buy Gatorade products and learn which retail channels typically carry each line.">
 <meta name="keywords" content="Find a Store - Gatorade">
@@ -17,6 +17,7 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-config" content="#">
 <meta name="theme-color" content="#ffffff">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data: blob:; font-src 'self' https: data:; connect-src 'self' https:; frame-src https:; media-src 'self' https: blob:;">
 <meta property="og:title" content="Find a Store - Gatorade">
 <meta property="og:description" content="Find where to buy Gatorade products and learn which retail channels typically carry each line.">
 <meta property="og:type" content="website">
@@ -36,6 +37,7 @@ var currentURL = "";
 var currentSection = "";
 var isMobile = false;
 var isPad = false;
+/* breakpoint tiers: mobile ≤768, tablet 769–1280, desktop ≥1281 (see js/site-runtime.js) */
 var isiOS = false;
 var SITEKEY = "";
 </script>
@@ -44,6 +46,8 @@ var SITEKEY = "";
 <link rel="stylesheet" href="animate.min.css" type="text/css" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/common.min.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-a11y.css" type="text/css" media="screen">
 
 <!-- Google Fonts Geologica -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +55,6 @@ var SITEKEY = "";
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
 
 <style>
 /* Global animation optimization */
@@ -1240,7 +1243,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 /* Responsive */
 /* Tablet and below - History Section */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .about-hero__content {
     max-width: 100%;
   }
@@ -1600,7 +1603,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1795,13 +1798,13 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1.75rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 769px) {
   .products-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1281px) {
   .products-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -1995,7 +1998,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 100%;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__layout {
     grid-template-columns: 1fr 1.05fr;
     min-height: min(88vh, 900px);
@@ -2010,7 +2013,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__gallery {
     position: sticky;
     top: 0;
@@ -2168,6 +2171,406 @@ body.product-popup-open {
     padding: 1.5rem 1.25rem 2rem;
   }
 }
+
+/* ===== Touch / mobile: no custom cursors ===== */
+
+html.is-touch *,
+html.is-touch *::before,
+html.is-touch *::after {
+  cursor: auto !important;
+}
+html.is-touch a,
+html.is-touch button,
+html.is-touch [role="button"],
+html.is-touch .menu__link,
+html.is-touch .rd-btn,
+html.is-touch .product-card,
+html.is-touch .science-cta,
+html.is-touch .science-button {
+  cursor: pointer !important;
+}
+html.is-touch .menu-trigger-cursor,
+html.is-touch .page-logo-cursor,
+html.is-touch .circle-btn-cursor,
+html.is-touch svg.cursor,
+html.is-touch .cursor {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  svg.cursor,
+  .cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Phones / small tablets: also force default cursors */
+@media (max-width: 1280px) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Global overflow safety for responsive layouts */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img, video, canvas, svg, iframe, spline-viewer {
+  max-width: 100%;
+}
+
+
+/* ========== SMART STORE FINDER ========== */
+.store-finder {
+  --sf-ink: #111;
+  --sf-muted: #666;
+  --sf-line: rgba(0,0,0,0.12);
+  --sf-accent: #c6373c;
+  --sf-blue: #1468a2;
+  --sf-bg: #f6f6f4;
+  padding: 0 0 5rem;
+  background: #fff;
+}
+.store-finder__hero {
+  padding: 5.5rem 4rem 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.store-finder__surtitle {
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sf-accent);
+  margin-bottom: 1rem;
+}
+.store-finder__title {
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--sf-blue);
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+.store-finder__intro {
+  max-width: 36rem;
+  color: var(--sf-muted);
+  font-weight: 300;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.store-finder__panel {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+.store-finder__controls {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.75rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+.store-finder__search {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--sf-line);
+  background: #fff;
+  padding: 0.85rem 1rem;
+  min-height: 3.4rem;
+}
+.store-finder__search input {
+  border: 0;
+  outline: none;
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--sf-ink);
+  background: transparent;
+}
+.store-finder__search input::placeholder { color: #999; }
+.store-finder__btn {
+  border: 1px solid var(--sf-ink);
+  background: var(--sf-ink);
+  color: #fff;
+  padding: 0 1.25rem;
+  font: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  white-space: nowrap;
+}
+.store-finder__btn:hover { background: var(--sf-accent); border-color: var(--sf-accent); }
+.store-finder__btn--ghost {
+  background: #fff;
+  color: var(--sf-ink);
+}
+.store-finder__btn--ghost:hover {
+  background: var(--sf-ink);
+  color: #fff;
+  border-color: var(--sf-ink);
+}
+.store-finder__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.store-finder__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+.store-finder__chip {
+  border: 1px solid var(--sf-line);
+  background: #fff;
+  color: var(--sf-muted);
+  padding: 0.55rem 0.85rem;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.store-finder__chip.is-active,
+.store-finder__chip:hover {
+  border-color: var(--sf-accent);
+  color: var(--sf-accent);
+}
+
+.store-finder__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: 0.85rem;
+  font-size: 0.85rem;
+  color: var(--sf-muted);
+}
+.store-finder__meta strong { color: var(--sf-ink); font-weight: 500; }
+.store-finder__mode {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.store-finder__layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: 1rem;
+  min-height: min(70vh, 720px);
+  border: 1px solid var(--sf-line);
+  background: #fff;
+}
+
+.store-finder__list {
+  overflow: auto;
+  max-height: min(70vh, 720px);
+  border-right: 1px solid var(--sf-line);
+  background: #fff;
+}
+.store-finder__empty,
+.store-finder__loading {
+  padding: 2rem 1.25rem;
+  color: var(--sf-muted);
+  font-weight: 300;
+  line-height: 1.55;
+}
+.store-card {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--sf-line);
+  background: #fff;
+  padding: 1.15rem 1.2rem;
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.2s ease;
+}
+.store-card:hover,
+.store-card.is-active {
+  background: var(--sf-bg);
+}
+.store-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+.store-card__name {
+  font-size: 1rem;
+  color: var(--sf-ink);
+  font-weight: 500;
+  margin: 0;
+}
+.store-card__distance {
+  color: var(--sf-accent);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.store-card__addr {
+  margin: 0 0 0.55rem;
+  color: var(--sf-muted);
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.45;
+}
+.store-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.7rem;
+}
+.store-card__tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sf-blue);
+  border: 1px solid rgba(20,104,162,0.25);
+  padding: 0.25rem 0.45rem;
+}
+.store-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.store-card__link {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sf-ink);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}
+.store-card__link:hover { color: var(--sf-accent); }
+
+.store-finder__map-wrap {
+  position: relative;
+  min-height: 420px;
+  background: #e9e9e6;
+}
+.store-finder__map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.store-finder__map iframe,
+.store-finder__map .gm-style {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.store-finder__map-note {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.85rem;
+  z-index: 2;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid var(--sf-line);
+  padding: 0.55rem 0.75rem;
+  font-size: 0.72rem;
+  color: var(--sf-muted);
+  max-width: min(280px, calc(100% - 1.7rem));
+  pointer-events: none;
+}
+
+.store-finder__tips {
+  max-width: 1400px;
+  margin: 3rem auto 0;
+  padding: 0 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.store-finder__tip {
+  border-left: 3px solid var(--sf-accent);
+  padding: 0.25rem 0 0.25rem 1rem;
+}
+.store-finder__tip h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.store-finder__tip p {
+  margin: 0;
+  color: var(--sf-muted);
+  font-weight: 300;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1280px) {
+  .store-finder__hero,
+  .store-finder__panel,
+  .store-finder__tips { padding-left: 2rem; padding-right: 2rem; }
+  .store-finder__layout { grid-template-columns: 1fr; }
+  .store-finder__list {
+    max-height: 320px;
+    border-right: 0;
+    border-bottom: 1px solid var(--sf-line);
+  }
+  .store-finder__map-wrap { min-height: 360px; }
+  .store-finder__tips { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .store-finder__hero { padding: 4rem 1.25rem 1.5rem; }
+  .store-finder__panel,
+  .store-finder__tips { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .store-finder__controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 </style>
 <!-- css include END -->
 <!--  -->
@@ -2194,6 +2597,26 @@ body.product-popup-open {
 </script>
 <!-- End Google Tag Manager -->
 
+
+<script>
+(function() {
+  function isTouchLike() {
+    try {
+      return window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+        window.matchMedia('(max-width: 1280px)').matches ||
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0);
+    } catch (e) {
+      return false;
+    }
+  }
+  function apply() {
+    document.documentElement.classList.toggle('is-touch', isTouchLike());
+  }
+  apply();
+  window.addEventListener('resize', apply, { passive: true });
+})();
+</script>
 </head>
 <body class="landing" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
@@ -2202,7 +2625,7 @@ body.product-popup-open {
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<a href="en/#skip-to-start" class="sr-only" id="skip-to-content" title=""></a>
+<a href="#skip-to-start" class="sr-only skip-link" id="skip-to-content">Skip to main content</a>
 <div class="site-wrapper">
   <svg class="cursor" width="25" height="25" viewBox="0 0 25 25">
     <circle class="cursor__inner" cx="12.5" cy="12.5" r="6.25"></circle>
@@ -2234,7 +2657,7 @@ body.product-popup-open {
     </header>
     <div class="menu-col side-col side-col--3">
       <div class="menu-trigger-container">
-        <button type="button" class="menu-trigger js-menu-toggle">
+        <button type="button" class="menu-trigger js-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenuPanel">
           <span class="sr-only">Menu</span>
           <span class="menu-trigger__lines">
             <span class="menu-trigger__lines-sub"></span>
@@ -2268,7 +2691,7 @@ body.product-popup-open {
         </ul>
       </div>
     </div>
-    <div class="menu-panel js-inoutview inview-group" data-animate="fadeInUp">
+    <div class="menu-panel js-inoutview inview-group" id="siteMenuPanel" data-animate="fadeInUp">
       <div class="menu-panel__body">
         <div class="menu-panel__container">
           <nav class="menu-nav">
@@ -2383,124 +2806,66 @@ body.product-popup-open {
         </div>
       </div>
     </div>
-    <main id="skip-to-start" class="main-content">
-      <section class="about-hero products-hero" id="productsHero">
-        <div class="about-hero__visual">
-          <img src="img/logo-long.svg" alt="Find a Store" />
+    <main id="skip-to-start" class="main-content" tabindex="-1">
+      <section class="store-finder" id="storeFinder" aria-label="Find a store">
+        <div class="store-finder__hero">
+          <div class="store-finder__surtitle">Store Locator</div>
+          <h1 class="store-finder__title">Find a Store</h1>
+          <p class="store-finder__intro">Demo store locator — search a city/ZIP, use your location, filter by retailer type, and open directions. Sample results only (no live API).</p>
         </div>
-        <div class="about-hero__container">
-          <div class="about-hero__content">
-            <h1 class="about-hero__title">
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Find</span>
-              </span>
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">a Store</span>
-              </span>
-            </h1>
-            <div class="about-hero__subtitle">
-              <div>
-                <div>Find the right shelf, cooler, or online retailer for the product line you need.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="products-section" id="products">
-        <div class="products-section__container">
-          <div class="products-section__header">
-            <div class="products-section__surtitle">Where To Buy</div>
-            <h2 class="products-section__title">
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Shop</span>
-              </span>
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Your Lineup</span>
-              </span>
-            </h2>
-            <p class="products-section__intro">Different formats show up in different channels, from convenience coolers to team-order powder cases.</p>
+        <div class="store-finder__panel">
+          <form class="store-finder__controls" id="storeSearchForm">
+            <label class="store-finder__search">
+              <span class="sr-only">Search location</span>
+              <input id="storeQuery" type="text" name="q" placeholder="City, address, or ZIP" autocomplete="street-address" />
+            </label>
+            <button type="button" class="store-finder__btn store-finder__btn--ghost" id="storeLocateBtn">Use my location</button>
+            <button type="submit" class="store-finder__btn" id="storeSearchBtn">Search</button>
+          </form>
+
+          <div class="store-finder__filters" id="storeFilters" role="group" aria-label="Store type filters">
+            <button type="button" class="store-finder__chip is-active" data-filter="all">All</button>
+            <button type="button" class="store-finder__chip" data-filter="grocery">Grocery</button>
+            <button type="button" class="store-finder__chip" data-filter="convenience">Convenience</button>
+            <button type="button" class="store-finder__chip" data-filter="pharmacy">Pharmacy</button>
+            <button type="button" class="store-finder__chip" data-filter="sporting">Sporting Goods</button>
+            <button type="button" class="store-finder__chip" data-filter="warehouse">Warehouse</button>
           </div>
 
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Common Retail Channels</div>
-              <p class="info-section__text">Where athletes usually shop for Gatorade.</p>
+          <div class="store-finder__meta">
+            <div id="storeResultMeta"><strong>0</strong> stores nearby</div>
+            <div class="store-finder__mode" id="storeModeLabel">Example · no API</div>
+          </div>
+
+          <div class="store-finder__layout">
+            <div class="store-finder__list" id="storeList" aria-live="polite">
+              <div class="store-finder__loading">Finding stores near you…</div>
             </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Grocery" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Everyday Stock</span>
-                  <h3 class="product-card__title">Grocery</h3>
-                  <p class="product-card__text">Classic bottles, Zero, and core flavors are commonly found in grocery chains.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Convenience" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Cold & Fast</span>
-                  <h3 class="product-card__title">Convenience</h3>
-                  <p class="product-card__text">Grab-and-go hydration before practice, games, or the commute.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Online Retail" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Broader Selection</span>
-                  <h3 class="product-card__title">Online Retail</h3>
-                  <p class="product-card__text">Useful for sticks, bulk cases, specialized lines, and seasonal availability.</p>
-                </div>
-              </article>
+            <div class="store-finder__map-wrap">
+              <div class="store-finder__map" id="storeMap" role="region" aria-label="Store map"></div>
+              <div class="store-finder__map-note" id="storeMapNote">Example map preview</div>
             </div>
           </div>
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Shopping Tips</div>
-              <p class="info-section__text">How to find the product you need faster.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Know The Line" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Formula First</span>
-                  <h3 class="product-card__title">Know The Line</h3>
-                  <p class="product-card__text">Search by product family before you narrow to flavor.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Check Format" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Bottle vs Powder</span>
-                  <h3 class="product-card__title">Check Format</h3>
-                  <p class="product-card__text">Not every store carries every format.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Plan Ahead" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Specialized Items</span>
-                  <h3 class="product-card__title">Plan Ahead</h3>
-                  <p class="product-card__text">Endurance, Gatorlyte, and bulk products may require larger retailers or online ordering.</p>
-                </div>
-              </article>
-            </div>
+        </div>
+
+        <div class="store-finder__tips">
+          <div class="store-finder__tip">
+            <h3>Know the line</h3>
+            <p>Search by product family first — Thirst Quencher, Zero, Gatorlyte — then narrow to flavor.</p>
+          </div>
+          <div class="store-finder__tip">
+            <h3>Check the format</h3>
+            <p>Bottles show up in coolers; powders and sticks are more common in grocery and warehouse aisles.</p>
+          </div>
+          <div class="store-finder__tip">
+            <h3>Plan specialized buys</h3>
+            <p>Endurance and bulk cases may need larger retailers or online ordering ahead of race week.</p>
           </div>
         </div>
       </section>
     </main>
+
   </div>
   <footer class="footer ft">
     <div class="container">
@@ -2629,6 +2994,9 @@ body.product-popup-open {
 <script>
 // Newsletter button hover tracking animation
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const newsletterBtn = document.querySelector('.rd-btn.rd-btn--black');
   if (!newsletterBtn) return;
 
@@ -2750,10 +3118,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Menu trigger cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const menuTrigger = document.querySelector('.menu-trigger-container');
   const menuCursor = document.querySelector('.menu-trigger-cursor');
   
   if (!menuTrigger || !menuCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2797,10 +3171,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Page logo cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const pageLogo = document.querySelector('.page-logo__item');
   const pageLogoCursor = document.querySelector('.page-logo-cursor');
   
   if (!pageLogo || !pageLogoCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2960,8 +3340,233 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
 
+
+
+<script>
+(function () {
+  var DEFAULT_CENTER = { lat: 40.758, lng: -73.9855, label: 'New York, NY' };
+  var CITIES = {
+    'new york': { lat: 40.758, lng: -73.9855, label: 'New York, NY' },
+    'nyc': { lat: 40.758, lng: -73.9855, label: 'New York, NY' },
+    'los angeles': { lat: 34.0522, lng: -118.2437, label: 'Los Angeles, CA' },
+    'la': { lat: 34.0522, lng: -118.2437, label: 'Los Angeles, CA' },
+    'chicago': { lat: 41.8781, lng: -87.6298, label: 'Chicago, IL' },
+    'miami': { lat: 25.7617, lng: -80.1918, label: 'Miami, FL' },
+    'dallas': { lat: 32.7767, lng: -96.7970, label: 'Dallas, TX' },
+    'houston': { lat: 29.7604, lng: -95.3698, label: 'Houston, TX' },
+    'atlanta': { lat: 33.7490, lng: -84.3880, label: 'Atlanta, GA' },
+    'boston': { lat: 42.3601, lng: -71.0589, label: 'Boston, MA' },
+    'seattle': { lat: 47.6062, lng: -122.3321, label: 'Seattle, WA' },
+    'denver': { lat: 39.7392, lng: -104.9903, label: 'Denver, CO' },
+    '10001': { lat: 40.7506, lng: -73.9971, label: 'New York, NY 10001' },
+    '90210': { lat: 34.0901, lng: -118.4065, label: 'Beverly Hills, CA 90210' },
+    '60601': { lat: 41.8857, lng: -87.6229, label: 'Chicago, IL 60601' }
+  };
+
+  var SEED = [
+    { id: 'walmart', name: 'Walmart Supercenter', type: 'warehouse', offset: [0.018, 0.012], blurb: 'Open late · Wide Gatorade lineup' },
+    { id: 'target', name: 'Target', type: 'grocery', offset: [-0.014, 0.02], blurb: 'Bottles, Zero, and seasonal flavors' },
+    { id: 'cvs', name: 'CVS Pharmacy', type: 'pharmacy', offset: [0.01, -0.016], blurb: 'Cold case grab-and-go' },
+    { id: 'walgreens', name: 'Walgreens', type: 'pharmacy', offset: [-0.02, -0.008], blurb: 'Single bottles & multi-packs' },
+    { id: '7eleven', name: '7-Eleven', type: 'convenience', offset: [0.006, 0.022], blurb: 'Cold bottles before practice' },
+    { id: 'kroger', name: 'Kroger', type: 'grocery', offset: [-0.022, 0.015], blurb: 'Core flavors + powder aisle' },
+    { id: 'costco', name: 'Costco Wholesale', type: 'warehouse', offset: [0.028, -0.01], blurb: 'Bulk cases & powder tubs' },
+    { id: 'dickss', name: "Dick's Sporting Goods", type: 'sporting', offset: [-0.008, -0.024], blurb: 'Training hydration & gear' },
+    { id: 'circle', name: 'Circle K', type: 'convenience', offset: [0.024, 0.004], blurb: 'Quick cooler stop' },
+    { id: 'publix', name: 'Publix', type: 'grocery', offset: [0.012, -0.028], blurb: 'Everyday hydration aisle' }
+  ];
+
+  var TYPE_LABELS = {
+    grocery: 'Grocery',
+    convenience: 'Convenience',
+    pharmacy: 'Pharmacy',
+    sporting: 'Sporting Goods',
+    warehouse: 'Warehouse'
+  };
+
+  var filter = 'all';
+  var origin = null;
+  var stores = [];
+  var activeId = null;
+
+  var listEl = document.getElementById('storeList');
+  var metaEl = document.getElementById('storeResultMeta');
+  var modeEl = document.getElementById('storeModeLabel');
+  var mapEl = document.getElementById('storeMap');
+  var noteEl = document.getElementById('storeMapNote');
+  var queryEl = document.getElementById('storeQuery');
+  var form = document.getElementById('storeSearchForm');
+  var locateBtn = document.getElementById('storeLocateBtn');
+  if (!listEl || !form) return;
+
+  function haversine(a, b) {
+    var R = 3958.8;
+    var dLat = (b.lat - a.lat) * Math.PI / 180;
+    var dLng = (b.lng - a.lng) * Math.PI / 180;
+    var la1 = a.lat * Math.PI / 180;
+    var la2 = b.lat * Math.PI / 180;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  function formatMiles(n) {
+    if (n == null || isNaN(n)) return '';
+    return (n < 10 ? n.toFixed(1) : Math.round(n)) + ' mi';
+  }
+
+  function embedUrl(query) {
+    return 'https://www.google.com/maps?q=' + encodeURIComponent(query) + '&z=13&output=embed';
+  }
+
+  function renderMap(query) {
+    mapEl.innerHTML = '<iframe title="Example store map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="' + embedUrl(query) + '"></iframe>';
+  }
+
+  function directionsUrl(store) {
+    var dest = store.lat + ',' + store.lng;
+    if (origin) {
+      return 'https://www.google.com/maps/dir/?api=1&origin=' + origin.lat + ',' + origin.lng + '&destination=' + encodeURIComponent(dest) + '&travelmode=driving';
+    }
+    return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dest);
+  }
+
+  function buildStores(center) {
+    return SEED.map(function (seed) {
+      var lat = center.lat + seed.offset[0];
+      var lng = center.lng + seed.offset[1];
+      var store = {
+        id: seed.id,
+        name: seed.name,
+        type: seed.type,
+        lat: lat,
+        lng: lng,
+        address: seed.blurb + ' · near ' + (center.label || 'your area'),
+        distance: haversine(center, { lat: lat, lng: lng }),
+        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(seed.name + ' near ' + (center.label || (lat + ',' + lng)))
+      };
+      store.directions = directionsUrl(store);
+      return store;
+    }).sort(function (a, b) { return a.distance - b.distance; });
+  }
+
+  function filtered() {
+    return stores.filter(function (s) { return filter === 'all' || s.type === filter; });
+  }
+
+  function renderList(items) {
+    if (!items.length) {
+      listEl.innerHTML = '<div class="store-finder__empty">No stores matched that filter. Try another channel.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map(function (s) {
+      return (
+        '<button type="button" class="store-card' + (s.id === activeId ? ' is-active' : '') + '" data-id="' + s.id + '">' +
+          '<div class="store-card__top">' +
+            '<h3 class="store-card__name">' + s.name + '</h3>' +
+            '<span class="store-card__distance">' + formatMiles(s.distance) + '</span>' +
+          '</div>' +
+          '<p class="store-card__addr">' + s.address + '</p>' +
+          '<div class="store-card__tags"><span class="store-card__tag">' + (TYPE_LABELS[s.type] || 'Retail') + '</span></div>' +
+          '<div class="store-card__actions">' +
+            '<a class="store-card__link" href="' + s.directions + '" target="_blank" rel="noopener">Directions</a>' +
+            '<a class="store-card__link" href="' + s.mapsUrl + '" target="_blank" rel="noopener">Open in Maps</a>' +
+          '</div>' +
+        '</button>'
+      );
+    }).join('');
+  }
+
+  function refresh(center, query) {
+    var items = filtered();
+    metaEl.innerHTML = '<strong>' + items.length + '</strong> store' + (items.length === 1 ? '' : 's') + ' nearby';
+    modeEl.textContent = 'Example · no API';
+    noteEl.textContent = 'Demo retailers near ' + (center.label || 'your search');
+    renderList(items);
+    renderMap(query || ('Gatorade near ' + (center.label || 'me')));
+  }
+
+  function setOrigin(center, query) {
+    origin = center;
+    stores = buildStores(center);
+    refresh(center, query);
+  }
+
+  function resolveQuery(q) {
+    var key = q.toLowerCase().trim();
+    if (CITIES[key]) return CITIES[key];
+    // Fuzzy: match if city name is contained
+    for (var name in CITIES) {
+      if (key.indexOf(name) !== -1) return CITIES[name];
+    }
+    // Unknown query → keep NYC but label with the search text
+    return { lat: DEFAULT_CENTER.lat, lng: DEFAULT_CENTER.lng, label: q };
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = (queryEl.value || '').trim();
+    if (!q || q.toLowerCase() === 'current location') {
+      useMyLocation();
+      return;
+    }
+    listEl.innerHTML = '<div class="store-finder__loading">Finding demo stores near ' + q + '…</div>';
+    window.setTimeout(function () {
+      var center = resolveQuery(q);
+      setOrigin(center, 'Gatorade near ' + center.label);
+    }, 280);
+  });
+
+  function useMyLocation() {
+    if (!navigator.geolocation) {
+      setOrigin(DEFAULT_CENTER, 'Gatorade near New York, NY');
+      queryEl.value = DEFAULT_CENTER.label;
+      return;
+    }
+    locateBtn.disabled = true;
+    locateBtn.textContent = 'Locating…';
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      locateBtn.disabled = false;
+      locateBtn.textContent = 'Use my location';
+      queryEl.value = 'Current location';
+      setOrigin({ lat: pos.coords.latitude, lng: pos.coords.longitude, label: 'Your location' }, 'Gatorade near me');
+    }, function () {
+      locateBtn.disabled = false;
+      locateBtn.textContent = 'Use my location';
+      queryEl.value = DEFAULT_CENTER.label;
+      setOrigin(DEFAULT_CENTER, 'Gatorade near New York, NY');
+    }, { enableHighAccuracy: true, timeout: 8000 });
+  }
+
+  locateBtn.addEventListener('click', useMyLocation);
+
+  document.getElementById('storeFilters').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-filter]');
+    if (!btn) return;
+    filter = btn.getAttribute('data-filter');
+    document.querySelectorAll('#storeFilters .store-finder__chip').forEach(function (chip) {
+      chip.classList.toggle('is-active', chip === btn);
+    });
+    if (origin) refresh(origin, queryEl.value.trim() || origin.label);
+  });
+
+  listEl.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var card = e.target.closest('.store-card');
+    if (!card) return;
+    activeId = card.getAttribute('data-id');
+    var store = stores.find(function (s) { return s.id === activeId; });
+    renderList(filtered());
+    if (store) renderMap(store.name + ' near ' + (origin && origin.label ? origin.label : 'me'));
+  });
+
+  // Boot with NYC demo data
+  queryEl.placeholder = 'Try New York, Chicago, 90210…';
+  setOrigin(DEFAULT_CENTER, 'Gatorade near New York, NY');
+})();
+</script>
+
+<script src="js/site-runtime.js" defer></script>
 </body>
 </html>
 

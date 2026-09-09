@@ -1,0 +1,119 @@
+/**
+ * WCAG 2.1 AA accessibility layer
+ * Complements existing page styles without blocking zoom, copy, or AT.
+ */
+
+/* Skip link — visible on keyboard focus */
+.skip-link,
+#skip-to-content {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 10000;
+  padding: 0.75rem 1.25rem;
+  background: #012030;
+  color: #fcfff9 !important;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible,
+#skip-to-content:focus,
+#skip-to-content:focus-visible {
+  position: fixed;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  transform: translateY(0);
+  outline: 3px solid #fbb031;
+  outline-offset: 3px;
+}
+
+/* Clear keyboard focus for interactive controls */
+:focus-visible {
+  outline: 3px solid #1468a2;
+  outline-offset: 3px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Prefer reduced motion (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html.lenis,
+  html.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Readable text selection preserved for AA (do not disable globally) */
+::selection {
+  background: #012030;
+  color: #fcfff9;
+}
+
+/* Decorative chrome may skip selection; content stays selectable */
+.menu-trigger__lines,
+.menu-trigger__lines-sub,
+.hv-cursor,
+.hv-cursor-text,
+.hv-cursor-follower,
+.cursor,
+.marquee__container,
+.ver-lines {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Ensure form labels and errors are readable */
+label,
+.store-finder__search span,
+.store-finder__meta,
+.store-finder__map-note {
+  color: inherit;
+}
+
+/* Landmark helpers */
+main:focus {
+  outline: none;
+}
+
+/* High-contrast support */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid Highlight;
+  }
+
+  .store-finder__btn,
+  .store-finder__chip,
+  .rd-btn__body,
+  .btn {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* Images without alt should not fail silently in AT trees for decorative SVGs */
+img[alt=""],
+svg[aria-hidden="true"] {
+  pointer-events: none;
+}

@@ -3,9 +3,9 @@
 <head>
 <base href="./">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact Us - Gatorade</title>
-<meta name="description" lang="en" content="Contact Gatorade for support, partnerships, media, and general questions.">
+<meta name="description" lang="en" content="Contact Gatorade — product support, retail questions, partnerships, and media inquiries.">
 <meta name="keywords" content="Contact Us - Gatorade">
 <link rel="image_src" href="#">
 <link rel="apple-touch-icon" sizes="180x180" href="#">
@@ -17,8 +17,9 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-config" content="#">
 <meta name="theme-color" content="#ffffff">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data: blob:; font-src 'self' https: data:; connect-src 'self' https:; frame-src https:; media-src 'self' https: blob:;">
 <meta property="og:title" content="Contact Us - Gatorade">
-<meta property="og:description" content="Contact Gatorade for support, partnerships, media, and general questions.">
+<meta property="og:description" content="Contact Gatorade — product support, retail questions, partnerships, and media inquiries.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="#" id="ogurl">
 <meta property="og:image" content="#">
@@ -36,6 +37,7 @@ var currentURL = "";
 var currentSection = "";
 var isMobile = false;
 var isPad = false;
+/* breakpoint tiers: mobile ≤768, tablet 769–1280, desktop ≥1281 (see js/site-runtime.js) */
 var isiOS = false;
 var SITEKEY = "";
 </script>
@@ -44,6 +46,8 @@ var SITEKEY = "";
 <link rel="stylesheet" href="animate.min.css" type="text/css" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/common.min.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-a11y.css" type="text/css" media="screen">
 
 <!-- Google Fonts Geologica -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +55,6 @@ var SITEKEY = "";
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
 
 <style>
 /* Global animation optimization */
@@ -1240,7 +1243,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 /* Responsive */
 /* Tablet and below - History Section */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .about-hero__content {
     max-width: 100%;
   }
@@ -1600,7 +1603,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1666,508 +1669,618 @@ cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 
-/* ========== PRODUCTS PAGE ========== */
-.products-hero .about-hero__visual img {
-  filter: contrast(1.05) saturate(1.1);
+
+/* ========== CONTACT PAGE ========== */
+/* Contact form: keep usable text/pointer cursors */
+.contact-page input,
+.contact-page select,
+.contact-page textarea,
+.contact-page label {
+  cursor: text !important;
+}
+.contact-page select,
+.contact-page .contact-topic,
+.contact-page .contact-submit,
+.contact-page .contact-hero__cta,
+.contact-page .contact-aside__links a,
+.contact-page .contact-faq__item summary {
+  cursor: pointer !important;
 }
 
-.products-section {
-  padding: 6rem 0 8rem;
+.contact-page {
+  --c-ink: #0d0d0d;
+  --c-muted: #5c5c5c;
+  --c-line: rgba(0,0,0,0.12);
+  --c-accent: #c6373c;
+  --c-blue: #1468a2;
+  --c-bg: #f4f4f2;
+  --c-paper: #ffffff;
   background: #fff;
+  color: var(--c-ink);
 }
 
-.products-section__container {
-  margin: 0 auto;
-  padding: 0 4rem;
-  max-width: 1400px;
-}
-
-.products-section__header {
-  margin-bottom: 4rem;
-  max-width: 720px;
-}
-
-.products-section__surtitle {
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #c6373c;
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.products-section__surtitle.animate {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.products-section__title {
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: #000;
-  margin-bottom: 1.5rem;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.products-section__title-line {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.5em;
-  margin-bottom: 0.5rem;
-}
-
-.products-section__title-word {
+.contact-hero {
   position: relative;
-  display: inline-block;
-  margin-right: 0;
-  transform: translate3d(0, 0, 0);
-  will-change: transform, letter-spacing, opacity;
-  transform-origin: center center;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  min-height: min(92svh, 820px);
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  color: #fff;
+  background: #0a1016;
 }
 
-.products-section__intro {
-  font-size: 1.125rem;
-  line-height: 1.7;
+.contact-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.contact-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+  display: block;
+  transform: scale(1.04);
+  animation: contactHeroDrift 18s ease-in-out infinite alternate;
+}
+
+.contact-hero__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7,12,18,0.82) 0%, rgba(7,12,18,0.45) 48%, rgba(7,12,18,0.2) 100%),
+    linear-gradient(0deg, rgba(7,12,18,0.88) 0%, rgba(7,12,18,0.15) 55%, rgba(7,12,18,0.35) 100%);
+  z-index: 1;
+}
+
+.contact-hero__inner {
+  position: relative;
+  z-index: 2;
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 6.5rem 4rem 4.5rem;
+}
+
+.contact-hero__brand {
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 1.25rem;
+}
+
+.contact-hero__title {
+  margin: 0 0 1rem;
+  font-size: clamp(3.2rem, 9vw, 7.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
   font-weight: 300;
-  color: #444;
+  color: #fff;
+  max-width: 12ch;
+}
+
+.contact-hero__title em {
+  font-style: normal;
+  color: #7ec8e8;
+}
+
+.contact-hero__lead {
+  margin: 0 0 2rem;
+  max-width: 28rem;
+  font-size: 1.08rem;
+  line-height: 1.55;
+  font-weight: 300;
+  color: rgba(255,255,255,0.82);
+}
+
+.contact-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0 1.4rem;
+  border: 1px solid #fff;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  background: transparent;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.contact-hero__cta:hover,
+.contact-hero__cta:focus-visible {
+  background: #fff;
+  color: #0d0d0d;
+}
+
+@keyframes contactHeroDrift {
+  from { transform: scale(1.04) translate3d(0, 0, 0); }
+  to { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-hero__media img { animation: none; transform: none; }
+}
+
+.contact-shell {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 4.5rem 4rem 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.contact-form-wrap {
+  background: var(--c-paper);
+}
+
+.contact-form__eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin: 0 0 0.85rem;
+}
+
+.contact-form__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--c-blue);
+  text-transform: uppercase;
+}
+
+.contact-form__intro {
+  margin: 0 0 2rem;
+  color: var(--c-muted);
+  font-weight: 300;
+  line-height: 1.6;
   max-width: 36rem;
 }
 
-
-.products-line {
-  margin-bottom: 4.5rem;
-}
-.products-line__header {
-  margin-bottom: 1.75rem;
-  max-width: 40rem;
-}
-.products-line__surtitle {
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: #111;
-  margin-bottom: 0.5rem;
-}
-.products-line__text {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555;
-  font-weight: 300;
-  margin: 0;
-}
-.products-section 
-.info-section {
-  margin-bottom: 4.5rem;
-}
-.info-section__header {
-  margin-bottom: 1.75rem;
-  max-width: 40rem;
-}
-.info-section__surtitle {
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: #111;
-  margin-bottom: 0.5rem;
-}
-.info-section__text {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555;
-  font-weight: 300;
-  margin: 0;
-}
-
-.products-grid {
-  margin-bottom: 0;
-}
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.75rem;
-}
-
-@media (min-width: 900px) {
-  .products-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1200px) {
-  .products-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-}
-
-.product-card {
-  appearance: none;
-  border: none;
-  background: #f6f6f6;
-  border-radius: 28px;
-  overflow: hidden;
-  text-align: left;
-  padding: 0;
+.contact-topics {
   display: flex;
-  flex-direction: column;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease;
-  position: relative;
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, auto !important;
-}
-
-.product-card * {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, auto !important;
-}
-
-.product-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 100%;
-  height: 4px;
-  background: var(--accent, #c6373c);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.product-card:hover,
-.product-card:focus-visible {
-  transform: translateY(-6px);
-  background: #efefef;
-  outline: none;
-}
-
-.product-card:hover::before,
-.product-card:focus-visible::before {
-  opacity: 1;
-}
-
-.product-card__media {
-  aspect-ratio: 3 / 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem 1.25rem 0;
-  background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
-}
-
-.product-card__media img {
-  width: 78%;
-  height: auto;
-  max-height: 100%;
-  object-fit: contain;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.product-card:hover .product-card__media img {
-  transform: scale(1.04) translateY(-4px);
-}
-
-.product-card__body {
-  padding: 1.25rem 1.35rem 1.5rem;
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 0.55rem;
-  flex: 1;
+  margin-bottom: 1.75rem;
 }
 
-.product-card__tag {
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent, #c6373c);
-  font-weight: 600;
-}
-
-.product-card__title {
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: #111;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.product-card__text {
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: #555;
-  font-weight: 300;
-  margin: 0;
-  flex: 1;
-}
-
-.product-card__cta {
-  font-size: 0.85rem;
-  color: #111;
-  letter-spacing: 0.02em;
-  margin-top: 0.35rem;
-}
-
-/* Product popup */
-.product-popup {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
-}
-
-.product-popup.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.product-popup__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.62);
-  backdrop-filter: blur(4px);
-}
-
-.product-popup__dialog {
-  position: relative;
-  width: min(960px, 100%);
-  max-height: min(88vh, 900px);
-  overflow: auto;
-  background: #fff;
-  border-radius: 28px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.28);
-  transform: translateY(24px) scale(0.98);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.product-popup.is-open .product-popup__dialog {
-  transform: translateY(0) scale(1);
-}
-
-.product-popup__close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 2;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: #111;
-  color: #fff;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+.contact-topic {
   appearance: none;
-  -webkit-appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
-  font-size: 0;
+  border: 1px solid var(--c-line);
+  background: #fff;
+  color: var(--c-ink);
+  min-height: 40px;
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.product-popup__close svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-  flex-shrink: 0;
-  overflow: visible;
+.contact-topic:hover,
+.contact-topic:focus-visible {
+  border-color: var(--c-ink);
 }
 
-.product-popup__close:hover {
-  background: #c6373c;
+.contact-topic.is-active {
+  background: var(--c-ink);
+  border-color: var(--c-ink);
+  color: #fff;
 }
 
-.product-popup__layout {
+.contact-form {
   display: grid;
-  grid-template-columns: 1fr;
-  min-height: 100%;
+  gap: 1.15rem;
 }
 
-@media (min-width: 800px) {
-  .product-popup__layout {
-    grid-template-columns: 1fr 1.05fr;
-    min-height: min(88vh, 900px);
-  }
-}
-
-.product-popup__gallery {
-  background: #f2f2f2;
-  padding: 1.75rem;
-  display: flex;
-  flex-direction: column;
+.contact-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-@media (min-width: 800px) {
-  .product-popup__gallery {
-    position: sticky;
-    top: 0;
-    align-self: stretch;
-    min-height: 100%;
-  }
-}
-
-.product-popup__stage {
-  background: #fff;
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-  flex: 1;
-}
-
-.product-popup__hero-img {
-  width: auto;
-  max-width: 55%;
-  max-height: 340px;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-
-.product-popup__thumbs {
+.contact-field {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem;
+  gap: 0.4rem;
 }
 
-.product-popup__thumbs img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  height: auto;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 16px;
-  display: block;
-  background: #e8e8e8;
-}
-
-.product-popup__content {
-  padding: 2.25rem 2rem 2.5rem;
-}
-
-.product-popup__eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
+.contact-field label {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #c6373c;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
+  color: #333;
 }
 
-.product-popup__title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  margin: 0 0 1rem;
-  color: #111;
+.contact-field input,
+.contact-field select,
+.contact-field textarea {
+  width: 100%;
+  border: 1px solid var(--c-line);
+  background: #fff;
+  color: var(--c-ink);
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.9rem 1rem;
+  min-height: 48px;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.product-popup__desc {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #444;
-  font-weight: 300;
-  margin: 0 0 1.5rem;
+.contact-field textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.5;
 }
 
-.product-popup__meta {
+.contact-field input:focus,
+.contact-field select:focus,
+.contact-field textarea:focus {
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(20, 104, 162, 0.18);
+}
+
+.contact-field input.is-invalid,
+.contact-field select.is-invalid,
+.contact-field textarea.is-invalid {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(198, 55, 60, 0.15);
+}
+
+.contact-field__error {
+  min-height: 1.1em;
+  font-size: 0.82rem;
+  color: var(--c-accent);
+}
+
+.contact-form__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.75rem;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
-.product-popup__chip {
+.contact-submit {
+  appearance: none;
+  border: 1px solid var(--c-ink);
+  background: var(--c-ink);
+  color: #fff;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  font: inherit;
   font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  padding: 0.45rem 0.75rem;
-  border-radius: 999px;
-  background: #f0f0f0;
-  color: #222;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-.product-popup__list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem;
-  display: grid;
-  gap: 0.75rem;
+.contact-submit:hover,
+.contact-submit:focus-visible {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
 }
 
-.product-popup__list li {
-  position: relative;
-  padding-left: 1.25rem;
-  font-size: 0.98rem;
-  line-height: 1.55;
-  color: #333;
+.contact-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.contact-form__note {
+  margin: 0;
+  color: var(--c-muted);
+  font-size: 0.88rem;
   font-weight: 300;
+  line-height: 1.5;
 }
 
-.product-popup__list li::before {
+.contact-form__status {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  display: none;
+}
+
+.contact-form__status.is-visible {
+  display: block;
+}
+
+.contact-form__status.is-success {
+  background: #eef7f0;
+  border-color: #b7d9bf;
+  color: #1f5a2d;
+}
+
+.contact-form__status.is-error {
+  background: #fdf0f0;
+  border-color: #e7b6b8;
+  color: #8a1f24;
+}
+
+.contact-aside {
+  display: grid;
+  gap: 1.75rem;
+  padding-top: 0.35rem;
+}
+
+.contact-aside__block {
+  border-top: 1px solid var(--c-line);
+  padding-top: 1.25rem;
+}
+
+.contact-aside__block h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.contact-aside__block p,
+.contact-aside__block li {
+  margin: 0;
+  color: var(--c-muted);
+  font-weight: 300;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.contact-aside__block ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.contact-aside__block li {
+  padding-left: 1rem;
+  position: relative;
+}
+
+.contact-aside__block li::before {
   content: "";
   position: absolute;
   left: 0;
   top: 0.55em;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #c6373c;
+  background: var(--c-accent);
 }
 
-.product-popup__note {
-  font-size: 0.9rem;
-  color: #666;
-  border-top: 1px solid #e8e8e8;
-  padding-top: 1.25rem;
+.contact-aside__links {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.contact-aside__links a {
+  color: var(--c-ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  width: fit-content;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.contact-aside__links a:hover,
+.contact-aside__links a:focus-visible {
+  color: var(--c-blue);
+  border-bottom-color: currentColor;
+}
+
+.contact-faq {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 1rem 4rem 6rem;
+}
+
+.contact-faq__header {
+  margin-bottom: 1.75rem;
+  max-width: 40rem;
+}
+
+.contact-faq__eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin: 0 0 0.75rem;
+}
+
+.contact-faq__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--c-ink);
+}
+
+.contact-faq__intro {
   margin: 0;
+  color: var(--c-muted);
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.contact-faq__list {
+  border-top: 1px solid var(--c-line);
+}
+
+.contact-faq__item {
+  border-bottom: 1px solid var(--c-line);
+}
+
+.contact-faq__item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 0;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--c-ink);
+}
+
+.contact-faq__item summary::-webkit-details-marker { display: none; }
+
+.contact-faq__item summary::after {
+  content: "+";
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--c-accent);
+  flex-shrink: 0;
+}
+
+.contact-faq__item[open] summary::after {
+  content: "–";
+}
+
+.contact-faq__item p {
+  margin: 0 0 1.25rem;
+  max-width: 44rem;
+  color: var(--c-muted);
+  font-weight: 300;
   line-height: 1.6;
 }
 
-body.product-popup-open {
-  overflow: hidden;
+@media (max-width: 1280px) {
+  .contact-hero__inner,
+  .contact-shell,
+  .contact-faq {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .contact-shell {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .products-section__container {
-    padding: 0 1.5rem;
+  .contact-hero {
+    min-height: min(88svh, 700px);
   }
-  .products-grid {
+  .contact-hero__inner,
+  .contact-shell,
+  .contact-faq {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .contact-hero__inner {
+    padding-top: 5.5rem;
+    padding-bottom: 3.25rem;
+  }
+  .contact-form__row {
     grid-template-columns: 1fr;
   }
-  .product-popup {
-    padding: 0.75rem;
-  }
-  .product-popup__gallery {
-    padding: 1.15rem;
-  }
-  .product-popup__stage {
-    min-height: 220px;
-    padding: 1.1rem;
-  }
-  .product-popup__hero-img {
-    max-width: 55%;
-    max-height: 240px;
-  }
-  .product-popup__content {
-    padding: 1.5rem 1.25rem 2rem;
+  .contact-shell {
+    padding-top: 3rem;
   }
 }
+
+
+/* ===== Touch / mobile: no custom cursors ===== */
+
+html.is-touch *,
+html.is-touch *::before,
+html.is-touch *::after {
+  cursor: auto !important;
+}
+html.is-touch a,
+html.is-touch button,
+html.is-touch [role="button"],
+html.is-touch .menu__link,
+html.is-touch .rd-btn,
+html.is-touch .product-card,
+html.is-touch .science-cta,
+html.is-touch .science-button {
+  cursor: pointer !important;
+}
+html.is-touch .menu-trigger-cursor,
+html.is-touch .page-logo-cursor,
+html.is-touch .circle-btn-cursor,
+html.is-touch svg.cursor,
+html.is-touch .cursor {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  svg.cursor,
+  .cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Phones / small tablets: also force default cursors */
+@media (max-width: 1280px) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Global overflow safety for responsive layouts */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img, video, canvas, svg, iframe, spline-viewer {
+  max-width: 100%;
+}
+
 </style>
 <!-- css include END -->
 <!--  -->
@@ -2194,6 +2307,26 @@ body.product-popup-open {
 </script>
 <!-- End Google Tag Manager -->
 
+
+<script>
+(function() {
+  function isTouchLike() {
+    try {
+      return window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+        window.matchMedia('(max-width: 1280px)').matches ||
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0);
+    } catch (e) {
+      return false;
+    }
+  }
+  function apply() {
+    document.documentElement.classList.toggle('is-touch', isTouchLike());
+  }
+  apply();
+  window.addEventListener('resize', apply, { passive: true });
+})();
+</script>
 </head>
 <body class="landing" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
@@ -2202,7 +2335,7 @@ body.product-popup-open {
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<a href="en/#skip-to-start" class="sr-only" id="skip-to-content" title=""></a>
+<a href="#skip-to-start" class="sr-only skip-link" id="skip-to-content">Skip to main content</a>
 <div class="site-wrapper">
   <svg class="cursor" width="25" height="25" viewBox="0 0 25 25">
     <circle class="cursor__inner" cx="12.5" cy="12.5" r="6.25"></circle>
@@ -2234,7 +2367,7 @@ body.product-popup-open {
     </header>
     <div class="menu-col side-col side-col--3">
       <div class="menu-trigger-container">
-        <button type="button" class="menu-trigger js-menu-toggle">
+        <button type="button" class="menu-trigger js-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenuPanel">
           <span class="sr-only">Menu</span>
           <span class="menu-trigger__lines">
             <span class="menu-trigger__lines-sub"></span>
@@ -2268,7 +2401,7 @@ body.product-popup-open {
         </ul>
       </div>
     </div>
-    <div class="menu-panel js-inoutview inview-group" data-animate="fadeInUp">
+    <div class="menu-panel js-inoutview inview-group" id="siteMenuPanel" data-animate="fadeInUp">
       <div class="menu-panel__body">
         <div class="menu-panel__container">
           <nav class="menu-nav">
@@ -2383,124 +2516,136 @@ body.product-popup-open {
         </div>
       </div>
     </div>
-    <main id="skip-to-start" class="main-content">
-      <section class="about-hero products-hero" id="productsHero">
-        <div class="about-hero__visual">
-          <img src="img/logo-long.svg" alt="Contact Gatorade" />
-        </div>
-        <div class="about-hero__container">
-          <div class="about-hero__content">
-            <h1 class="about-hero__title">
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Contact</span>
-              </span>
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Us</span>
-              </span>
-            </h1>
-            <div class="about-hero__subtitle">
-              <div>
-                <div>Reach out for support, retail questions, partnership opportunities, or media inquiries.</div>
+        <main id="skip-to-start" class="main-content" tabindex="-1">
+      <section class="contact-page" id="contactPage" aria-label="Contact Gatorade">
+        <header class="contact-hero">
+          <div class="contact-hero__media" aria-hidden="true">
+            <img src="img/athlete-soccer-energy.jpg" alt="" />
+          </div>
+          <div class="contact-hero__shade" aria-hidden="true"></div>
+          <div class="contact-hero__inner">
+            <p class="contact-hero__brand">Gatorade</p>
+            <h1 class="contact-hero__title">Contact <em>Us</em></h1>
+            <p class="contact-hero__lead">Questions about products, partnerships, media, or where to find Gatorade — send a message and we’ll route it to the right team.</p>
+            <a class="contact-hero__cta" href="#contactForm">Send a message →</a>
+          </div>
+        </header>
+
+        <div class="contact-shell">
+          <div class="contact-form-wrap">
+            <p class="contact-form__eyebrow">Message Center</p>
+            <h2 class="contact-form__title" id="contactFormHeading">We’re listening</h2>
+            <p class="contact-form__intro">Pick a topic, share the details, and we’ll get back with the right next step. Demo form — messages stay on this page.</p>
+
+            <div class="contact-topics" role="group" aria-label="Message topic">
+              <button type="button" class="contact-topic is-active" data-topic="support">Product Support</button>
+              <button type="button" class="contact-topic" data-topic="retail">Retail &amp; Availability</button>
+              <button type="button" class="contact-topic" data-topic="partnership">Partnerships</button>
+              <button type="button" class="contact-topic" data-topic="media">Media</button>
+              <button type="button" class="contact-topic" data-topic="other">Other</button>
+            </div>
+
+            <form class="contact-form" id="contactForm" novalidate aria-labelledby="contactFormHeading">
+              <div class="contact-form__row">
+                <div class="contact-field">
+                  <label for="contactName">Full name</label>
+                  <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="80" />
+                  <div class="contact-field__error" id="contactNameError" aria-live="polite"></div>
+                </div>
+                <div class="contact-field">
+                  <label for="contactEmail">Email</label>
+                  <input id="contactEmail" name="email" type="email" autocomplete="email" required maxlength="120" />
+                  <div class="contact-field__error" id="contactEmailError" aria-live="polite"></div>
+                </div>
+              </div>
+
+              <div class="contact-form__row">
+                <div class="contact-field">
+                  <label for="contactTopic">Topic</label>
+                  <select id="contactTopic" name="topic" required>
+                    <option value="support">Product Support</option>
+                    <option value="retail">Retail &amp; Availability</option>
+                    <option value="partnership">Partnerships</option>
+                    <option value="media">Media</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <div class="contact-field__error" id="contactTopicError" aria-live="polite"></div>
+                </div>
+                <div class="contact-field">
+                  <label for="contactLocation">City / region <span class="sr-only">(optional)</span></label>
+                  <input id="contactLocation" name="location" type="text" autocomplete="address-level2" maxlength="80" placeholder="Optional" />
+                  <div class="contact-field__error" id="contactLocationError" aria-live="polite"></div>
+                </div>
+              </div>
+
+              <div class="contact-field">
+                <label for="contactMessage">Message</label>
+                <textarea id="contactMessage" name="message" required maxlength="2000" placeholder="Include product line, flavor, store, or campaign details when helpful."></textarea>
+                <div class="contact-field__error" id="contactMessageError" aria-live="polite"></div>
+              </div>
+
+              <div class="contact-form__actions">
+                <button type="submit" class="contact-submit" id="contactSubmit">Send message</button>
+                <p class="contact-form__note">Typical reply window: 1–2 business days for support · faster for press.</p>
+              </div>
+
+              <p class="contact-form__status" id="contactStatus" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <aside class="contact-aside" aria-label="Contact help">
+            <div class="contact-aside__block">
+              <h2>What helps most</h2>
+              <ul>
+                <li>Exact product line and flavor</li>
+                <li>Store or city for availability questions</li>
+                <li>Dates for promotions or packaging issues</li>
+              </ul>
+            </div>
+            <div class="contact-aside__block">
+              <h2>Who this reaches</h2>
+              <p>Support routes product questions. Partnerships handles teams and events. Media covers press and campaign requests.</p>
+            </div>
+            <div class="contact-aside__block">
+              <h2>Quick links</h2>
+              <div class="contact-aside__links">
+                <a href="store.html">Find a store</a>
+                <a href="products.html">Browse products</a>
+                <a href="nutrition-info.html">Nutrition info</a>
+                <a href="athletes.html">Athletes roster</a>
               </div>
             </div>
-          </div>
+          </aside>
         </div>
-      </section>
 
-      <section class="products-section" id="products">
-        <div class="products-section__container">
-          <div class="products-section__header">
-            <div class="products-section__surtitle">Get In Touch</div>
-            <h2 class="products-section__title">
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">We’re</span>
-              </span>
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Listening</span>
-              </span>
-            </h2>
-            <p class="products-section__intro">Choose the path that best matches your question so you can get the right answer faster.</p>
+        <section class="contact-faq" aria-labelledby="contactFaqTitle">
+          <div class="contact-faq__header">
+            <p class="contact-faq__eyebrow">FAQ</p>
+            <h2 class="contact-faq__title" id="contactFaqTitle">Before you write</h2>
+            <p class="contact-faq__intro">Quick answers for the questions we hear most often.</p>
           </div>
-
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Support Paths</div>
-              <p class="info-section__text">Different reasons to get in touch.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="General Questions" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Customer Support</span>
-                  <h3 class="product-card__title">General Questions</h3>
-                  <p class="product-card__text">Product questions, packaging issues, or brand inquiries.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Partnerships" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Collaboration</span>
-                  <h3 class="product-card__title">Partnerships</h3>
-                  <p class="product-card__text">Athlete, event, team, and activation opportunities.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Media Requests" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Press</span>
-                  <h3 class="product-card__title">Media Requests</h3>
-                  <p class="product-card__text">Coverage, statements, and campaign-related communication.</p>
-                </div>
-              </article>
-            </div>
+          <div class="contact-faq__list">
+            <details class="contact-faq__item">
+              <summary>Where can I buy a specific flavor?</summary>
+              <p>Availability varies by retailer and region. Use the <a href="store.html">Find a Store</a> page for nearby options, and include your city if you still need help.</p>
+            </details>
+            <details class="contact-faq__item">
+              <summary>How do I report a packaging or product issue?</summary>
+              <p>Choose Product Support and include the flavor, lot code if available, purchase location, and what you experienced. Photos help when something looks off.</p>
+            </details>
+            <details class="contact-faq__item">
+              <summary>Can teams or events request partnership support?</summary>
+              <p>Yes — select Partnerships and share the event or team details, dates, audience size, and the kind of activation you have in mind.</p>
+            </details>
+            <details class="contact-faq__item">
+              <summary>Who should media contact?</summary>
+              <p>Select Media and include your outlet, deadline, and the story angle. We’ll route campaign and press requests to the right contact.</p>
+            </details>
           </div>
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Helpful Context</div>
-              <p class="info-section__text">What to include when you reach out.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Product Details" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Be Specific</span>
-                  <h3 class="product-card__title">Product Details</h3>
-                  <p class="product-card__text">Mention the exact product line, flavor, and issue when relevant.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Location" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Where You Saw It</span>
-                  <h3 class="product-card__title">Location</h3>
-                  <p class="product-card__text">Retail and availability questions are easier with city or store context.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Timing" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">When It Happened</span>
-                  <h3 class="product-card__title">Timing</h3>
-                  <p class="product-card__text">Dates help narrow down promotions, releases, or support cases.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
+        </section>
       </section>
     </main>
+
   </div>
   <footer class="footer ft">
     <div class="container">
@@ -2629,6 +2774,9 @@ body.product-popup-open {
 <script>
 // Newsletter button hover tracking animation
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const newsletterBtn = document.querySelector('.rd-btn.rd-btn--black');
   if (!newsletterBtn) return;
 
@@ -2674,86 +2822,123 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('contactForm');
+  if (!form) return;
+
+  var topicSelect = document.getElementById('contactTopic');
+  var statusEl = document.getElementById('contactStatus');
+  var submitBtn = document.getElementById('contactSubmit');
+  var topics = document.querySelectorAll('.contact-topic');
+
+  var fields = {
+    name: document.getElementById('contactName'),
+    email: document.getElementById('contactEmail'),
+    topic: topicSelect,
+    message: document.getElementById('contactMessage')
+  };
+
+  var errors = {
+    name: document.getElementById('contactNameError'),
+    email: document.getElementById('contactEmailError'),
+    topic: document.getElementById('contactTopicError'),
+    message: document.getElementById('contactMessageError')
+  };
+
+  function setTopic(value) {
+    if (!topicSelect) return;
+    topicSelect.value = value;
+    topics.forEach(function (btn) {
+      btn.classList.toggle('is-active', btn.getAttribute('data-topic') === value);
+    });
   }
 
-  var heroVisual = document.querySelector('.about-hero__visual');
-  if (heroVisual) {
-    setTimeout(function() { heroVisual.classList.add('revealed'); }, 400);
-  }
-  document.querySelectorAll('.about-hero__title-word').forEach(function(word, i) {
-    setTimeout(function() { word.classList.add('animate'); }, 200 + i * 120);
+  topics.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setTopic(btn.getAttribute('data-topic'));
+      if (fields.message) fields.message.focus();
+    });
   });
-  document.querySelectorAll('.about-hero__subtitle > div > div').forEach(function(el, i) {
-    setTimeout(function() { el.classList.add('animate'); }, 700 + i * 100);
-  });
 
-  function initTitleScrollAnimation() {
-    var section = document.getElementById('products');
-    if (!section) return;
-    var surtitle = section.querySelector('.products-section__surtitle');
-    var lines = section.querySelectorAll('.products-section__title-line');
-    var MAX_WORD_OFFSET = 35;
-    var BASE_LETTER_SPACING = 0.04;
-    var EXTRA_LETTER_SPACING = 0.18;
-    var surtitleAnimated = false;
-    function clamp(value, min, max) { return Math.min(max, Math.max(min, value)); }
-    function update() {
-      var rect = section.getBoundingClientRect();
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var start = vh * 0.75;
-      var end = vh * 0.85;
-      var sectionMid = rect.top + rect.height / 2;
-      var progress = clamp((sectionMid - start) / (end - start), 0, 1);
-      var separation = 1 - progress;
-      if (surtitle && !surtitleAnimated && rect.top < vh * 0.85) {
-        surtitle.classList.add('animate');
-        surtitleAnimated = true;
-      }
-      lines.forEach(function(line, lineIndex) {
-        var words = line.querySelectorAll('.products-section__title-word');
-        var wordCount = words.length;
-        var lineFactor = lineIndex === 1 ? 0.7 : 1;
-        var centerIndex = (wordCount - 1) / 2;
-        words.forEach(function(word, wordIndex) {
-          var distanceFromCenter = wordIndex - centerIndex;
-          var direction = distanceFromCenter < 0 ? -1 : 1;
-          var offsetPx = direction * Math.abs(distanceFromCenter) * MAX_WORD_OFFSET * separation * lineFactor;
-          var letterSpacingEm = BASE_LETTER_SPACING + EXTRA_LETTER_SPACING * separation * lineFactor;
-          word.style.transform = 'translateX(' + offsetPx + 'px)';
-          word.style.letterSpacing = letterSpacingEm + 'em';
-          word.style.opacity = 0.8 + 0.2 * separation;
-        });
-      });
-    }
-    var ticking = false;
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(function() {
-          update();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', update);
-    update();
+  if (topicSelect) {
+    topicSelect.addEventListener('change', function () {
+      setTopic(topicSelect.value);
+    });
   }
 
-  initTitleScrollAnimation();
+  function clearErrors() {
+    Object.keys(fields).forEach(function (key) {
+      if (fields[key]) fields[key].classList.remove('is-invalid');
+      if (errors[key]) errors[key].textContent = '';
+    });
+    statusEl.className = 'contact-form__status';
+    statusEl.textContent = '';
+  }
+
+  function showError(key, message) {
+    if (fields[key]) fields[key].classList.add('is-invalid');
+    if (errors[key]) errors[key].textContent = message;
+  }
+
+  function validEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+
+    var name = (fields.name.value || '').trim();
+    var email = (fields.email.value || '').trim();
+    var topic = (fields.topic.value || '').trim();
+    var message = (fields.message.value || '').trim();
+    var ok = true;
+
+    if (!name) { showError('name', 'Enter your name.'); ok = false; }
+    if (!email) { showError('email', 'Enter your email.'); ok = false; }
+    else if (!validEmail(email)) { showError('email', 'Enter a valid email.'); ok = false; }
+    if (!topic) { showError('topic', 'Choose a topic.'); ok = false; }
+    if (!message) { showError('message', 'Add a short message.'); ok = false; }
+    else if (message.length < 12) { showError('message', 'Add a bit more detail (at least a sentence).'); ok = false; }
+
+    if (!ok) {
+      statusEl.className = 'contact-form__status is-visible is-error';
+      statusEl.textContent = 'Please fix the highlighted fields and try again.';
+      var firstInvalid = form.querySelector('.is-invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    window.setTimeout(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+      form.reset();
+      setTopic('support');
+      statusEl.className = 'contact-form__status is-visible is-success';
+      statusEl.textContent = 'Message ready — this is a demo, so nothing was emailed. Thanks for testing the contact flow.';
+      statusEl.focus && statusEl.focus();
+    }, 650);
+  });
 });
 </script>
 
 <script>
 // Menu trigger cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const menuTrigger = document.querySelector('.menu-trigger-container');
   const menuCursor = document.querySelector('.menu-trigger-cursor');
   
   if (!menuTrigger || !menuCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2797,10 +2982,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Page logo cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const pageLogo = document.querySelector('.page-logo__item');
   const pageLogoCursor = document.querySelector('.page-logo-cursor');
   
   if (!pageLogo || !pageLogoCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2960,8 +3151,9 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
 
+
+<script src="js/site-runtime.js" defer></script>
 </body>
 </html>
 

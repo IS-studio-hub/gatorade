@@ -3,7 +3,7 @@
 <head>
 <base href="./">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Performance Benefits - Gatorade</title>
 <meta name="description" lang="en" content="See how Gatorade products support hydration, fueling, endurance, and recovery performance goals.">
 <meta name="keywords" content="Performance Benefits - Gatorade">
@@ -17,6 +17,7 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-config" content="#">
 <meta name="theme-color" content="#ffffff">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data: blob:; font-src 'self' https: data:; connect-src 'self' https:; frame-src https:; media-src 'self' https: blob:;">
 <meta property="og:title" content="Performance Benefits - Gatorade">
 <meta property="og:description" content="See how Gatorade products support hydration, fueling, endurance, and recovery performance goals.">
 <meta property="og:type" content="website">
@@ -36,6 +37,7 @@ var currentURL = "";
 var currentSection = "";
 var isMobile = false;
 var isPad = false;
+/* breakpoint tiers: mobile ≤768, tablet 769–1280, desktop ≥1281 (see js/site-runtime.js) */
 var isiOS = false;
 var SITEKEY = "";
 </script>
@@ -44,14 +46,16 @@ var SITEKEY = "";
 <link rel="stylesheet" href="animate.min.css" type="text/css" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/common.min.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-a11y.css" type="text/css" media="screen">
 
 <!-- Google Fonts Geologica -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
 
 <style>
 /* Global animation optimization */
@@ -1240,7 +1244,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 /* Responsive */
 /* Tablet and below - History Section */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .about-hero__content {
     max-width: 100%;
   }
@@ -1600,7 +1604,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1795,13 +1799,13 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1.75rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 769px) {
   .products-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1281px) {
   .products-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -1995,7 +1999,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 100%;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__layout {
     grid-template-columns: 1fr 1.05fr;
     min-height: min(88vh, 900px);
@@ -2010,7 +2014,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__gallery {
     position: sticky;
     top: 0;
@@ -2168,6 +2172,967 @@ body.product-popup-open {
     padding: 1.5rem 1.25rem 2rem;
   }
 }
+
+/* ===== Touch / mobile: no custom cursors ===== */
+
+html.is-touch *,
+html.is-touch *::before,
+html.is-touch *::after {
+  cursor: auto !important;
+}
+html.is-touch a,
+html.is-touch button,
+html.is-touch [role="button"],
+html.is-touch .menu__link,
+html.is-touch .rd-btn,
+html.is-touch .product-card,
+html.is-touch .science-cta,
+html.is-touch .science-button {
+  cursor: pointer !important;
+}
+html.is-touch .menu-trigger-cursor,
+html.is-touch .page-logo-cursor,
+html.is-touch .circle-btn-cursor,
+html.is-touch svg.cursor,
+html.is-touch .cursor {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  svg.cursor,
+  .cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Phones / small tablets: also force default cursors */
+@media (max-width: 1280px) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Global overflow safety for responsive layouts */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img, video, canvas, svg, iframe, spline-viewer {
+  max-width: 100%;
+}
+
+
+/* ========== PERFORMANCE BENEFITS — BeNorth.Studio mimic ========== */
+body.electrolyte-bn-page {
+  --bg: #f4f3ef;
+  --ink: #0d0d0b;
+  --ink-muted: #6b6b67;
+  --accent: #ff7002;
+  --white: #fff;
+  --border: rgba(13,13,11,.12);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --bn-pad: clamp(1.25rem, 3vw, 3rem);
+}
+body.electrolyte-bn-page.preloading {
+  overflow: hidden;
+}
+/* Keep site side rails + footer; only style the middle column */
+body.electrolyte-bn-page .anchor-bar,
+body.electrolyte-bn-page svg.cursor {
+  display: none !important;
+}
+body.electrolyte-bn-page .main-content {
+  padding: 0 !important;
+  background: var(--bg) !important;
+  overflow: clip;
+  position: relative;
+}
+body.electrolyte-bn-page .electrolyte-page {
+  position: relative;
+  min-height: 100%;
+  overflow-x: clip;
+}
+body.electrolyte-bn-page .main-content,
+body.electrolyte-bn-page .main-content * {
+  font-family: "Outfit", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+body.electrolyte-bn-page .bn-mono,
+body.electrolyte-bn-page .bn-mono * {
+  font-family: "Outfit", ui-monospace, monospace !important;
+  letter-spacing: 0.06em;
+}
+
+.electrolyte-page {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* Preloader — confined to middle content column */
+#bnPreloader {
+  position: absolute;
+  inset: 0;
+  z-index: 10000;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.9s var(--ease), opacity 0.6s ease;
+}
+#bnPreloader.done {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.bn-preloader-brand { overflow: hidden; }
+.bn-preloader-brand span {
+  display: block;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--bg);
+  transform: translateY(110%);
+  animation: bnPreBrand 0.9s var(--ease) 0.15s forwards;
+}
+@keyframes bnPreBrand { to { transform: translateY(0); } }
+.bn-preloader-counter {
+  position: absolute;
+  bottom: 32px;
+  right: 36px;
+  font-size: 13px;
+  font-weight: 300;
+  color: hsla(48,19%,95%,0.45);
+  font-variant-numeric: tabular-nums;
+}
+.bn-preloader-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  width: 0;
+}
+
+/* Custom cursor */
+#bnCursor {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: 10px;
+  height: 10px;
+  background: var(--ink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s var(--ease-soft), height 0.3s var(--ease-soft), background 0.25s ease;
+}
+#bnCursor .bn-cursor-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--bg);
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+#bnCursor.expand {
+  width: 48px;
+  height: 48px;
+  background: rgba(13,13,11,0.1);
+  backdrop-filter: blur(2px);
+}
+#bnCursor.view {
+  width: 76px;
+  height: 76px;
+  background: var(--accent);
+}
+#bnCursor.view .bn-cursor-label { opacity: 1; }
+#bnCursor.on-dark { background: var(--bg); }
+@media (hover: none) {
+  #bnCursor { display: none; }
+}
+@media (hover: hover) {
+  body.electrolyte-bn-page,
+  body.electrolyte-bn-page a,
+  body.electrolyte-bn-page button {
+    cursor: none !important;
+  }
+}
+
+/* Mini top nav — sticky inside middle column only */
+.bn-nav {
+  position: sticky;
+  top: 0;
+  left: auto;
+  right: auto;
+  z-index: 40;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--bn-pad);
+  transition: background 0.3s, border-color 0.3s;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+.bn-nav.is-scrolled {
+  background: hsla(48,19%,95%,0.85);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--border);
+}
+.bn-nav__logo {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--ink);
+}
+.bn-nav__logo:hover { color: var(--accent); }
+.bn-nav__pills { display: flex; gap: 8px; }
+.bn-nav__pill {
+  display: inline-flex;
+  align-items: center;
+  background: hsla(43,20%,93%,0.5);
+  color: var(--ink);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(13,13,11,0.4);
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.bn-nav__pill:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.bn-nav__coords {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .bn-nav__coords { display: none; }
+}
+
+/* Hero — fills middle column, not the full browser width */
+#bnHero {
+  height: calc(100svh - 4.375rem);
+  min-height: 560px;
+  max-height: 920px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+  position: relative;
+  overflow: hidden;
+}
+.bn-hero-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.bn-hero-marquee {
+  width: 100%;
+  overflow: hidden;
+}
+.bn-hero-reveal {
+  transform: translateY(112%);
+  transition: transform 1.25s var(--ease);
+}
+body.loaded .bn-hero-reveal { transform: translateY(0); }
+.bn-hero-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  font-size: clamp(48px, 9vw, 140px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  animation: bnMarquee 38s linear infinite;
+  will-change: transform;
+}
+.bn-hero-marquee:hover .bn-hero-track { animation-play-state: paused; }
+@keyframes bnMarquee { to { transform: translateX(-50%); } }
+.bn-hm-unit {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding-right: 0.55em;
+}
+.bn-hm-unit--img {
+  height: clamp(44px, 7vw, 110px);
+  width: auto;
+  padding-right: 0;
+  margin-right: clamp(24px, 5vw, 90px);
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.bn-hero-stickers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.bn-hero-stickers--front { z-index: 2; pointer-events: none; }
+.bn-hsticker {
+  position: absolute;
+  left: calc(var(--x, 50) * 1%);
+  top: calc(var(--y, 50) * 1%);
+  width: clamp(64px, calc(var(--w, 10) * 0.85vw), 160px);
+  will-change: transform;
+  transition: opacity 0.55s ease;
+  pointer-events: auto;
+  touch-action: none;
+  cursor: grab;
+}
+.bn-hsticker img,
+.bn-hsticker .bn-chip {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+  user-select: none;
+  filter: drop-shadow(0 10px 26px rgba(0,0,0,0.07));
+}
+.bn-hsticker .bn-chip {
+  width: auto;
+  min-width: 100%;
+  padding: 0.7em 0.9em;
+  border-radius: 999px;
+  text-align: center;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-weight: 500;
+  color: #fff;
+  background: var(--accent);
+}
+.bn-hsticker .bn-chip--blue { background: #1468a2; }
+.bn-hsticker .bn-chip--ink { background: var(--ink); }
+.bn-hsticker .bn-chip--lime { background: #c5d445; color: #111; }
+.bn-hsticker img { border-radius: 8px; }
+
+.bn-hero-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 var(--bn-pad) clamp(20px, 3vh, 36px);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease 0.85s, transform 0.8s var(--ease) 0.85s;
+  position: relative;
+  z-index: 3;
+  gap: 1rem;
+}
+body.loaded .bn-hero-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.bn-hero-meta-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.bn-hero-meta-link:hover { opacity: 0.65; }
+.bn-hero-meta-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+.bn-hero-scroll {
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.bn-hero-scroll:after {
+  content: "";
+  width: 1px;
+  height: 24px;
+  background: var(--ink-muted);
+  animation: bnScrollPulse 1.8s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes bnScrollPulse {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+.bn-sticker-cta {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 12px;
+  transform: rotate(-4deg);
+  box-shadow: 0 9px 18px rgba(0,0,0,0.22);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+  max-width: 200px;
+  text-align: left;
+  line-height: 1.35;
+}
+.bn-sticker-cta:hover {
+  transform: rotate(0deg) scale(1.06);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.28);
+}
+
+/* Sticker modal */
+.bn-sticker-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 11000;
+  display: none;
+}
+.bn-sticker-modal.open { display: block; }
+.bn-sm-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20,18,16,0.55);
+  backdrop-filter: blur(3px);
+}
+.bn-sm-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(440px, calc(100vw - 40px));
+  background: var(--bg);
+  color: var(--ink);
+  border-radius: 14px;
+  padding: 28px 26px 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+}
+.bn-sm-x {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.bn-sm-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+.bn-sm-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 18px; }
+.bn-sm-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 130px;
+  padding: 18px;
+  border: 1.5px dashed rgba(13,13,11,0.28);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.bn-sm-drop:hover { border-color: var(--accent); }
+.bn-sm-drop u { color: var(--accent); }
+.bn-sm-preview { margin-top: 14px; text-align: center; }
+.bn-sm-preview img { max-width: 100%; max-height: 160px; border-radius: 8px; }
+.bn-sm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+.bn-sm-cancel,
+.bn-sm-place {
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid rgba(13,13,11,0.22);
+  background: transparent;
+}
+.bn-sm-place {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.bn-sm-place:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Showreel */
+#bnReel {
+  padding: 0 var(--bn-pad);
+}
+.bn-reel-wrap {
+  position: relative;
+  height: min(70svh, 640px);
+  min-height: 360px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0c0c0b;
+  transform: scale(0.92);
+  transition: transform 0.8s var(--ease);
+}
+.bn-reel-wrap.is-in { transform: scale(1); }
+.bn-reel-wrap video {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+}
+.bn-reel-tag {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 2;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(13,13,11,0.55);
+  backdrop-filter: blur(6px);
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+.bn-reel-play {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.bn-reel-play span {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.55);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.25);
+  transition: transform 0.25s, border-color 0.25s;
+}
+.bn-reel-play:hover span {
+  transform: scale(1.07);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bn-reel-play.is-hidden { display: none; }
+
+/* Intro */
+#bnIntro {
+  padding: clamp(48px, 8vh, 96px) var(--bn-pad);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2rem;
+  align-items: end;
+}
+.bn-intro-kicker {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.bn-intro-title {
+  margin: 0;
+  font-size: clamp(28px, 4.2vw, 52px);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.bn-intro-body {
+  margin: 0;
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.45;
+  max-width: 36rem;
+}
+
+/* Services */
+#bnServices {
+  padding: 40px var(--bn-pad) 72px;
+}
+.bn-services-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+}
+.bn-services-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 18px;
+}
+.bn-service-item {
+  position: relative;
+  padding: 14px 0 14px 0;
+  transition: padding-left 0.4s var(--ease);
+  cursor: pointer;
+}
+.bn-service-item .num {
+  position: absolute;
+  left: 0;
+  top: 24px;
+  font-size: 12px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.35s, transform 0.35s var(--ease);
+}
+.bn-service-item h3 {
+  display: inline-block;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 300;
+  letter-spacing: -0.022em;
+  color: rgba(13,13,11,0.26);
+  transition: color 0.35s;
+  margin: 0;
+}
+.bn-service-item.is-active,
+.bn-service-item:hover { padding-left: 36px; }
+.bn-service-item.is-active .num,
+.bn-service-item:hover .num {
+  opacity: 1;
+  transform: translateX(0);
+}
+.bn-service-item.is-active h3,
+.bn-service-item:hover h3 { color: var(--ink); }
+
+.bn-services-detail {
+  padding-left: 44px;
+  position: relative;
+  min-height: 320px;
+}
+.bn-services-detail-content {
+  position: absolute;
+  inset: 0 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s var(--ease);
+  pointer-events: none;
+}
+.bn-services-detail-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.bn-services-detail h4 {
+  font-size: clamp(22px, 3vw, 27px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+}
+.bn-services-detail p {
+  margin: 0;
+  font-size: clamp(17px, 2.2vw, 22px);
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  max-width: 540px;
+}
+.bn-services-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 22px;
+}
+.bn-services-tag {
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid var(--accent);
+  padding: 7px 14px;
+  border-radius: 100px;
+  color: var(--accent);
+}
+
+/* Projects drag */
+#bnProjects {
+  padding: 64px 0 72px;
+}
+.bn-projects-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 var(--bn-pad) 20px;
+}
+.bn-projects-head h2 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+}
+.bn-projects-hint {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.bn-projects-stage { position: relative; }
+.bn-projects-strip {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 0 var(--bn-pad) 8px;
+  scrollbar-width: none;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+.bn-projects-strip::-webkit-scrollbar { display: none; }
+.bn-projects-strip.is-dragging { cursor: grabbing; }
+.bn-project-card {
+  flex: 0 0 min(70%, 360px);
+  height: clamp(280px, 46vh, 440px);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+  text-decoration: none;
+  color: #fff;
+}
+.bn-project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+.bn-project-card:hover img { transform: scale(1.05); }
+.bn-project-card__meta {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+}
+.bn-project-card__meta strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.bn-project-card__meta span {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.bn-drag-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  background: rgba(13,13,11,0.85);
+  color: var(--bg);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: 100px;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.4s;
+}
+.bn-drag-badge.is-hidden { opacity: 0; }
+
+/* Clients / ions */
+#bnClients {
+  padding: 56px var(--bn-pad) 64px;
+  border-top: 1px solid var(--border);
+}
+.bn-clients-title {
+  margin: 0 0 28px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.bn-clients-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  align-items: center;
+}
+.bn-client {
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: rgba(13,13,11,0.35);
+  transition: color 0.25s;
+}
+.bn-client:hover { color: var(--ink); }
+
+/* Footer CTA */
+#bnFooterCta {
+  background: var(--ink);
+  color: var(--bg);
+  padding: clamp(56px, 8vh, 96px) var(--bn-pad) 40px;
+}
+.bn-footer-claim {
+  margin: 0 0 28px;
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  max-width: 14ch;
+}
+.bn-footer-claim em {
+  font-style: normal;
+  color: var(--accent);
+}
+.bn-footer-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  margin-bottom: 48px;
+}
+.bn-footer-btn:hover { filter: brightness(1.05); }
+.bn-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: hsla(48,19%,95%,0.55);
+  border-top: 1px solid hsla(48,19%,95%,0.14);
+  padding-top: 22px;
+}
+.bn-footer-bottom a {
+  color: inherit;
+  text-decoration: none;
+  margin-left: 14px;
+}
+.bn-footer-bottom a:hover { color: var(--accent); }
+
+.bn-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.bn-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .bn-intro,
+  #bnIntro,
+  .bn-services-layout {
+    grid-template-columns: 1fr;
+  }
+  .bn-services-detail {
+    min-height: auto;
+    padding-left: 0;
+    margin-top: 1.5rem;
+  }
+  .bn-services-detail-content {
+    position: relative;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    display: none;
+  }
+  .bn-services-detail-content.visible { display: flex; }
+  .bn-hsticker.hide-mobile { display: none; }
+}
+
+@media (max-width: 768px) {
+  .bn-project-card { flex-basis: 82vw; }
+  .bn-sticker-cta { max-width: 160px; font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bn-hero-track { animation: none; }
+  .bn-hero-reveal,
+  .bn-reveal { transition: none; transform: none; opacity: 1; }
+}
+
+
 </style>
 <!-- css include END -->
 <!--  -->
@@ -2194,15 +3159,35 @@ body.product-popup-open {
 </script>
 <!-- End Google Tag Manager -->
 
+
+<script>
+(function() {
+  function isTouchLike() {
+    try {
+      return window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+        window.matchMedia('(max-width: 1280px)').matches ||
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0);
+    } catch (e) {
+      return false;
+    }
+  }
+  function apply() {
+    document.documentElement.classList.toggle('is-touch', isTouchLike());
+  }
+  apply();
+  window.addEventListener('resize', apply, { passive: true });
+})();
+</script>
 </head>
-<body class="landing" data-at-top="false" data-menu-active="false">
+<body class="landing electrolyte-bn-page" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LQNJBNQ" height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<a href="en/#skip-to-start" class="sr-only" id="skip-to-content" title=""></a>
+<a href="#skip-to-start" class="sr-only skip-link" id="skip-to-content">Skip to main content</a>
 <div class="site-wrapper">
   <svg class="cursor" width="25" height="25" viewBox="0 0 25 25">
     <circle class="cursor__inner" cx="12.5" cy="12.5" r="6.25"></circle>
@@ -2234,7 +3219,7 @@ body.product-popup-open {
     </header>
     <div class="menu-col side-col side-col--3">
       <div class="menu-trigger-container">
-        <button type="button" class="menu-trigger js-menu-toggle">
+        <button type="button" class="menu-trigger js-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenuPanel">
           <span class="sr-only">Menu</span>
           <span class="menu-trigger__lines">
             <span class="menu-trigger__lines-sub"></span>
@@ -2268,7 +3253,7 @@ body.product-popup-open {
         </ul>
       </div>
     </div>
-    <div class="menu-panel js-inoutview inview-group" data-animate="fadeInUp">
+    <div class="menu-panel js-inoutview inview-group" id="siteMenuPanel" data-animate="fadeInUp">
       <div class="menu-panel__body">
         <div class="menu-panel__container">
           <nav class="menu-nav">
@@ -2383,124 +3368,219 @@ body.product-popup-open {
         </div>
       </div>
     </div>
-    <main id="skip-to-start" class="main-content">
-      <section class="about-hero products-hero" id="productsHero">
-        <div class="about-hero__visual">
-          <img src="img/Gatorade_Master.0005857.jpg" alt="Performance Benefits" />
+                <main id="skip-to-start" class="main-content electrolyte-page" tabindex="-1">
+      <div id="bnPreloader" aria-hidden="true">
+        <div class="bn-preloader-brand"><span>Performance Benefits</span></div>
+        <div class="bn-preloader-counter">0</div>
+        <div class="bn-preloader-line"></div>
+      </div>
+      <div id="bnCursor" aria-hidden="true"><span class="bn-cursor-label">VIEW</span></div>
+
+      <header class="bn-nav" id="bnNav">
+        <a class="bn-nav__logo" href="index.html">Gatorade</a>
+        <div class="bn-nav__coords">29.65° N, 82.32° W<br>EST. 1965 · GSSI</div>
+        <div class="bn-nav__pills">
+          <a class="bn-nav__pill" href="products.html">Products</a>
+          <a class="bn-nav__pill" href="formula.html">Formula</a>
+          <a class="bn-nav__pill" href="contact.html">Contact</a>
         </div>
-        <div class="about-hero__container">
-          <div class="about-hero__content">
-            <h1 class="about-hero__title">
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Performance</span>
-              </span>
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Benefits</span>
-              </span>
-            </h1>
-            <div class="about-hero__subtitle">
-              <div>
-                <div>Hydrate better, fuel longer, recover smarter, and stay ready for the next rep.</div>
+      </header>
+
+      <section id="bnHero">
+        <div class="bn-hero-stickers" id="bnStickersBack" aria-hidden="true">
+          <div class="bn-hsticker hide-mobile" style="--x:18; --y:28; --w:11; --r:-8deg" data-parallax="0.04"><img src="img/athlete-colored-sweat.jpg" alt="" draggable="false"></div>
+          <div class="bn-hsticker" style="--x:72; --y:22; --w:9; --r:7deg" data-parallax="0.06"><div class="bn-chip">Hydrate</div></div>
+          <div class="bn-hsticker hide-mobile" style="--x:80; --y:58; --w:10; --r:-5deg" data-parallax="0.03"><img src="img/athlete-sprinter-energy.jpg" alt="" draggable="false"></div>
+          <div class="bn-hsticker" style="--x:24; --y:68; --w:8; --r:6deg" data-parallax="0.05"><div class="bn-chip bn-chip--blue">Fuel</div></div>
+        </div>
+
+        <div class="bn-hero-stage">
+          <div class="bn-hero-marquee" aria-hidden="true">
+            <div class="bn-hero-reveal">
+              <div class="bn-hero-track">
+                <span class="bn-hm-unit">Gatorade</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/athlete-orange-sweat-stadium.jpg" alt="">
+                <span class="bn-hm-unit">Hydrate</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/athlete-soccer-energy.jpg" alt="">
+                <span class="bn-hm-unit">Fuel</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/DF-orange.jpg" alt="">
+                <span class="bn-hm-unit">Recover</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/Gatorade_Master.0005857.jpg" alt="">
+                <span class="bn-hm-unit">Gatorade</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/athlete-orange-sweat-stadium.jpg" alt="">
+                <span class="bn-hm-unit">Hydrate</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/athlete-soccer-energy.jpg" alt="">
+                <span class="bn-hm-unit">Fuel</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/DF-orange.jpg" alt="">
+                <span class="bn-hm-unit">Recover</span>
+                <img class="bn-hm-unit bn-hm-unit--img" src="img/Gatorade_Master.0005857.jpg" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bn-hero-stickers bn-hero-stickers--front" id="bnStickersFront" aria-hidden="true">
+          <div class="bn-hsticker" style="--x:62; --y:34; --w:8; --r:10deg" data-parallax="0.08"><div class="bn-chip bn-chip--ink">Endure</div></div>
+          <div class="bn-hsticker hide-mobile" style="--x:48; --y:72; --w:9; --r:-4deg" data-parallax="0.05"><div class="bn-chip bn-chip--lime">Recover</div></div>
+          <div class="bn-hsticker hide-mobile" style="--x:12; --y:48; --w:12; --r:3deg" data-parallax="0.07"><img src="img/athlete-swimmer-energy.jpg" alt="" draggable="false"></div>
+        </div>
+
+        <div class="bn-hero-meta">
+          <a class="bn-hero-meta-link" href="#bnServices" data-cursor="view">See how performance benefits stack up</a>
+          <div class="bn-hero-meta-right">
+            <button type="button" class="bn-sticker-cta" id="bnStickerCta" data-cursor="view">Add your<br>sticker (SCROLL)</button>
+            <a class="bn-hero-scroll" href="#bnReel">(SCROLL)</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="bnReel" data-cursor-dark>
+        <div class="bn-reel-wrap" id="bnReelWrap">
+          <video id="bnReelVideo" src="vid/brithing.mp4" muted loop playsinline preload="metadata"></video>
+          <div class="bn-reel-tag">GSSI® — Performance Reel</div>
+          <button type="button" class="bn-reel-play" id="bnReelPlay" data-cursor="view" aria-label="Play showreel"><span>PLAY</span></button>
+        </div>
+      </section>
+
+      <section id="bnIntro">
+        <div class="bn-reveal">
+          <p class="bn-intro-kicker">Performance Studio</p>
+          <h2 class="bn-intro-title">Hydrate better, fuel longer, recover smarter.</h2>
+        </div>
+        <p class="bn-intro-body bn-reveal">Different Gatorade systems support different phases of performance — from pre-game to recovery — so athletes stay ready for the next rep.</p>
+      </section>
+
+      <section id="bnServices">
+        <p class="bn-services-label bn-reveal">Benefits</p>
+        <div class="bn-services-layout">
+          <div class="bn-services-list" role="tablist" aria-label="Performance pillars">
+            <div class="bn-service-item is-active" data-service="0" role="tab" tabindex="0" aria-selected="true">
+              <span class="num">01</span>
+              <h3>Hydrate</h3>
+            </div>
+            <div class="bn-service-item" data-service="1" role="tab" tabindex="0" aria-selected="false">
+              <span class="num">02</span>
+              <h3>Fuel</h3>
+            </div>
+            <div class="bn-service-item" data-service="2" role="tab" tabindex="0" aria-selected="false">
+              <span class="num">03</span>
+              <h3>Recover</h3>
+            </div>
+          </div>
+          <div class="bn-services-detail">
+            <div class="bn-services-detail-content visible" data-detail="0">
+              <h4>Stay balanced during training and competition.</h4>
+              <p>Fluid balance, rapid rehydration, and drinkability help athletes replace sweat losses and stay on plan when the session gets hard.</p>
+              <div class="bn-services-tags">
+                <span class="bn-services-tag">Fluid balance</span>
+                <span class="bn-services-tag">Rapid rehydration</span>
+                <span class="bn-services-tag">Drinkability</span>
+                <span class="bn-services-tag">Sweat loss</span>
+              </div>
+            </div>
+            <div class="bn-services-detail-content" data-detail="1">
+              <h4>Energy during activity when intensity rises.</h4>
+              <p>Carbohydrate support and endurance options give athletes fuel for longer or more intense sessions — especially when the work won’t quit.</p>
+              <div class="bn-services-tags">
+                <span class="bn-services-tag">Workout fuel</span>
+                <span class="bn-services-tag">Carbs</span>
+                <span class="bn-services-tag">Endurance</span>
+                <span class="bn-services-tag">Long duration</span>
+              </div>
+            </div>
+            <div class="bn-services-detail-content" data-detail="2">
+              <h4>Rebuild after the work is done.</h4>
+              <p>Post-workout options help support muscle rebuilding and refueling so athletes can reset and show up ready for what’s next.</p>
+              <div class="bn-services-tags">
+                <span class="bn-services-tag">Protein &amp; reset</span>
+                <span class="bn-services-tag">Refuel</span>
+                <span class="bn-services-tag">Muscle support</span>
+                <span class="bn-services-tag">Next session</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="products-section" id="products">
-        <div class="products-section__container">
-          <div class="products-section__header">
-            <div class="products-section__surtitle">Benefits</div>
-            <h2 class="products-section__title">
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Fuel</span>
-              </span>
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Your Edge</span>
-              </span>
-            </h2>
-            <p class="products-section__intro">Different Gatorade systems support different phases of performance, from pre-game to recovery.</p>
-          </div>
-
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Hydration</div>
-              <p class="info-section__text">Staying balanced during training and competition.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Fluid Balance" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Hydrate</span>
-                  <h3 class="product-card__title">Fluid Balance</h3>
-                  <p class="product-card__text">Helps replace sweat losses to support body performance under stress.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Rapid Rehydration" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Recover</span>
-                  <h3 class="product-card__title">Rapid Rehydration</h3>
-                  <p class="product-card__text">Specific formulas help you bounce back faster after heavy sweat loss.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Drinkability" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Consistency</span>
-                  <h3 class="product-card__title">Drinkability</h3>
-                  <p class="product-card__text">Good taste and easy drinking matter when athletes need to stay on plan.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Fueling & Recovery</div>
-              <p class="info-section__text">Energy during activity and rebuilding after it.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Workout Fuel" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Carbohydrate Support</span>
-                  <h3 class="product-card__title">Workout Fuel</h3>
-                  <p class="product-card__text">Carbs provide energy for longer or more intense sessions.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Endurance Support" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Long Duration</span>
-                  <h3 class="product-card__title">Endurance Support</h3>
-                  <p class="product-card__text">Higher-electrolyte options serve athletes in prolonged efforts.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Recovery Support" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Protein & Reset</span>
-                  <h3 class="product-card__title">Recovery Support</h3>
-                  <p class="product-card__text">Post-workout options help support muscle rebuilding and refueling.</p>
-                </div>
-              </article>
-            </div>
+      <section id="bnProjects">
+        <div class="bn-projects-head">
+          <h2 class="bn-reveal">Fuel your edge</h2>
+          <span class="bn-projects-hint bn-mono">DRAG</span>
+        </div>
+        <div class="bn-projects-stage">
+          <div class="bn-drag-badge" id="bnDragBadge">DRAG</div>
+          <div class="bn-projects-strip" id="bnProjectsStrip">
+            <a class="bn-project-card" href="products.html" data-cursor="view">
+              <img src="img/athlete-colored-sweat.jpg" alt="Fluid Balance">
+              <div class="bn-project-card__meta"><strong>Fluid Balance</strong><span>Replace sweat losses under stress</span></div>
+            </a>
+            <a class="bn-project-card" href="products.html" data-cursor="view">
+              <img src="img/athlete-sprinter-energy.jpg" alt="Rapid Rehydration">
+              <div class="bn-project-card__meta"><strong>Rapid Rehydration</strong><span>Bounce back after heavy sweat loss</span></div>
+            </a>
+            <a class="bn-project-card" href="products.html" data-cursor="view">
+              <img src="img/athlete-swimmer-energy.jpg" alt="Drinkability">
+              <div class="bn-project-card__meta"><strong>Drinkability</strong><span>Taste that keeps athletes on plan</span></div>
+            </a>
+            <a class="bn-project-card" href="products.html" data-cursor="view">
+              <img src="img/athlete-soccer-energy.jpg" alt="Workout Fuel">
+              <div class="bn-project-card__meta"><strong>Workout Fuel</strong><span>Carbs for longer, harder sessions</span></div>
+            </a>
+            <a class="bn-project-card" href="products.html" data-cursor="view">
+              <img src="img/athlete-orange-sweat-stadium.jpg" alt="Endurance Support">
+              <div class="bn-project-card__meta"><strong>Endurance Support</strong><span>Built for prolonged efforts</span></div>
+            </a>
+            <a class="bn-project-card" href="products.html" data-cursor="view">
+              <img src="img/Gatorade_Master.0005857.jpg" alt="Recovery Support">
+              <div class="bn-project-card__meta"><strong>Recovery Support</strong><span>Rebuild and refuel after work</span></div>
+            </a>
           </div>
         </div>
       </section>
+
+      <section id="bnClients">
+        <p class="bn-clients-title">Across the session</p>
+        <div class="bn-clients-row">
+          <span class="bn-client">Pre-game</span>
+          <span class="bn-client">Training</span>
+          <span class="bn-client">Competition</span>
+          <span class="bn-client">Endurance</span>
+          <span class="bn-client">Recovery</span>
+        </div>
+      </section>
+
+      <section id="bnFooterCta" data-cursor-dark>
+        <h2 class="bn-footer-claim">To fuel a body can be complicated — <em>let’s make it simple.</em></h2>
+        <a class="bn-footer-btn" href="products.html" data-cursor="view">Explore the products</a>
+        <div class="bn-footer-bottom">
+          <span>Gatorade Sports Science Institute · EST. 1965</span>
+          <span>
+            <a href="index.html">Home</a>
+            <a href="electrolyte-science.html">Science</a>
+            <a href="contact.html">Contact</a>
+          </span>
+        </div>
+      </section>
+
+      <div class="bn-sticker-modal" id="bnStickerModal" aria-hidden="true">
+        <div class="bn-sm-backdrop" data-close-modal></div>
+        <div class="bn-sm-card" role="dialog" aria-modal="true" aria-labelledby="bnSmTitle">
+          <button type="button" class="bn-sm-x" data-close-modal aria-label="Close">×</button>
+          <h3 class="bn-sm-title" id="bnSmTitle">Place your sticker</h3>
+          <p class="bn-sm-sub">Upload an image (JPG or PNG) and it appears on the hero.</p>
+          <label class="bn-sm-drop" id="bnSmDrop">
+            Drag an image here<br>or <u>choose a file</u>
+            <input type="file" id="bnSmFile" accept="image/png,image/jpeg,image/webp" hidden>
+          </label>
+          <div class="bn-sm-preview" id="bnSmPreview" hidden></div>
+          <div class="bn-sm-actions">
+            <button type="button" class="bn-sm-cancel" data-close-modal>Cancel</button>
+            <button type="button" class="bn-sm-place" id="bnSmPlace" disabled>Place sticker</button>
+          </div>
+        </div>
+      </div>
     </main>
+
   </div>
   <footer class="footer ft">
     <div class="container">
@@ -2629,6 +3709,9 @@ body.product-popup-open {
 <script>
 // Newsletter button hover tracking animation
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const newsletterBtn = document.querySelector('.rd-btn.rd-btn--black');
   if (!newsletterBtn) return;
 
@@ -2748,12 +3831,265 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+  var body = document.body;
+  body.classList.add('preloading');
+
+  // Preloader (failsafe so a black screen never sticks)
+  var pre = document.getElementById('bnPreloader');
+  var counter = pre && pre.querySelector('.bn-preloader-counter');
+  var line = pre && pre.querySelector('.bn-preloader-line');
+  var progress = 0;
+  var finished = false;
+  function finishPreloader() {
+    if (finished) return;
+    finished = true;
+    if (counter) counter.textContent = '100';
+    if (line) line.style.width = '100%';
+    if (pre) pre.classList.add('done');
+    body.classList.remove('preloading');
+    body.classList.add('loaded');
+    window.setTimeout(function () { if (pre && pre.parentNode) pre.remove(); }, 950);
+  }
+  var preTimer = setInterval(function () {
+    progress = Math.min(100, progress + Math.random() * 18 + 6);
+    if (counter) counter.textContent = String(Math.floor(progress));
+    if (line) line.style.width = progress + '%';
+    if (progress >= 100) {
+      clearInterval(preTimer);
+      window.setTimeout(finishPreloader, 160);
+    }
+  }, 90);
+  window.setTimeout(finishPreloader, 2800);
+
+  // Custom cursor
+  var cursor = document.getElementById('bnCursor');
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (cursor && finePointer) {
+    window.addEventListener('mousemove', function (e) {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    }, { passive: true });
+    document.querySelectorAll('a, button, [data-cursor]').forEach(function (el) {
+      el.addEventListener('mouseenter', function () {
+        var mode = el.getAttribute('data-cursor');
+        cursor.classList.remove('view', 'expand');
+        if (mode === 'view' || el.matches('.bn-project-card, .bn-reel-play, .bn-sticker-cta, .bn-hero-meta-link, .bn-footer-btn, .bn-nav__pill')) {
+          cursor.classList.add('view');
+        } else {
+          cursor.classList.add('expand');
+        }
+      });
+      el.addEventListener('mouseleave', function () {
+        cursor.classList.remove('view', 'expand');
+      });
+    });
+    document.querySelectorAll('[data-cursor-dark]').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { cursor.classList.add('on-dark'); });
+      el.addEventListener('mouseleave', function () { cursor.classList.remove('on-dark'); });
+    });
+  } else if (cursor) {
+    cursor.style.display = 'none';
+  }
+
+  // Nav scroll
+  var nav = document.getElementById('bnNav');
+  window.addEventListener('scroll', function () {
+    if (!nav) return;
+    nav.classList.toggle('is-scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // Sticker parallax
+  var stickers = Array.prototype.slice.call(document.querySelectorAll('.bn-hsticker'));
+  var mx = 0, my = 0;
+  window.addEventListener('mousemove', function (e) {
+    mx = (e.clientX / window.innerWidth - 0.5) * 2;
+    my = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+  function tickStickers() {
+    stickers.forEach(function (el) {
+      var depth = parseFloat(el.getAttribute('data-parallax') || '0.04');
+      el.style.transform = 'translate3d(' + (mx * depth * 80) + 'px,' + (my * depth * 60) + 'px,0)';
+    });
+    requestAnimationFrame(tickStickers);
+  }
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) tickStickers();
+
+  // Services tabs
+  var items = document.querySelectorAll('.bn-service-item');
+  var details = document.querySelectorAll('.bn-services-detail-content');
+  function activateService(index) {
+    items.forEach(function (item, i) {
+      var on = i === index;
+      item.classList.toggle('is-active', on);
+      item.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    details.forEach(function (detail, i) {
+      detail.classList.toggle('visible', i === index);
+    });
+  }
+  items.forEach(function (item) {
+    item.addEventListener('mouseenter', function () {
+      activateService(parseInt(item.getAttribute('data-service'), 10));
+    });
+    item.addEventListener('click', function () {
+      activateService(parseInt(item.getAttribute('data-service'), 10));
+    });
+    item.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activateService(parseInt(item.getAttribute('data-service'), 10));
+      }
+    });
+  });
+
+  // Projects drag scroll
+  var strip = document.getElementById('bnProjectsStrip');
+  var badge = document.getElementById('bnDragBadge');
+  if (strip) {
+    var isDown = false, startX = 0, scrollLeft = 0;
+    strip.addEventListener('mousedown', function (e) {
+      isDown = true;
+      strip.classList.add('is-dragging');
+      startX = e.pageX - strip.offsetLeft;
+      scrollLeft = strip.scrollLeft;
+      if (badge) badge.classList.add('is-hidden');
+    });
+    window.addEventListener('mouseup', function () {
+      isDown = false;
+      strip.classList.remove('is-dragging');
+    });
+    strip.addEventListener('mouseleave', function () {
+      isDown = false;
+      strip.classList.remove('is-dragging');
+    });
+    strip.addEventListener('mousemove', function (e) {
+      if (!isDown) return;
+      e.preventDefault();
+      var x = e.pageX - strip.offsetLeft;
+      strip.scrollLeft = scrollLeft - (x - startX) * 1.25;
+    });
+    strip.addEventListener('scroll', function () {
+      if (badge) badge.classList.add('is-hidden');
+    }, { passive: true });
+  }
+
+  // Reel
+  var reelWrap = document.getElementById('bnReelWrap');
+  var reelVideo = document.getElementById('bnReelVideo');
+  var reelPlay = document.getElementById('bnReelPlay');
+  if (reelWrap && 'IntersectionObserver' in window) {
+    var reelIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) reelWrap.classList.add('is-in');
+      });
+    }, { threshold: 0.35 });
+    reelIO.observe(reelWrap);
+  }
+  if (reelPlay && reelVideo) {
+    reelPlay.addEventListener('click', function () {
+      reelVideo.muted = false;
+      reelVideo.play();
+      reelPlay.classList.add('is-hidden');
+    });
+  }
+
+  // Reveals
+  var reveals = document.querySelectorAll('.bn-reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.18 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  // Sticker modal + place
+  var modal = document.getElementById('bnStickerModal');
+  var openBtn = document.getElementById('bnStickerCta');
+  var fileInput = document.getElementById('bnSmFile');
+  var drop = document.getElementById('bnSmDrop');
+  var preview = document.getElementById('bnSmPreview');
+  var placeBtn = document.getElementById('bnSmPlace');
+  var pendingUrl = '';
+  function openModal() {
+    if (!modal) return;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  document.querySelectorAll('[data-close-modal]').forEach(function (el) {
+    el.addEventListener('click', closeModal);
+  });
+  if (drop && fileInput) {
+    drop.addEventListener('click', function () { fileInput.click(); });
+    drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('is-over'); });
+    drop.addEventListener('dragleave', function () { drop.classList.remove('is-over'); });
+    drop.addEventListener('drop', function (e) {
+      e.preventDefault();
+      drop.classList.remove('is-over');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files && fileInput.files[0]) handleFile(fileInput.files[0]);
+    });
+  }
+  function handleFile(file) {
+    if (!file || !file.type.match(/^image\//)) return;
+    if (pendingUrl) URL.revokeObjectURL(pendingUrl);
+    pendingUrl = URL.createObjectURL(file);
+    preview.hidden = false;
+    preview.innerHTML = '<img src="' + pendingUrl + '" alt="Sticker preview">';
+    placeBtn.disabled = false;
+  }
+  if (placeBtn) {
+    placeBtn.addEventListener('click', function () {
+      if (!pendingUrl) return;
+      var layer = document.getElementById('bnStickersFront') || document.getElementById('bnStickersBack');
+      if (!layer) return;
+      var el = document.createElement('div');
+      el.className = 'bn-hsticker';
+      el.style.setProperty('--x', String(30 + Math.random() * 40));
+      el.style.setProperty('--y', String(25 + Math.random() * 45));
+      el.style.setProperty('--w', String(8 + Math.random() * 5));
+      el.style.setProperty('--r', (Math.random() * 16 - 8).toFixed(1) + 'deg');
+      el.setAttribute('data-parallax', '0.05');
+      el.innerHTML = '<img src="' + pendingUrl + '" alt="" draggable="false">';
+      layer.appendChild(el);
+      stickers.push(el);
+      closeModal();
+      placeBtn.disabled = true;
+      preview.hidden = true;
+      preview.innerHTML = '';
+      pendingUrl = '';
+      if (fileInput) fileInput.value = '';
+    });
+  }
+});
+
+</script>
+
+<script>
 // Menu trigger cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const menuTrigger = document.querySelector('.menu-trigger-container');
   const menuCursor = document.querySelector('.menu-trigger-cursor');
   
   if (!menuTrigger || !menuCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2797,10 +4133,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Page logo cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const pageLogo = document.querySelector('.page-logo__item');
   const pageLogoCursor = document.querySelector('.page-logo-cursor');
   
   if (!pageLogo || !pageLogoCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2960,8 +4302,9 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
 
+
+<script src="js/site-runtime.js" defer></script>
 </body>
 </html>
 

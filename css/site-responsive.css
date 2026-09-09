@@ -1,0 +1,215 @@
+/**
+ * Site-wide responsive system
+ * Mobile:  0–768
+ * Tablet:  769–1280
+ * Desktop: 1281+
+ */
+:root {
+  --bp-mobile-max: 768px;
+  --bp-tablet-max: 1280px;
+  --bp-desktop-min: 1281px;
+  --site-gutter: clamp(1rem, 3vw, 2.5rem);
+  --site-touch-min: 44px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+/* ─── Mobile (0–768) ─── */
+@media (max-width: 768px) {
+  .main-content {
+    max-width: 100%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .store-finder__layout,
+  .products-grid,
+  .about-finale,
+  .products-finale {
+    grid-template-columns: 1fr !important;
+  }
+
+  .store-finder__controls {
+    grid-template-columns: 1fr !important;
+  }
+
+  .store-finder__list {
+    max-height: 280px;
+    border-right: 0 !important;
+  }
+
+  .nx-lab {
+    --nx-pad: 1rem;
+  }
+}
+
+/* ─── Tablet (769–1280): condensed chrome, roomy content ─── */
+@media (min-width: 769px) and (max-width: 1280px) {
+  /* Keep mobile/tablet shell (no fixed side rails) through 1280 */
+  .main-container {
+    display: flex;
+    min-height: auto;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .main-content {
+    margin-top: 4.0625rem;
+    padding-top: 2.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    order: 3;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .side-col {
+    bottom: auto;
+    background-color: #afafaf;
+  }
+
+  .side-col--1 {
+    width: calc(100% - 4.0625rem);
+  }
+
+  .side-col--3 {
+    order: 2;
+    width: 4.0625rem;
+    border-left: 0;
+  }
+
+  .header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  .header__inner {
+    display: flex;
+  }
+
+  .page-logo {
+    flex: 0 0 4.0625rem;
+    max-width: 4.0625rem;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: 0;
+  }
+
+  .site-title {
+    max-height: none;
+    margin-top: 0.125rem;
+  }
+
+  .site-title__text {
+    margin: 0;
+    padding: 0.6153846154em 1.1538461538em 0.6153846154em 0;
+    writing-mode: horizontal-tb;
+    text-orientation: unset;
+    font-size: 1.5em;
+  }
+
+  .site-control {
+    display: none;
+  }
+
+  .menu-panel__container {
+    padding: 4.0625rem 0;
+  }
+
+  /* Keep mobile menu chrome visible through tablet (utilities hide at 992px) */
+  .menu-panel__ctrl.d-lg-none,
+  .d-block.d-lg-none.menu-panel__ctrl {
+    display: block !important;
+  }
+
+  .mb-ico-ls.menu-panel__ctrl {
+    display: block !important;
+  }
+
+  .ver-lines:before {
+    left: 33.3333333333%;
+  }
+
+  .ver-lines:after {
+    right: 33.3333333333%;
+  }
+
+  .maintain-container {
+    flex: 1;
+    width: 100%;
+  }
+
+  .store-finder__layout {
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr) !important;
+  }
+
+  .store-finder__hero,
+  .store-finder__panel,
+  .store-finder__tips {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .about-finale,
+  .products-finale {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ─── Desktop (1281+) ─── */
+@media (min-width: 1281px) {
+  .main-content {
+    max-width: calc(100% - 10rem);
+  }
+
+  .store-finder__layout {
+    grid-template-columns: minmax(320px, 0.85fr) minmax(0, 1.15fr);
+  }
+}
+
+/* Smooth overflow safety on all tiers */
+.site-wrapper,
+.main-container,
+.main-content {
+  overflow-x: clip;
+}
+
+.store-finder__panel,
+.nx-lab,
+.product-grid,
+.products-grid {
+  max-width: 100%;
+}
+
+/* Touch-friendly controls on mobile + tablet */
+@media (max-width: 1280px) {
+  .store-finder__btn,
+  .store-finder__chip,
+  .js-menu-toggle,
+  .menu-trigger,
+  .circle-btn,
+  .product-card,
+  .athlete-card,
+  .nx-nav button,
+  .rd-btn {
+    min-height: var(--site-touch-min);
+  }
+
+  .store-finder__search input {
+    min-height: var(--site-touch-min);
+    font-size: 16px; /* avoid iOS zoom on focus */
+  }
+}

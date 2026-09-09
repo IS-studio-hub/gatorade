@@ -51,7 +51,17 @@ var SITEKEY = "";
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<link rel="preload" href="img/imgs/Meshy_AI_Electric_Stride_optimized.glb" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="js/draco/draco_decoder.wasm" as="fetch" crossorigin="anonymous">
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 
 <style>
 /* Global animation optimization */
@@ -367,6 +377,35 @@ body.impact-active .about-values__item-text {
 .main-content.mission-active .work-cta {
   color: #ffffff !important;
 }
+
+/* Hero stays white — keep brand colors even during mission scroll state */
+.main-content.mission-active .about-hero__title,
+.main-content.mission-active .about-hero__title *,
+.main-content.mission-active .about-hero__title span,
+.main-content.mission-active .about-hero .about-hero__title-word,
+.about-hero__title,
+.about-hero__title *,
+.about-hero__title span {
+  color: #1468a2 !important;
+}
+
+.main-content.mission-active .about-hero__subtitle,
+.main-content.mission-active .about-hero__subtitle *,
+.main-content.mission-active .about-hero__subtitle span,
+.main-content.mission-active .about-hero__subtitle div,
+.about-hero__subtitle,
+.about-hero__subtitle *,
+.about-hero__subtitle span,
+.about-hero__subtitle div {
+  color: #666 !important;
+}
+
+.main-content.mission-active .about-hero .work-cta,
+.main-content.mission-active .about-hero .work-cta__label,
+.about-hero .work-cta,
+.about-hero .work-cta__label {
+  color: #000 !important;
+}
 .main-content.mission-active .work-cta__label {
   color: #ffffff !important;
 }
@@ -494,30 +533,117 @@ body.impact-active .about-values__item-text {
 
 .about-hero__visual {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.about-hero__visual-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #fff;
+  pointer-events: none;
+}
+
+.about-hero__stage {
+  position: absolute;
   top: 0;
   right: 0;
   width: 50%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
-  transform-origin: center center;
-  will-change: transform, opacity;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.about-hero__visual img {
+.about-hero__canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
+  display: block;
+  touch-action: none;
+  background: transparent;
 }
 
-.about-hero__visual.revealed img {
-  transform: translateX(0);
-  opacity: 1;
+.about-hero__visual-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border: 2px solid rgba(20, 104, 162, 0.2);
+  border-top-color: #1468a2;
+  border-radius: 50%;
+  animation: heroSpin 0.9s linear infinite;
+  pointer-events: none;
+}
+
+.about-hero__visual.is-loaded .about-hero__visual-loader {
+  display: none;
+}
+
+@keyframes heroSpin {
+  to { transform: rotate(360deg); }
+}
+
+.about-hero__container {
+  pointer-events: none;
+}
+
+.about-hero__container a,
+.about-hero .work-cta {
+  pointer-events: auto;
+}
+
+.about-hero__title,
+.about-hero__title * {
+  color: #1468a2 !important;
+  text-shadow: none;
+}
+
+.about-hero__subtitle,
+.about-hero__subtitle * {
+  color: #666 !important;
+}
+
+.about-hero .work-cta {
+  color: #000;
+  z-index: 4;
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-hero__visual-bg {
+    background: #fff;
+  }
+
+  .about-hero__stage {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    right: auto;
+  }
+
+  .about-hero__container {
+    position: relative;
+    z-index: 2;
+    padding: 6rem 1.25rem 5rem;
+  }
+
+  .about-hero__content {
+    max-width: 100%;
+  }
 }
 
 /* Work CTA component - left bottom corner */
@@ -1202,6 +1328,152 @@ cubic-bezier(0.16, 1, 0.3, 1);
   font-weight: 300;
 }
 
+/* Finale image — full-bleed closer before footer */
+.about-finale {
+  --finale-ink: #0d0806;
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--finale-ink);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(100svh, auto);
+}
+
+.about-finale__media {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--finale-ink);
+}
+
+.about-finale__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 18%;
+  transform: scale(1.06);
+  transform-origin: center 28%;
+  will-change: transform;
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-finale.is-inview .about-finale__media img {
+  transform: scale(1);
+}
+
+.about-finale__veil {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10, 6, 5, 0.22) 0%, transparent 26%),
+    linear-gradient(180deg, transparent 48%, rgba(10, 6, 5, 0.5) 74%, #ffffff 100%);
+}
+
+.about-finale__copy {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 2;
+  align-self: end;
+  justify-self: start;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem) clamp(3.5rem, 8vw, 6.5rem);
+  max-width: 42rem;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.about-finale.is-inview .about-finale__copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-finale__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 5.5vw, 4.75rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.about-finale__text {
+  margin: 0.85rem 0 0;
+  max-width: 28rem;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.main-content.mission-active .about-finale__title,
+.main-content.mission-active .about-finale__title *,
+.main-content.mission-active .about-finale__text,
+.main-content.mission-active .about-finale__text *,
+.main-content:not(.mission-active) .about-finale__title,
+.main-content:not(.mission-active) .about-finale__title *,
+.main-content:not(.mission-active) .about-finale__text,
+.main-content:not(.mission-active) .about-finale__text * {
+  color: #fff !important;
+}
+
+@media (min-width: 1025px) {
+  .about-finale {
+    min-height: min(100vh, 980px);
+    grid-template-columns: minmax(22rem, 0.9fr) minmax(26rem, 1.1fr);
+    grid-template-rows: minmax(min(100vh, 980px), auto);
+  }
+
+  .about-finale__media {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 100%;
+  }
+
+  .about-finale__media img {
+    object-position: center 10%;
+  }
+
+  .about-finale__veil {
+    background:
+      linear-gradient(90deg, var(--finale-ink) 0%, var(--finale-ink) 40%, rgba(13, 8, 6, 0.35) 52%, transparent 68%),
+      linear-gradient(180deg, transparent 72%, rgba(255, 255, 255, 0.4) 90%, #ffffff 100%);
+  }
+
+  .about-finale__copy {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    justify-self: stretch;
+    padding: 4rem clamp(2.5rem, 5vw, 5rem);
+    max-width: none;
+  }
+
+  .about-finale__title {
+    font-size: clamp(3.25rem, 5.2vw, 5.5rem);
+    text-shadow: none;
+  }
+
+  .about-finale__text {
+    max-width: 24rem;
+  }
+}
+
 /* Responsive */
 /* Tablet and below - History Section */
 @media (max-width: 1024px) {
@@ -1261,6 +1533,10 @@ cubic-bezier(0.16, 1, 0.3, 1);
   
   .about-values__grid {
     grid-template-columns: 1fr;
+  }
+
+  .about-finale {
+    min-height: 85vh;
   }
 }
 
@@ -1337,6 +1613,18 @@ cubic-bezier(0.16, 1, 0.3, 1);
   .about-impact,
   .about-values {
     padding: 4rem 0;
+  }
+
+  .about-finale {
+    min-height: 100svh;
+  }
+
+  .about-finale__media img {
+    object-position: center 18%;
+  }
+
+  .about-finale__copy {
+    padding: 2rem 1.5rem 4.5rem;
   }
   
   .about-innovation__grid {
@@ -1564,7 +1852,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1847,8 +2135,12 @@ cubic-bezier(0.16, 1, 0.3, 1);
     <main id="skip-to-start" class="main-content">
       <!-- Hero Section -->
       <section class="about-hero" id="aboutHero">
-        <div class="about-hero__visual">
-          <img src="img/T0-blue.png" alt="Gatorade Hero" />
+        <div class="about-hero__visual" id="aboutHeroVisual">
+          <div class="about-hero__visual-bg" aria-hidden="true"></div>
+          <div class="about-hero__stage" id="aboutHeroStage">
+            <div class="about-hero__visual-loader" aria-hidden="true"></div>
+            <canvas class="about-hero__canvas" id="aboutHeroCanvas"></canvas>
+          </div>
         </div>
         <div class="about-hero__container">
           <div class="about-hero__content">
@@ -1935,7 +2227,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
                 <source src="vid/history-clark.mp4" type="video/mp4">
               </video>
               <video class="about-history__image animate slide-in" autoplay loop muted playsinline preload="auto" poster="img/history-orange-poster.jpg">
-                <source src="vid/history-orange.mp4" type="video/mp4">
+                <source src="vid/videoplayback1.mp4" type="video/mp4">
               </video>
             </div>
           </div>
@@ -1978,7 +2270,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
             </div>
             <div class="about-mission__image">
               <video autoplay loop muted playsinline preload="auto" poster="img/DF-orange.png" aria-label="Gatorade Mission">
-                <source src="vid/mission-orange.mp4" type="video/mp4">
+                <source src="vid/brithing.mp4" type="video/mp4">
               </video>
             </div>
           </div>
@@ -2100,6 +2392,24 @@ cubic-bezier(0.16, 1, 0.3, 1);
               <p class="about-values__item-text">We believe in the power of sports to bring people together and build stronger communities. We're proud to support athletes at every level.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="about-finale" aria-label="Athlete performance">
+        <figure class="about-finale__media">
+          <img
+            src="img/imgs/about-finale-sprint.jpg"
+            alt="Sprinter charging down the track with electric blue energy tracing her stride"
+            width="1122"
+            height="1402"
+            loading="lazy"
+            decoding="async"
+          >
+        </figure>
+        <div class="about-finale__veil" aria-hidden="true"></div>
+        <div class="about-finale__copy">
+          <h2 class="about-finale__title">Win from within.</h2>
+          <p class="about-finale__text">Science-backed fuel for the moments that demand everything.</p>
         </div>
       </section>
     </main>
@@ -2609,10 +2919,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function initHeroImageReveal() {
     const heroVisual = document.querySelector('.about-hero__visual');
     if (heroVisual) {
-      // Trigger reveal animation on page load
       setTimeout(() => {
         heroVisual.classList.add('revealed');
-      }, 600); // Small delay for smooth entrance
+      }, 200);
     }
   }
 
@@ -2800,6 +3109,16 @@ document.addEventListener('DOMContentLoaded', function() {
         ease: 'power2.out'
       });
     });
+
+    const aboutFinale = document.querySelector('.about-finale');
+    if (aboutFinale) {
+      ScrollTrigger.create({
+        trigger: aboutFinale,
+        start: 'top 75%',
+        onEnter: () => aboutFinale.classList.add('is-inview'),
+        onEnterBack: () => aboutFinale.classList.add('is-inview')
+      });
+    }
 
     // Animate spacing between history title words on page scroll
     const historyTitleWords = document.querySelectorAll('.about-history__title-word');
@@ -3156,7 +3475,126 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
+
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+(function initAboutHero3D() {
+  const visual = document.getElementById('aboutHeroVisual');
+  const stage = document.getElementById('aboutHeroStage') || visual;
+  const canvas = document.getElementById('aboutHeroCanvas');
+  if (!visual || !canvas) return;
+
+  if (window.location.protocol === 'file:') {
+    console.warn('Open about.html via http:// to load the 3D hero model.');
+    return;
+  }
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true,
+    powerPreference: 'high-performance'
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  camera.position.set(1.4, 1.2, 3.2);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.2;
+  controls.enablePan = false;
+  controls.enableZoom = false;
+  controls.minDistance = 1.5;
+  controls.maxDistance = 6;
+  controls.target.set(0, 0.95, 0);
+
+  // Natural sunlight
+  const hemi = new THREE.HemisphereLight(0xb1d0ff, 0xf0e6d8, 0.85);
+  scene.add(hemi);
+
+  const sun = new THREE.DirectionalLight(0xfff1dd, 2.35);
+  sun.position.set(4.5, 8, 2.5);
+  scene.add(sun);
+
+  const skyFill = new THREE.DirectionalLight(0xd7e7ff, 0.45);
+  skyFill.position.set(-3.5, 3, -2);
+  scene.add(skyFill);
+
+  function resize() {
+    const w = stage.clientWidth || 1;
+    const h = stage.clientHeight || 1;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  }
+
+  function frameModel(object) {
+    const box = new THREE.Box3().setFromObject(object);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    object.position.sub(center);
+    object.position.y += size.y * 0.08;
+
+    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+    const fitDist = maxDim / (2 * Math.tan((camera.fov * Math.PI) / 360));
+    camera.position.set(fitDist * 0.35, fitDist * 0.12, fitDist * 1.35);
+    controls.target.set(0, size.y * 0.02, 0);
+    controls.update();
+  }
+
+  // Draco keeps the same mesh detail, but the file is much smaller to download.
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath('js/draco/');
+  dracoLoader.preload();
+
+  const loader = new GLTFLoader();
+  loader.setDRACOLoader(dracoLoader);
+  loader.load(
+    'img/imgs/Meshy_AI_Electric_Stride_optimized.glb',
+    (gltf) => {
+      const modelRoot = gltf.scene;
+      modelRoot.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = false;
+          child.receiveShadow = false;
+        }
+      });
+      scene.add(modelRoot);
+      frameModel(modelRoot);
+      visual.classList.add('is-loaded', 'revealed');
+      resize();
+      dracoLoader.dispose();
+    },
+    undefined,
+    (err) => {
+      console.error('Failed to load hero GLB', err);
+      visual.classList.add('revealed');
+    }
+  );
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  animate();
+})();
+</script>
 
 </body>
 </html>

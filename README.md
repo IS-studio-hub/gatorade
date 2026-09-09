@@ -1,2 +1,2 @@
-# gatorade
-gatorade marketing landing page
+# Gatorade
+Gatorade marketing site.

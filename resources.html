@@ -3,7 +3,7 @@
 <head>
 <base href="./">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Resources - Gatorade Guides & Tools</title>
 <meta name="description" lang="en" content="Browse Gatorade resources including nutrition info, training videos, and performance guidance.">
 <meta name="keywords" content="Resources - Gatorade Guides & Tools">
@@ -17,6 +17,7 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-config" content="#">
 <meta name="theme-color" content="#ffffff">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data: blob:; font-src 'self' https: data:; connect-src 'self' https:; frame-src https:; media-src 'self' https: blob:;">
 <meta property="og:title" content="Resources - Gatorade Guides & Tools">
 <meta property="og:description" content="Browse Gatorade resources including nutrition info, training videos, and performance guidance.">
 <meta property="og:type" content="website">
@@ -36,6 +37,7 @@ var currentURL = "";
 var currentSection = "";
 var isMobile = false;
 var isPad = false;
+/* breakpoint tiers: mobile ≤768, tablet 769–1280, desktop ≥1281 (see js/site-runtime.js) */
 var isiOS = false;
 var SITEKEY = "";
 </script>
@@ -44,6 +46,8 @@ var SITEKEY = "";
 <link rel="stylesheet" href="animate.min.css" type="text/css" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/common.min.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-a11y.css" type="text/css" media="screen">
 
 <!-- Google Fonts Geologica -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +55,6 @@ var SITEKEY = "";
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
 
 <style>
 /* Global animation optimization */
@@ -1240,7 +1243,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 /* Responsive */
 /* Tablet and below - History Section */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .about-hero__content {
     max-width: 100%;
   }
@@ -1600,7 +1603,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1795,13 +1798,13 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1.75rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 769px) {
   .products-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1281px) {
   .products-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -1995,7 +1998,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 100%;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__layout {
     grid-template-columns: 1fr 1.05fr;
     min-height: min(88vh, 900px);
@@ -2010,7 +2013,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__gallery {
     position: sticky;
     top: 0;
@@ -2168,6 +2171,94 @@ body.product-popup-open {
     padding: 1.5rem 1.25rem 2rem;
   }
 }
+
+/* ===== Touch / mobile: no custom cursors ===== */
+
+html.is-touch *,
+html.is-touch *::before,
+html.is-touch *::after {
+  cursor: auto !important;
+}
+html.is-touch a,
+html.is-touch button,
+html.is-touch [role="button"],
+html.is-touch .menu__link,
+html.is-touch .rd-btn,
+html.is-touch .product-card,
+html.is-touch .science-cta,
+html.is-touch .science-button {
+  cursor: pointer !important;
+}
+html.is-touch .menu-trigger-cursor,
+html.is-touch .page-logo-cursor,
+html.is-touch .circle-btn-cursor,
+html.is-touch svg.cursor,
+html.is-touch .cursor {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  svg.cursor,
+  .cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Phones / small tablets: also force default cursors */
+@media (max-width: 1280px) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Global overflow safety for responsive layouts */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img, video, canvas, svg, iframe, spline-viewer {
+  max-width: 100%;
+}
+
 </style>
 <!-- css include END -->
 <!--  -->
@@ -2194,6 +2285,26 @@ body.product-popup-open {
 </script>
 <!-- End Google Tag Manager -->
 
+
+<script>
+(function() {
+  function isTouchLike() {
+    try {
+      return window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+        window.matchMedia('(max-width: 1280px)').matches ||
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0);
+    } catch (e) {
+      return false;
+    }
+  }
+  function apply() {
+    document.documentElement.classList.toggle('is-touch', isTouchLike());
+  }
+  apply();
+  window.addEventListener('resize', apply, { passive: true });
+})();
+</script>
 </head>
 <body class="landing" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
@@ -2202,7 +2313,7 @@ body.product-popup-open {
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<a href="en/#skip-to-start" class="sr-only" id="skip-to-content" title=""></a>
+<a href="#skip-to-start" class="sr-only skip-link" id="skip-to-content">Skip to main content</a>
 <div class="site-wrapper">
   <svg class="cursor" width="25" height="25" viewBox="0 0 25 25">
     <circle class="cursor__inner" cx="12.5" cy="12.5" r="6.25"></circle>
@@ -2234,7 +2345,7 @@ body.product-popup-open {
     </header>
     <div class="menu-col side-col side-col--3">
       <div class="menu-trigger-container">
-        <button type="button" class="menu-trigger js-menu-toggle">
+        <button type="button" class="menu-trigger js-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenuPanel">
           <span class="sr-only">Menu</span>
           <span class="menu-trigger__lines">
             <span class="menu-trigger__lines-sub"></span>
@@ -2268,7 +2379,7 @@ body.product-popup-open {
         </ul>
       </div>
     </div>
-    <div class="menu-panel js-inoutview inview-group" data-animate="fadeInUp">
+    <div class="menu-panel js-inoutview inview-group" id="siteMenuPanel" data-animate="fadeInUp">
       <div class="menu-panel__body">
         <div class="menu-panel__container">
           <nav class="menu-nav">
@@ -2383,7 +2494,7 @@ body.product-popup-open {
         </div>
       </div>
     </div>
-    <main id="skip-to-start" class="main-content">
+    <main id="skip-to-start" class="main-content" tabindex="-1">
       <section class="about-hero products-hero" id="productsHero">
         <div class="about-hero__visual">
           <img src="img/T0-blue.png" alt="Gatorade Resources" />
@@ -2629,6 +2740,9 @@ body.product-popup-open {
 <script>
 // Newsletter button hover tracking animation
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const newsletterBtn = document.querySelector('.rd-btn.rd-btn--black');
   if (!newsletterBtn) return;
 
@@ -2750,10 +2864,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Menu trigger cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const menuTrigger = document.querySelector('.menu-trigger-container');
   const menuCursor = document.querySelector('.menu-trigger-cursor');
   
   if (!menuTrigger || !menuCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2797,10 +2917,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Page logo cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const pageLogo = document.querySelector('.page-logo__item');
   const pageLogoCursor = document.querySelector('.page-logo-cursor');
   
   if (!pageLogo || !pageLogoCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2960,8 +3086,9 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
 
+
+<script src="js/site-runtime.js" defer></script>
 </body>
 </html>
 

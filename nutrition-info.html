@@ -3,7 +3,7 @@
 <head>
 <base href="./">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nutrition Info - Gatorade</title>
 <meta name="description" lang="en" content="Explore nutrition info across Gatorade lines including carbs, electrolytes, sugar profiles, and recovery support.">
 <meta name="keywords" content="Nutrition Info - Gatorade">
@@ -17,6 +17,7 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-config" content="#">
 <meta name="theme-color" content="#ffffff">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data: blob:; font-src 'self' https: data:; connect-src 'self' https:; frame-src https:; media-src 'self' https: blob:;">
 <meta property="og:title" content="Nutrition Info - Gatorade">
 <meta property="og:description" content="Explore nutrition info across Gatorade lines including carbs, electrolytes, sugar profiles, and recovery support.">
 <meta property="og:type" content="website">
@@ -36,6 +37,7 @@ var currentURL = "";
 var currentSection = "";
 var isMobile = false;
 var isPad = false;
+/* breakpoint tiers: mobile ≤768, tablet 769–1280, desktop ≥1281 (see js/site-runtime.js) */
 var isiOS = false;
 var SITEKEY = "";
 </script>
@@ -44,14 +46,16 @@ var SITEKEY = "";
 <link rel="stylesheet" href="animate.min.css" type="text/css" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/common.min.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/site-a11y.css" type="text/css" media="screen">
 
 <!-- Google Fonts Geologica -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
 
 <style>
 /* Global animation optimization */
@@ -1240,7 +1244,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 /* Responsive */
 /* Tablet and below - History Section */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .about-hero__content {
     max-width: 100%;
   }
@@ -1600,7 +1604,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1795,13 +1799,13 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1.75rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 769px) {
   .products-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1281px) {
   .products-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -1995,7 +1999,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 100%;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__layout {
     grid-template-columns: 1fr 1.05fr;
     min-height: min(88vh, 900px);
@@ -2010,7 +2014,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   gap: 1rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
   .product-popup__gallery {
     position: sticky;
     top: 0;
@@ -2168,6 +2172,422 @@ body.product-popup-open {
     padding: 1.5rem 1.25rem 2rem;
   }
 }
+
+/* ===== Touch / mobile: no custom cursors ===== */
+
+html.is-touch *,
+html.is-touch *::before,
+html.is-touch *::after {
+  cursor: auto !important;
+}
+html.is-touch a,
+html.is-touch button,
+html.is-touch [role="button"],
+html.is-touch .menu__link,
+html.is-touch .rd-btn,
+html.is-touch .product-card,
+html.is-touch .science-cta,
+html.is-touch .science-button {
+  cursor: pointer !important;
+}
+html.is-touch .menu-trigger-cursor,
+html.is-touch .page-logo-cursor,
+html.is-touch .circle-btn-cursor,
+html.is-touch svg.cursor,
+html.is-touch .cursor {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  svg.cursor,
+  .cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Phones / small tablets: also force default cursors */
+@media (max-width: 1280px) {
+  html, body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], input, select, textarea, label,
+  .menu__link, .menu__item, .rd-btn, .product-card, .ico-link,
+  .lang-link, .work-cta, .science-cta, .science-button,
+  .js-menu-toggle, .menu-trigger, .page-logo, .circle-btn {
+    cursor: pointer !important;
+  }
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Global overflow safety for responsive layouts */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img, video, canvas, svg, iframe, spline-viewer {
+  max-width: 100%;
+}
+
+
+/* ========== NUTRITION LAB (Jordi-inspired immersive) ========== */
+body.nutrition-lab-page .footer.ft,
+body.nutrition-lab-page .anchor-bar,
+body.nutrition-lab-page .page-marquee {
+  display: none !important;
+}
+body.nutrition-lab-page .main-content {
+  background: #2f2e29 !important;
+  min-height: 100vh;
+  padding: 0 !important;
+  position: relative;
+}
+body.nutrition-lab-page .main-content * {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+
+.nx-lab {
+  --nx-bg: #2f2e29;
+  --nx-ink: #f4f2ea;
+  --nx-dim: rgba(244, 242, 234, 0.55);
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--nx-bg);
+  color: var(--nx-ink);
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.nx-lab a { color: inherit; text-decoration: none; }
+.nx-lab button {
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+.nx-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: var(--nx-bg);
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+.nx-loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.nx-loader__row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-weight: 400;
+}
+.nx-loader__bracket {
+  display: inline-flex;
+  gap: 0.35rem;
+  min-width: 2.2rem;
+  justify-content: center;
+}
+.nx-loader__dot {
+  animation: nxPulse 1s steps(2, end) infinite;
+}
+@keyframes nxPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.nx-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  pointer-events: none;
+  font-size: clamp(0.62rem, 1.05vw, 0.78rem);
+  line-height: 1.35;
+}
+.nx-header__brand { justify-self: start; }
+.nx-header__role { justify-self: center; text-align: center; color: var(--nx-dim); }
+.nx-header__role strong { display: block; color: var(--nx-ink); font-weight: 500; }
+.nx-header__loc { justify-self: end; text-align: right; color: var(--nx-dim); }
+.nx-header__loc span { display: block; color: var(--nx-ink); }
+
+.nx-side {
+  position: absolute;
+  top: 50%;
+  z-index: 18;
+  transform: translateY(-50%);
+  font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+  max-width: 10rem;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.nx-side--left { left: 1.25rem; }
+.nx-side--right { right: 1.25rem; text-align: right; color: var(--nx-dim); }
+
+.nx-follower {
+  position: fixed;
+  z-index: 30;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -120%);
+  pointer-events: none;
+  font-size: 0.7rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  mix-blend-mode: difference;
+}
+.nx-lab.is-hovering .nx-follower { opacity: 1; }
+
+.nx-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  perspective: 1400px;
+  perspective-origin: 50% 48%;
+}
+.nx-ring {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translate(-50%, -50%) rotateY(0deg);
+  will-change: transform;
+}
+.nx-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(28vw, 280px);
+  height: min(40vw, 400px);
+  margin-left: calc(min(28vw, 280px) / -2);
+  margin-top: calc(min(40vw, 400px) / -2);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1c1b18;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.nx-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.92) contrast(1.05);
+  transition: filter 0.4s ease;
+}
+.nx-card.is-active img { filter: none; }
+.nx-card__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(20,18,14,0.72) 100%);
+  pointer-events: none;
+}
+.nx-card__label {
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  font-size: 0.62rem;
+  line-height: 1.3;
+  z-index: 2;
+}
+
+.nx-list {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  overflow: auto;
+  padding: 6.5rem 8vw 7rem;
+  display: none;
+  scrollbar-width: none;
+}
+.nx-lab[data-view="list"] .nx-list { display: block; }
+.nx-lab[data-view="list"] .nx-stage,
+.nx-lab[data-view="list"] .nx-side { display: none; }
+.nx-list::-webkit-scrollbar { display: none; }
+.nx-list__item {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgba(244,242,234,0.14);
+  cursor: pointer;
+  transition: color 0.25s ease, padding-left 0.35s ease;
+}
+.nx-list__item:hover {
+  color: #fff;
+  padding-left: 0.5rem;
+}
+.nx-list__num { color: var(--nx-dim); }
+.nx-list__meta {
+  text-align: right;
+  color: var(--nx-dim);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+.nx-list__title { font-size: clamp(0.95rem, 2vw, 1.35rem); }
+.nx-list__type { display: block; color: var(--nx-dim); font-size: 0.68rem; margin-top: 0.25rem; }
+
+.nx-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 22;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1.1rem 1.35rem 1.25rem;
+  font-size: clamp(0.62rem, 1.05vw, 0.75rem);
+  background: linear-gradient(180deg, transparent, rgba(47,46,41,0.88) 40%);
+}
+.nx-nav__col { display: flex; flex-direction: column; gap: 0.35rem; }
+.nx-nav__col--center { align-items: center; }
+.nx-nav__col--right { align-items: flex-end; }
+.nx-nav__item.is-active { color: var(--nx-ink); }
+.nx-nav__item:not(.is-active) { color: var(--nx-dim); }
+.nx-nav__item:hover { color: var(--nx-ink); }
+
+.nx-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 35;
+  background: rgba(20, 18, 14, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.nx-detail.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.nx-detail__panel {
+  width: min(520px, 92vw);
+  background: #26251f;
+  border: 1px solid rgba(244,242,234,0.12);
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem 1.35rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.nx-detail__panel * { text-transform: none !important; letter-spacing: 0 !important; }
+.nx-detail__kicker {
+  font-size: 0.68rem;
+  text-transform: uppercase !important;
+  letter-spacing: 0.14em !important;
+  color: var(--nx-dim);
+  margin-bottom: 0.65rem;
+}
+.nx-detail__title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin: 0 0 0.75rem;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-weight: 500;
+}
+.nx-detail__text {
+  margin: 0 0 1.25rem;
+  color: rgba(244,242,234,0.78);
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+.nx-detail__close {
+  font-size: 0.72rem;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--nx-dim);
+}
+.nx-detail__close:hover { color: var(--nx-ink); }
+
+@media (max-width: 768px) {
+  .nx-header {
+    grid-template-columns: 1fr 1fr;
+    padding: 0.9rem 0.9rem;
+  }
+  .nx-header__role { display: none; }
+  .nx-side { display: none; }
+  .nx-card {
+    width: min(58vw, 220px);
+    height: min(82vw, 310px);
+    margin-left: calc(min(58vw, 220px) / -2);
+    margin-top: calc(min(82vw, 310px) / -2);
+  }
+  .nx-nav {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+  }
+  .nx-nav__col,
+  .nx-nav__col--center,
+  .nx-nav__col--right {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+  .nx-list { padding: 5.5rem 1.1rem 8rem; }
+  .nx-list__item { grid-template-columns: 2.2rem 1fr; }
+  .nx-list__meta { display: none; }
+}
+
 </style>
 <!-- css include END -->
 <!--  -->
@@ -2194,6 +2614,26 @@ body.product-popup-open {
 </script>
 <!-- End Google Tag Manager -->
 
+
+<script>
+(function() {
+  function isTouchLike() {
+    try {
+      return window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+        window.matchMedia('(max-width: 1280px)').matches ||
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0);
+    } catch (e) {
+      return false;
+    }
+  }
+  function apply() {
+    document.documentElement.classList.toggle('is-touch', isTouchLike());
+  }
+  apply();
+  window.addEventListener('resize', apply, { passive: true });
+})();
+</script>
 </head>
 <body class="landing" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
@@ -2202,7 +2642,7 @@ body.product-popup-open {
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<a href="en/#skip-to-start" class="sr-only" id="skip-to-content" title=""></a>
+<a href="#skip-to-start" class="sr-only skip-link" id="skip-to-content">Skip to main content</a>
 <div class="site-wrapper">
   <svg class="cursor" width="25" height="25" viewBox="0 0 25 25">
     <circle class="cursor__inner" cx="12.5" cy="12.5" r="6.25"></circle>
@@ -2234,7 +2674,7 @@ body.product-popup-open {
     </header>
     <div class="menu-col side-col side-col--3">
       <div class="menu-trigger-container">
-        <button type="button" class="menu-trigger js-menu-toggle">
+        <button type="button" class="menu-trigger js-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenuPanel">
           <span class="sr-only">Menu</span>
           <span class="menu-trigger__lines">
             <span class="menu-trigger__lines-sub"></span>
@@ -2268,7 +2708,7 @@ body.product-popup-open {
         </ul>
       </div>
     </div>
-    <div class="menu-panel js-inoutview inview-group" data-animate="fadeInUp">
+    <div class="menu-panel js-inoutview inview-group" id="siteMenuPanel" data-animate="fadeInUp">
       <div class="menu-panel__body">
         <div class="menu-panel__container">
           <nav class="menu-nav">
@@ -2383,120 +2823,60 @@ body.product-popup-open {
         </div>
       </div>
     </div>
-    <main id="skip-to-start" class="main-content">
-      <section class="about-hero products-hero" id="productsHero">
-        <div class="about-hero__visual">
-          <img src="img/rawImage.jpg" alt="Nutrition Info" />
-        </div>
-        <div class="about-hero__container">
-          <div class="about-hero__content">
-            <h1 class="about-hero__title">
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Nutrition</span>
-              </span>
-              <span class="about-hero__title-line">
-                <span class="about-hero__title-word">Info</span>
-              </span>
-            </h1>
-            <div class="about-hero__subtitle">
-              <div>
-                <div>Understand how carbs, electrolytes, and product types fit different performance goals.</div>
-              </div>
-            </div>
+    <main id="skip-to-start" class="main-content" tabindex="-1">
+      <section class="nx-lab" id="nxLab" data-view="gallery" aria-label="Nutrition Lab">
+        <div class="nx-loader" id="nxLoader" aria-hidden="true">
+          <div class="nx-loader__row">
+            <span>Loading experience</span>
+            <span class="nx-loader__bracket">[<span class="nx-loader__dot">·</span>]</span>
+            <span>it won't be long</span>
           </div>
         </div>
-      </section>
 
-      <section class="products-section" id="products">
-        <div class="products-section__container">
-          <div class="products-section__header">
-            <div class="products-section__surtitle">Fuel Basics</div>
-            <h2 class="products-section__title">
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Know</span>
-              </span>
-              <span class="products-section__title-line">
-                <span class="products-section__title-word">Your Fuel</span>
-              </span>
-            </h2>
-            <p class="products-section__intro">Not every athlete needs the same formula at every moment. Nutrition starts with context.</p>
+        <header class="nx-header">
+          <div class="nx-header__brand">Gatorade<br>Nutrition</div>
+          <div class="nx-header__role">
+            <strong>Nutrition Lab</strong>
+            Science-backed fuel
           </div>
+          <div class="nx-header__loc">
+            <span id="nxClock">--:--</span>
+            <span id="nxStatus">Fueling performance</span>
+          </div>
+        </header>
 
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">What To Compare</div>
-              <p class="info-section__text">Key factors across different product lines.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Sugar Level" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Energy Load</span>
-                  <h3 class="product-card__title">Sugar Level</h3>
-                  <p class="product-card__text">Classic Thirst Quencher carries more carbohydrate than Zero or Lower Sugar lines.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Electrolyte Level" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Hydration Need</span>
-                  <h3 class="product-card__title">Electrolyte Level</h3>
-                  <p class="product-card__text">Rapid rehydration and endurance products emphasize stronger electrolyte support.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="Protein" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Recovery</span>
-                  <h3 class="product-card__title">Protein</h3>
-                  <p class="product-card__text">Bars and recovery products serve the post-workout phase rather than during-activity hydration.</p>
-                </div>
-              </article>
-            </div>
+        <div class="nx-side nx-side--left" id="nxSideTitle">Sugar Level</div>
+        <div class="nx-side nx-side--right" id="nxSideType">Energy Load</div>
+        <div class="nx-follower" id="nxFollower">[VIEW DETAILS]</div>
+
+        <div class="nx-stage" id="nxStage">
+          <div class="nx-ring" id="nxRing"></div>
+        </div>
+
+        <div class="nx-list" id="nxList" aria-label="Nutrition topics list"></div>
+
+        <nav class="nx-nav" aria-label="Nutrition navigation">
+          <div class="nx-nav__col">
+            <a class="nx-nav__item is-active" href="nutrition-info.html">[ · ] Fuel</a>
+            <a class="nx-nav__item" href="electrolyte-science.html">[ ] Electrolytes</a>
+            <a class="nx-nav__item" href="formula.html">[ ] Formula</a>
           </div>
-          <div class="info-section">
-            <div class="info-section__header">
-              <div class="info-section__surtitle">Use Cases</div>
-              <p class="info-section__text">Think by session type.</p>
-            </div>
-            <div class="products-grid">
-              <article class="product-card" style="--accent:#F15A22">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/orange.svg" alt="Light Workouts" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Lower Demand</span>
-                  <h3 class="product-card__title">Light Workouts</h3>
-                  <p class="product-card__text">Zero or lighter hydration choices may fit low-to-moderate sessions.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#00A3E0">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/cool-blue.svg" alt="Hard Sessions" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">High Sweat</span>
-                  <h3 class="product-card__title">Hard Sessions</h3>
-                  <p class="product-card__text">Classic or advanced electrolyte formulas better support heavy effort.</p>
-                </div>
-              </article>
-              <article class="product-card" style="--accent:#C6373C">
-                <div class="product-card__media">
-                  <img src="img/products/flavors/fruit-punch.svg" alt="After Training" />
-                </div>
-                <div class="product-card__body">
-                  <span class="product-card__tag">Recovery Window</span>
-                  <h3 class="product-card__title">After Training</h3>
-                  <p class="product-card__text">Rehydration and recovery products help complete the performance cycle.</p>
-                </div>
-              </article>
-            </div>
+          <div class="nx-nav__col nx-nav__col--center">
+            <button type="button" class="nx-nav__item is-active" data-nx-view="gallery">[ · ] Gallery</button>
+            <button type="button" class="nx-nav__item" data-nx-view="list">[ ] List</button>
+          </div>
+          <div class="nx-nav__col nx-nav__col--right">
+            <a class="nx-nav__item" href="products.html">[Products]</a>
+            <a class="nx-nav__item" href="athletes.html">[Athletes]</a>
+          </div>
+        </nav>
+
+        <div class="nx-detail" id="nxDetail" aria-hidden="true">
+          <div class="nx-detail__panel" role="dialog" aria-modal="true" aria-labelledby="nxDetailTitle">
+            <div class="nx-detail__kicker" id="nxDetailKicker"></div>
+            <h2 class="nx-detail__title" id="nxDetailTitle"></h2>
+            <p class="nx-detail__text" id="nxDetailText"></p>
+            <button type="button" class="nx-detail__close" id="nxDetailClose">[Close]</button>
           </div>
         </div>
       </section>
@@ -2629,6 +3009,9 @@ body.product-popup-open {
 <script>
 // Newsletter button hover tracking animation
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const newsletterBtn = document.querySelector('.rd-btn.rd-btn--black');
   if (!newsletterBtn) return;
 
@@ -2750,10 +3133,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Menu trigger cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const menuTrigger = document.querySelector('.menu-trigger-container');
   const menuCursor = document.querySelector('.menu-trigger-cursor');
   
   if (!menuTrigger || !menuCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2797,10 +3186,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Page logo cursor animation (black filled dot, same as other pages)
 document.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   const pageLogo = document.querySelector('.page-logo__item');
   const pageLogoCursor = document.querySelector('.page-logo-cursor');
   
   if (!pageLogo || !pageLogoCursor) return;
+  if (document.documentElement.classList.contains('is-touch') || window.matchMedia('(hover: none), (pointer: coarse)').matches || window.matchMedia('(max-width: 1280px)').matches) {
+    return;
+  }
   
   let mouseX = 0;
   let mouseY = 0;
@@ -2960,8 +3355,270 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
 
+
+
+<script>
+(function() {
+  document.body.classList.add('nutrition-lab-page');
+
+  var items = [
+    {
+      title: 'Sugar Level',
+      type: 'Energy Load',
+      tech: 'Carbs · Thirst Quencher · Zero',
+      year: 'Fuel',
+      text: 'Classic Thirst Quencher carries more carbohydrate than Zero or Lower Sugar lines — match sugar load to session intensity.',
+      image: 'img/products/flavors/orange.png'
+    },
+    {
+      title: 'Electrolyte Level',
+      type: 'Hydration Need',
+      tech: 'Sodium · Potassium · Rapid Rehydrate',
+      year: 'Hydrate',
+      text: 'Rapid rehydration and endurance products emphasize stronger electrolyte support when sweat loss climbs.',
+      image: 'img/products/flavors/cool-blue.png'
+    },
+    {
+      title: 'Protein',
+      type: 'Recovery',
+      tech: 'Bars · Recover · Rebuild',
+      year: 'Recover',
+      text: 'Bars and recovery products serve the post-workout phase rather than during-activity hydration.',
+      image: 'img/products/flavors/fruit-punch.png'
+    },
+    {
+      title: 'Light Workouts',
+      type: 'Lower Demand',
+      tech: 'Zero · Moderate · Daily',
+      year: 'Train',
+      text: 'Zero or lighter hydration choices may fit low-to-moderate sessions where carbohydrate demand stays modest.',
+      image: 'img/athlete-swimmer-energy.jpg'
+    },
+    {
+      title: 'Hard Sessions',
+      type: 'High Sweat',
+      tech: 'Classic · Endurance · Heat',
+      year: 'Compete',
+      text: 'Classic or advanced electrolyte formulas better support heavy effort, heat, and high output.',
+      image: 'img/imgs/about-finale-sprint.jpg'
+    },
+    {
+      title: 'After Training',
+      type: 'Recovery Window',
+      tech: 'Rehydrate · Refuel · Reset',
+      year: 'Recover',
+      text: 'Rehydration and recovery products help complete the performance cycle once the session ends.',
+      image: 'img/imgs/products-finale-gymnast.jpg'
+    },
+    {
+      title: 'Carb Timing',
+      type: 'Fuel Window',
+      tech: 'Pre · During · Post',
+      year: 'Science',
+      text: 'Carbohydrate timing shapes available energy — before for priming, during for sustain, after for refill.',
+      image: 'img/athlete-soccer-energy.jpg'
+    },
+    {
+      title: 'Hydration Science',
+      type: 'Lab Notes',
+      tech: 'Fluid · Electrolytes · Absorption',
+      year: 'Lab',
+      text: 'Effective hydration pairs fluid with electrolytes so absorption and retention keep pace with sweat loss.',
+      image: 'img/athlete-racer-energy.jpg'
+    }
+  ];
+
+  var lab = document.getElementById('nxLab');
+  if (!lab) return;
+
+  var ring = document.getElementById('nxRing');
+  var list = document.getElementById('nxList');
+  var loader = document.getElementById('nxLoader');
+  var sideTitle = document.getElementById('nxSideTitle');
+  var sideType = document.getElementById('nxSideType');
+  var follower = document.getElementById('nxFollower');
+  var detail = document.getElementById('nxDetail');
+  var clock = document.getElementById('nxClock');
+  var statusEl = document.getElementById('nxStatus');
+
+  var radius = Math.min(window.innerWidth * 0.42, 520);
+  var angleStep = 360 / items.length;
+  var rotation = 0;
+  var targetRotation = 0;
+  var active = 0;
+  var dragging = false;
+  var lastX = 0;
+  var cards = [];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function updateClock() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var hr = h % 12 || 12;
+    if (clock) clock.textContent = hr + ':' + pad(m) + ' ' + ampm;
+    if (statusEl) {
+      var hour = d.getHours();
+      statusEl.textContent = hour < 11 ? 'Morning session ready' : hour < 17 ? 'Training window open' : 'Recovery mode on';
+    }
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  items.forEach(function(item, i) {
+    var card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'nx-card';
+    card.setAttribute('data-index', String(i));
+    card.innerHTML = '<img src="' + item.image + '" alt="' + item.title + '" loading="lazy"><div class="nx-card__veil"></div><div class="nx-card__label">' + item.title + '</div>';
+    ring.appendChild(card);
+    cards.push(card);
+
+    var row = document.createElement('div');
+    row.className = 'nx-list__item';
+    row.setAttribute('data-index', String(i));
+    row.innerHTML = '<div class="nx-list__num">' + pad(i + 1) + '</div><div><div class="nx-list__title">' + item.title + '</div><span class="nx-list__type">' + item.type + '</span></div><div class="nx-list__meta">' + item.tech + '<br>' + item.year + '</div>';
+    list.appendChild(row);
+  });
+
+  function layoutCards() {
+    radius = Math.min(window.innerWidth * 0.42, 520);
+    cards.forEach(function(card, i) {
+      var a = i * angleStep;
+      card.style.transform = 'rotateY(' + a + 'deg) translateZ(' + radius + 'px)';
+    });
+  }
+  layoutCards();
+
+  function nearestIndex() {
+    var normalized = ((-targetRotation % 360) + 360) % 360;
+    return Math.round(normalized / angleStep) % items.length;
+  }
+
+  function setActive(i) {
+    active = (i + items.length) % items.length;
+    cards.forEach(function(c, idx) { c.classList.toggle('is-active', idx === active); });
+    sideTitle.textContent = items[active].title;
+    sideType.textContent = items[active].type;
+  }
+
+  function animate() {
+    rotation += (targetRotation - rotation) * 0.08;
+    ring.style.transform = 'translate(-50%, -50%) rotateY(' + rotation + 'deg)';
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  function snapTo(i) {
+    var current = ((-targetRotation / angleStep) % items.length + items.length) % items.length;
+    var delta = i - current;
+    if (delta > items.length / 2) delta -= items.length;
+    if (delta < -items.length / 2) delta += items.length;
+    targetRotation -= delta * angleStep;
+    setActive(i);
+  }
+
+  function onWheel(e) {
+    if (lab.getAttribute('data-view') !== 'gallery') return;
+    e.preventDefault();
+    targetRotation -= Math.sign(e.deltaY) * (angleStep * 0.35);
+    setActive(nearestIndex());
+  }
+  lab.addEventListener('wheel', onWheel, { passive: false });
+
+  lab.addEventListener('pointerdown', function(e) {
+    if (lab.getAttribute('data-view') !== 'gallery') return;
+    if (e.target.closest('.nx-nav, .nx-detail, .nx-loader')) return;
+    dragging = true;
+    lastX = e.clientX;
+    lab.setPointerCapture(e.pointerId);
+  });
+  lab.addEventListener('pointermove', function(e) {
+    if (!dragging) {
+      if (follower) {
+        follower.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px) translate(-50%, -120%)';
+      }
+      return;
+    }
+    var dx = e.clientX - lastX;
+    lastX = e.clientX;
+    targetRotation += dx * 0.25;
+    setActive(nearestIndex());
+  });
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    snapTo(nearestIndex());
+  }
+  lab.addEventListener('pointerup', endDrag);
+  lab.addEventListener('pointercancel', endDrag);
+
+  lab.addEventListener('pointerover', function(e) {
+    if (e.target.closest('.nx-card, .nx-list__item')) lab.classList.add('is-hovering');
+  });
+  lab.addEventListener('pointerout', function(e) {
+    if (!e.relatedTarget || !lab.contains(e.relatedTarget) || !e.relatedTarget.closest('.nx-card, .nx-list__item')) {
+      lab.classList.remove('is-hovering');
+    }
+  });
+
+  function openDetail(i) {
+    var item = items[i];
+    document.getElementById('nxDetailKicker').textContent = item.type + ' · ' + item.year;
+    document.getElementById('nxDetailTitle').textContent = item.title;
+    document.getElementById('nxDetailText').textContent = item.text;
+    detail.classList.add('is-open');
+    detail.setAttribute('aria-hidden', 'false');
+  }
+  function closeDetail() {
+    detail.classList.remove('is-open');
+    detail.setAttribute('aria-hidden', 'true');
+  }
+
+  ring.addEventListener('click', function(e) {
+    var card = e.target.closest('.nx-card');
+    if (!card) return;
+    var i = Number(card.getAttribute('data-index'));
+    if (i === active) openDetail(i);
+    else snapTo(i);
+  });
+  list.addEventListener('click', function(e) {
+    var row = e.target.closest('.nx-list__item');
+    if (!row) return;
+    openDetail(Number(row.getAttribute('data-index')));
+  });
+  document.getElementById('nxDetailClose').addEventListener('click', closeDetail);
+  detail.addEventListener('click', function(e) {
+    if (e.target === detail) closeDetail();
+  });
+
+  lab.querySelectorAll('[data-nx-view]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var view = btn.getAttribute('data-nx-view');
+      lab.setAttribute('data-view', view);
+      lab.querySelectorAll('[data-nx-view]').forEach(function(b) {
+        var on = b.getAttribute('data-nx-view') === view;
+        b.classList.toggle('is-active', on);
+        b.textContent = on ? '[ · ] ' + (view === 'gallery' ? 'Gallery' : 'List') : '[ ] ' + (b.getAttribute('data-nx-view') === 'gallery' ? 'Gallery' : 'List');
+      });
+    });
+  });
+
+  window.addEventListener('resize', function() {
+    layoutCards();
+    snapTo(active);
+  });
+
+  setActive(0);
+  window.setTimeout(function() {
+    if (loader) loader.classList.add('is-done');
+  }, 1200);
+})();
+</script>
+
+<script src="js/site-runtime.js" defer></script>
 </body>
 </html>
 

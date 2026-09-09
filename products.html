@@ -51,7 +51,17 @@ var SITEKEY = "";
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/index.min.css" type="text/css" media="screen">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.90/build/spline-viewer.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<link rel="preload" href="img/imgs/Meshy_AI_Radiant_Warrior_optimized.glb" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="js/draco/draco_decoder.wasm" as="fetch" crossorigin="anonymous">
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 
 <style>
 /* Global animation optimization */
@@ -530,30 +540,101 @@ body.impact-active .about-values__item-text {
 
 .about-hero__visual {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.about-hero__visual-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #fff;
+  pointer-events: none;
+}
+
+.about-hero__stage {
+  position: absolute;
   top: 0;
   right: 0;
   width: 50%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
-  transform-origin: center center;
-  will-change: transform, opacity;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.about-hero__visual img {
+.about-hero__canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
+  display: block;
+  touch-action: none;
+  background: transparent;
 }
 
-.about-hero__visual.revealed img {
-  transform: translateX(0);
-  opacity: 1;
+.about-hero__visual-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border: 2px solid rgba(20, 104, 162, 0.2);
+  border-top-color: #1468a2;
+  border-radius: 50%;
+  animation: heroSpin 0.9s linear infinite;
+  pointer-events: none;
+}
+
+.about-hero__visual.is-loaded .about-hero__visual-loader {
+  display: none;
+}
+
+@keyframes heroSpin {
+  to { transform: rotate(360deg); }
+}
+
+.about-hero__container {
+  pointer-events: none;
+}
+
+.about-hero__container a,
+.about-hero .work-cta {
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-hero__visual-bg {
+    background: #fff;
+  }
+
+  .about-hero__stage {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    right: auto;
+  }
+
+  .about-hero__container {
+    position: relative;
+    z-index: 2;
+    padding: 6rem 1.25rem 5rem;
+  }
+
+  .about-hero__content {
+    max-width: 100%;
+  }
 }
 
 /* Work CTA component - left bottom corner */
@@ -1315,6 +1396,11 @@ cubic-bezier(0.16, 1, 0.3, 1);
     min-height: auto;
     padding: 4rem 0;
   }
+
+  .products-hero.about-hero {
+    min-height: 100vh;
+    padding: 0;
+  }
   
   .about-history {
     padding: 4rem 0;
@@ -1600,7 +1686,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 6;
   padding-top: 4.1666666667vw;
-  padding-bottom: 15.8333333333vw;
+  padding-bottom: 25vw;
   color: #000;
   background-color: #fff;
 }
@@ -1667,10 +1753,6 @@ cubic-bezier(0.16, 1, 0.3, 1);
 
 
 /* ========== PRODUCTS PAGE ========== */
-.products-hero .about-hero__visual img {
-  filter: contrast(1.05) saturate(1.1);
-}
-
 .products-section {
   padding: 6rem 0 8rem;
   background: #fff;
@@ -1831,19 +1913,37 @@ cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 1.25rem 0;
-  background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+  padding: 1.5rem 1.25rem 1rem;
+  overflow: hidden;
+  background: transparent;
 }
 
 .product-card__media img {
-  width: 78%;
+  width: 62%;
   height: auto;
-  max-height: 100%;
+  max-height: 78%;
   object-fit: contain;
+  object-position: center;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .product-card:hover .product-card__media img {
+  transform: scale(1.04) translateY(-4px);
+}
+
+.product-card--svg .product-card__media {
+  padding: 1.25rem 1.25rem 0;
+  background: transparent;
+}
+
+.product-card--svg .product-card__media img {
+  width: 62%;
+  height: auto;
+  max-height: 78%;
+  object-fit: contain;
+}
+
+.product-card--svg:hover .product-card__media img {
   transform: scale(1.04) translateY(-4px);
 }
 
@@ -1887,15 +1987,13 @@ cubic-bezier(0.16, 1, 0.3, 1);
   margin-top: 0.35rem;
 }
 
-/* Product popup */
+/* Product detail — left side drawer */
 .product-popup {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
+  display: block;
+  padding: 0;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -1911,24 +2009,32 @@ cubic-bezier(0.16, 1, 0.3, 1);
 .product-popup__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.62);
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .product-popup__dialog {
-  position: relative;
-  width: min(960px, 100%);
-  max-height: min(88vh, 900px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(480px, 100%);
+  max-height: 100%;
+  height: 100%;
   overflow: auto;
+  overscroll-behavior: contain;
   background: #fff;
-  border-radius: 28px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.28);
-  transform: translateY(24px) scale(0.98);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0;
+  box-shadow: 18px 0 60px rgba(0, 0, 0, 0.22);
+  transform: translateX(-105%);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
 }
 
 .product-popup.is-open .product-popup__dialog {
-  transform: translateY(0) scale(1);
+  transform: translateX(0);
 }
 
 .product-popup__close {
@@ -1952,6 +2058,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   justify-content: center;
   line-height: 0;
   font-size: 0;
+  cursor: pointer;
 }
 
 .product-popup__close svg {
@@ -1967,50 +2074,36 @@ cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .product-popup__layout {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
-}
-
-@media (min-width: 800px) {
-  .product-popup__layout {
-    grid-template-columns: 1fr 1.05fr;
-    min-height: min(88vh, 900px);
-  }
+  flex: 1;
 }
 
 .product-popup__gallery {
   background: #f2f2f2;
-  padding: 1.75rem;
+  padding: 1.5rem 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-@media (min-width: 800px) {
-  .product-popup__gallery {
-    position: sticky;
-    top: 0;
-    align-self: stretch;
-    min-height: 100%;
-  }
+  gap: 0.85rem;
+  flex-shrink: 0;
 }
 
 .product-popup__stage {
-  background: #fff;
+  background: transparent;
   border-radius: 20px;
-  padding: 2rem 1.5rem;
+  padding: 1.25rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 300px;
-  flex: 1;
+  min-height: 240px;
+  overflow: hidden;
 }
 
 .product-popup__hero-img {
   width: auto;
-  max-width: 55%;
-  max-height: 340px;
+  max-width: 42%;
+  max-height: 280px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -2020,7 +2113,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 .product-popup__thumbs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem;
+  gap: 0.75rem;
 }
 
 .product-popup__thumbs img {
@@ -2029,13 +2122,14 @@ cubic-bezier(0.16, 1, 0.3, 1);
   height: auto;
   object-fit: cover;
   object-position: center top;
-  border-radius: 16px;
+  border-radius: 14px;
   display: block;
   background: #e8e8e8;
 }
 
 .product-popup__content {
-  padding: 2.25rem 2rem 2.5rem;
+  padding: 1.75rem 1.5rem 2.5rem;
+  flex: 1;
 }
 
 .product-popup__eyebrow {
@@ -2048,15 +2142,16 @@ cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .product-popup__title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
   font-weight: 300;
   letter-spacing: -0.02em;
   margin: 0 0 1rem;
   color: #111;
+  padding-right: 2.5rem;
 }
 
 .product-popup__desc {
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.7;
   color: #444;
   font-weight: 300;
@@ -2067,7 +2162,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .product-popup__chip {
@@ -2090,7 +2185,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
 .product-popup__list li {
   position: relative;
   padding-left: 1.25rem;
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   line-height: 1.55;
   color: #333;
   font-weight: 300;
@@ -2120,6 +2215,31 @@ body.product-popup-open {
   overflow: hidden;
 }
 
+@media (min-width: 769px) {
+  .product-popup__dialog {
+    width: min(520px, 92vw);
+  }
+
+  .product-popup__stage {
+    min-height: 280px;
+  }
+
+  .product-popup__hero-img {
+    max-width: 46%;
+    max-height: 320px;
+  }
+
+  .product-popup__content {
+    padding: 2rem 1.75rem 2.75rem;
+  }
+}
+
+@media (min-width: 1281px) {
+  .product-popup__dialog {
+    width: min(560px, 40vw);
+  }
+}
+
 @media (max-width: 768px) {
   .products-section__container {
     padding: 0 1.5rem;
@@ -2127,22 +2247,195 @@ body.product-popup-open {
   .products-grid {
     grid-template-columns: 1fr;
   }
-  .product-popup {
-    padding: 0.75rem;
+  .product-popup__dialog {
+    width: min(100%, 100vw);
   }
   .product-popup__gallery {
     padding: 1.15rem;
   }
   .product-popup__stage {
-    min-height: 220px;
-    padding: 1.1rem;
+    min-height: 200px;
+    padding: 0.75rem;
   }
   .product-popup__hero-img {
-    max-width: 55%;
-    max-height: 240px;
+    max-width: 52%;
+    max-height: 220px;
   }
   .product-popup__content {
-    padding: 1.5rem 1.25rem 2rem;
+    padding: 1.35rem 1.25rem 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-popup,
+  .product-popup__dialog {
+    transition: none;
+  }
+}
+
+/* Products finale — full-bleed closer before footer */
+.products-finale {
+  --finale-ink: #071018;
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--finale-ink);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(100svh, auto);
+}
+
+.products-finale__media {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--finale-ink);
+}
+
+.products-finale__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 22%;
+  transform: scale(1.06);
+  transform-origin: center 30%;
+  will-change: transform;
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.products-finale.is-inview .products-finale__media img {
+  transform: scale(1);
+}
+
+.products-finale__veil {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(7, 16, 24, 0.28) 0%, transparent 26%),
+    linear-gradient(180deg, transparent 48%, rgba(7, 16, 24, 0.55) 74%, #ffffff 100%);
+}
+
+.products-finale__copy {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 2;
+  align-self: end;
+  justify-self: start;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem) clamp(3.5rem, 8vw, 6.5rem);
+  max-width: 42rem;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.products-finale.is-inview .products-finale__copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.products-finale__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 5.5vw, 4.75rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.products-finale__text {
+  margin: 0.85rem 0 0;
+  max-width: 28rem;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.main-content.mission-active .products-finale__title,
+.main-content.mission-active .products-finale__title *,
+.main-content.mission-active .products-finale__text,
+.main-content.mission-active .products-finale__text *,
+.main-content:not(.mission-active) .products-finale__title,
+.main-content:not(.mission-active) .products-finale__title *,
+.main-content:not(.mission-active) .products-finale__text,
+.main-content:not(.mission-active) .products-finale__text * {
+  color: #fff !important;
+}
+
+@media (min-width: 1025px) {
+  .products-finale {
+    min-height: min(100vh, 980px);
+    grid-template-columns: minmax(22rem, 0.9fr) minmax(26rem, 1.1fr);
+    grid-template-rows: minmax(min(100vh, 980px), auto);
+  }
+
+  .products-finale__media {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 100%;
+  }
+
+  .products-finale__media img {
+    object-position: center 18%;
+  }
+
+  .products-finale__veil {
+    background:
+      linear-gradient(90deg, var(--finale-ink) 0%, var(--finale-ink) 40%, rgba(7, 16, 24, 0.4) 52%, transparent 68%),
+      linear-gradient(180deg, transparent 72%, rgba(255, 255, 255, 0.4) 90%, #ffffff 100%);
+  }
+
+  .products-finale__copy {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    justify-self: stretch;
+    padding: 4rem clamp(2.5rem, 5vw, 5rem);
+    max-width: none;
+  }
+
+  .products-finale__title {
+    font-size: clamp(3.25rem, 5.2vw, 5.5rem);
+    text-shadow: none;
+  }
+
+  .products-finale__text {
+    max-width: 24rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .products-finale {
+    min-height: 85vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-finale {
+    min-height: 100svh;
+  }
+
+  .products-finale__media img {
+    object-position: center 20%;
+  }
+
+  .products-finale__copy {
+    padding: 2rem 1.5rem 4.5rem;
   }
 }
 </style>
@@ -2363,8 +2656,12 @@ body.product-popup-open {
     <main id="skip-to-start" class="main-content">
       <!-- Hero Section -->
       <section class="about-hero products-hero" id="productsHero">
-        <div class="about-hero__visual">
-          <img src="img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp" alt="Gatorade Products" />
+        <div class="about-hero__visual" id="productsHeroVisual">
+          <div class="about-hero__visual-bg" aria-hidden="true"></div>
+          <div class="about-hero__stage" id="productsHeroStage">
+            <div class="about-hero__visual-loader" aria-hidden="true"></div>
+            <canvas class="about-hero__canvas" id="productsHeroCanvas"></canvas>
+          </div>
         </div>
         <div class="about-hero__container">
           <div class="about-hero__content">
@@ -2411,7 +2708,7 @@ body.product-popup-open {
             <div class="products-grid">
             <button type="button" class="product-card" data-product="lemon-lime" style="--accent:#C5D445">
               <div class="product-card__media">
-                <img src="img/products/flavors/lemon-lime.svg" alt="Gatorade Lemon-Lime" />
+                <img src="img/products/flavors/lemon-lime.png" alt="Gatorade Lemon-Lime" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2422,7 +2719,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="fruit-punch" style="--accent:#E03C31">
               <div class="product-card__media">
-                <img src="img/products/flavors/fruit-punch.svg" alt="Gatorade Fruit Punch" />
+                <img src="img/products/flavors/fruit-punch.png" alt="Gatorade Fruit Punch" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2433,7 +2730,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="orange" style="--accent:#F15A22">
               <div class="product-card__media">
-                <img src="img/products/flavors/orange.svg" alt="Gatorade Orange" />
+                <img src="img/products/flavors/orange.png" alt="Gatorade Orange" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2444,7 +2741,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="cool-blue" style="--accent:#00A3E0">
               <div class="product-card__media">
-                <img src="img/products/flavors/cool-blue.svg" alt="Gatorade Cool Blue" />
+                <img src="img/products/flavors/cool-blue.png" alt="Gatorade Cool Blue" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2455,7 +2752,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="grape" style="--accent:#6B2D7B">
               <div class="product-card__media">
-                <img src="img/products/flavors/grape.svg" alt="Gatorade Grape" />
+                <img src="img/products/flavors/grape.png" alt="Gatorade Grape" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2466,7 +2763,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="strawberry" style="--accent:#E85A7A">
               <div class="product-card__media">
-                <img src="img/products/flavors/strawberry.svg" alt="Gatorade Strawberry" />
+                <img src="img/products/flavors/strawberry.png" alt="Gatorade Strawberry" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2477,7 +2774,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="green-apple" style="--accent:#7CB342">
               <div class="product-card__media">
-                <img src="img/products/flavors/green-apple.svg" alt="Gatorade Green Apple" />
+                <img src="img/products/flavors/green-apple.png" alt="Gatorade Green Apple" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2488,7 +2785,7 @@ body.product-popup-open {
             </button>
             <button type="button" class="product-card" data-product="lime-cucumber" style="--accent:#88B04B">
               <div class="product-card__media">
-                <img src="img/products/flavors/lime-cucumber.svg" alt="Gatorade Lime Cucumber" />
+                <img src="img/products/flavors/lime-cucumber.png" alt="Gatorade Lime Cucumber" />
               </div>
               <div class="product-card__body">
                 <span class="product-card__tag">Classic</span>
@@ -2505,7 +2802,7 @@ body.product-popup-open {
               <p class="products-line__text">Crisp & cool profiles made for heat, hustle, and icy refreshment.</p>
             </div>
             <div class="products-grid">
-            <button type="button" class="product-card" data-product="glacier-freeze" style="--accent:#7EC8E3">
+            <button type="button" class="product-card product-card--svg" data-product="glacier-freeze" style="--accent:#7EC8E3">
               <div class="product-card__media">
                 <img src="img/products/flavors/glacier-freeze.svg" alt="Gatorade Glacier Freeze" />
               </div>
@@ -2516,7 +2813,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="glacier-cherry" style="--accent:#D94B6A">
+            <button type="button" class="product-card product-card--svg" data-product="glacier-cherry" style="--accent:#D94B6A">
               <div class="product-card__media">
                 <img src="img/products/flavors/glacier-cherry.svg" alt="Gatorade Glacier Cherry" />
               </div>
@@ -2527,7 +2824,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="arctic-blitz" style="--accent:#4FC3F7">
+            <button type="button" class="product-card product-card--svg" data-product="arctic-blitz" style="--accent:#4FC3F7">
               <div class="product-card__media">
                 <img src="img/products/flavors/arctic-blitz.svg" alt="Gatorade Arctic Blitz" />
               </div>
@@ -2538,7 +2835,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="icy-charge" style="--accent:#26C6DA">
+            <button type="button" class="product-card product-card--svg" data-product="icy-charge" style="--accent:#26C6DA">
               <div class="product-card__media">
                 <img src="img/products/flavors/icy-charge.svg" alt="Gatorade Icy Charge" />
               </div>
@@ -2549,7 +2846,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="tropical-wave" style="--accent:#26A69A">
+            <button type="button" class="product-card product-card--svg" data-product="tropical-wave" style="--accent:#26A69A">
               <div class="product-card__media">
                 <img src="img/products/flavors/tropical-wave.svg" alt="Gatorade Tropical Wave" />
               </div>
@@ -2568,7 +2865,7 @@ body.product-popup-open {
               <p class="products-line__text">Intense fruit profiles for athletes who want bolder taste.</p>
             </div>
             <div class="products-grid">
-            <button type="button" class="product-card" data-product="fierce-grape" style="--accent:#8E24AA">
+            <button type="button" class="product-card product-card--svg" data-product="fierce-grape" style="--accent:#8E24AA">
               <div class="product-card__media">
                 <img src="img/products/flavors/fierce-grape.svg" alt="Gatorade Fierce Grape" />
               </div>
@@ -2579,7 +2876,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="fierce-melon" style="--accent:#66BB6A">
+            <button type="button" class="product-card product-card--svg" data-product="fierce-melon" style="--accent:#66BB6A">
               <div class="product-card__media">
                 <img src="img/products/flavors/fierce-melon.svg" alt="Gatorade Fierce Melon" />
               </div>
@@ -2590,7 +2887,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="fierce-blue-cherry" style="--accent:#3949AB">
+            <button type="button" class="product-card product-card--svg" data-product="fierce-blue-cherry" style="--accent:#3949AB">
               <div class="product-card__media">
                 <img src="img/products/flavors/fierce-blue-cherry.svg" alt="Gatorade Fierce Blue Cherry" />
               </div>
@@ -2601,7 +2898,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="fierce-strawberry" style="--accent:#D81B60">
+            <button type="button" class="product-card product-card--svg" data-product="fierce-strawberry" style="--accent:#D81B60">
               <div class="product-card__media">
                 <img src="img/products/flavors/fierce-strawberry.svg" alt="Gatorade Fierce Strawberry" />
               </div>
@@ -2612,7 +2909,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="fierce-green-apple" style="--accent:#43A047">
+            <button type="button" class="product-card product-card--svg" data-product="fierce-green-apple" style="--accent:#43A047">
               <div class="product-card__media">
                 <img src="img/products/flavors/fierce-green-apple.svg" alt="Gatorade Fierce Green Apple" />
               </div>
@@ -2631,7 +2928,7 @@ body.product-popup-open {
               <p class="products-line__text">Berry to Cherry Lime varieties across G Zero, Fit, and Gatorlyte.</p>
             </div>
             <div class="products-grid">
-            <button type="button" class="product-card" data-product="berry" style="--accent:#7B1FA2">
+            <button type="button" class="product-card product-card--svg" data-product="berry" style="--accent:#7B1FA2">
               <div class="product-card__media">
                 <img src="img/products/flavors/berry.svg" alt="Gatorade Berry" />
               </div>
@@ -2642,7 +2939,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="strawberry-watermelon" style="--accent:#EC407A">
+            <button type="button" class="product-card product-card--svg" data-product="strawberry-watermelon" style="--accent:#EC407A">
               <div class="product-card__media">
                 <img src="img/products/flavors/strawberry-watermelon.svg" alt="Gatorade Strawberry Watermelon" />
               </div>
@@ -2653,7 +2950,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="tropical-mango" style="--accent:#FB8C00">
+            <button type="button" class="product-card product-card--svg" data-product="tropical-mango" style="--accent:#FB8C00">
               <div class="product-card__media">
                 <img src="img/products/flavors/tropical-mango.svg" alt="Gatorade Tropical Mango" />
               </div>
@@ -2664,7 +2961,7 @@ body.product-popup-open {
                 <span class="product-card__cta">View details →</span>
               </div>
             </button>
-            <button type="button" class="product-card" data-product="cherry-lime" style="--accent:#C62828">
+            <button type="button" class="product-card product-card--svg" data-product="cherry-lime" style="--accent:#C62828">
               <div class="product-card__media">
                 <img src="img/products/flavors/cherry-lime.svg" alt="Gatorade Cherry Lime" />
               </div>
@@ -2677,6 +2974,24 @@ body.product-popup-open {
             </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="products-finale" aria-label="Athlete performance">
+        <figure class="products-finale__media">
+          <img
+            src="img/imgs/products-finale-gymnast.jpg"
+            alt="Gymnast coiled on the floor with radiant orange energy tracing her strength"
+            width="1122"
+            height="1402"
+            loading="lazy"
+            decoding="async"
+          >
+        </figure>
+        <div class="products-finale__veil" aria-hidden="true"></div>
+        <div class="products-finale__copy">
+          <h2 class="products-finale__title">Find your fuel.</h2>
+          <p class="products-finale__text">Every flavor is built for the moments that ask for more.</p>
         </div>
       </section>
     </main>
@@ -2886,17 +3201,25 @@ document.addEventListener('DOMContentLoaded', function() {
     gsap.registerPlugin(ScrollTrigger);
   }
 
-  // Hero image + title words
-  var heroVisual = document.querySelector('.about-hero__visual');
-  if (heroVisual) {
-    setTimeout(function() { heroVisual.classList.add('revealed'); }, 400);
-  }
+  // Hero title words
   document.querySelectorAll('.about-hero__title-word').forEach(function(word, i) {
     setTimeout(function() { word.classList.add('animate'); }, 200 + i * 120);
   });
   document.querySelectorAll('.about-hero__subtitle > div > div').forEach(function(el, i) {
     setTimeout(function() { el.classList.add('animate'); }, 700 + i * 100);
   });
+
+  var productsFinale = document.querySelector('.products-finale');
+  if (productsFinale && typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.create({
+      trigger: productsFinale,
+      start: 'top 75%',
+      onEnter: function() { productsFinale.classList.add('is-inview'); },
+      onEnterBack: function() { productsFinale.classList.add('is-inview'); }
+    });
+  } else if (productsFinale) {
+    productsFinale.classList.add('is-inview');
+  }
 
   // Products title scroll animation - words separate on scroll (same as about-history)
   function initProductsTitleScrollAnimation() {
@@ -2981,9 +3304,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "Electrolytes to help replace what you lose in sweat"
     ],
     "note": "The flavor that built the brand — perfect for traditional Thirst Quencher moments.",
-    "image": "img/products/flavors/lemon-lime.svg",
+    "image": "img/products/flavors/lemon-lime.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3003,9 +3326,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "A staple across bottles, powders, and coolers"
     ],
     "note": "One of the most recognizable Gatorade flavors worldwide.",
-    "image": "img/products/flavors/fruit-punch.svg",
+    "image": "img/products/flavors/fruit-punch.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3025,9 +3348,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "Pairs well with mid-workout fueling routines"
     ],
     "note": "A core original flavor for year-round hydration.",
-    "image": "img/products/flavors/orange.svg",
+    "image": "img/products/flavors/orange.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3047,9 +3370,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "Ideal for practices, games, and hot conditions"
     ],
     "note": "A go-to flavor when you want clean, cool hydration.",
-    "image": "img/products/flavors/cool-blue.svg",
+    "image": "img/products/flavors/cool-blue.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3069,9 +3392,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "A long-standing original lineup staple"
     ],
     "note": "Classic grape done the Gatorade way.",
-    "image": "img/products/flavors/grape.svg",
+    "image": "img/products/flavors/grape.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3091,9 +3414,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "Great tasting option for younger athletes and everyday movers"
     ],
     "note": "A sweeter classic in the original TQ family.",
-    "image": "img/products/flavors/strawberry.svg",
+    "image": "img/products/flavors/strawberry.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3113,9 +3436,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "A crisp alternative to citrus classics"
     ],
     "note": "Sharp, refreshing, and built for the grind.",
-    "image": "img/products/flavors/green-apple.svg",
+    "image": "img/products/flavors/green-apple.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3135,9 +3458,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "Ideal when you want something lighter than bold fruit"
     ],
     "note": "A cooler twist within the original flavor family.",
-    "image": "img/products/flavors/lime-cucumber.svg",
+    "image": "img/products/flavors/lime-cucumber.png",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3159,7 +3482,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "The flagship Frost flavor for cool hydration.",
     "image": "img/products/flavors/glacier-freeze.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3181,7 +3504,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Cherry, but colder.",
     "image": "img/products/flavors/glacier-cherry.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3203,7 +3526,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Frost energy with an arctic edge.",
     "image": "img/products/flavors/arctic-blitz.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3225,7 +3548,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Cool fuel with a charged finish.",
     "image": "img/products/flavors/icy-charge.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3247,7 +3570,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Frost meets tropical.",
     "image": "img/products/flavors/tropical-wave.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3269,7 +3592,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Grape, turned up.",
     "image": "img/products/flavors/fierce-grape.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3291,7 +3614,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Melon with muscle.",
     "image": "img/products/flavors/fierce-melon.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3313,7 +3636,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Cherry meets blue — fiercely.",
     "image": "img/products/flavors/fierce-blue-cherry.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3335,7 +3658,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Strawberry, maxed out.",
     "image": "img/products/flavors/fierce-strawberry.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3357,7 +3680,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Apple with attitude.",
     "image": "img/products/flavors/fierce-green-apple.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3379,7 +3702,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Berry flexibility across G Zero, Fit, and Gatorlyte.",
     "image": "img/products/flavors/berry.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3401,7 +3724,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "A fresh specialized favorite.",
     "image": "img/products/flavors/strawberry-watermelon.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3423,7 +3746,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Tropical specialized hydration.",
     "image": "img/products/flavors/tropical-mango.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   },
@@ -3445,7 +3768,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "note": "Zesty specialized hydration.",
     "image": "img/products/flavors/cherry-lime.svg",
     "gallery": [
-      "img/Michael-Jordan__Gatorade-Is-It-In-You_Colored-Sweat.webp",
+      "img/athlete-colored-sweat.jpg",
       "img/Gatorade_Master.0005857.jpg"
     ]
   }
@@ -3481,6 +3804,8 @@ document.addEventListener('DOMContentLoaded', function() {
     thumbs.innerHTML = (data.gallery || []).map(function(src) {
       return '<img src="' + src + '" alt="">';
     }).join('');
+    var dialog = popup.querySelector('.product-popup__dialog');
+    if (dialog) dialog.scrollTop = 0;
     popup.classList.add('is-open');
     popup.setAttribute('aria-hidden', 'false');
     document.body.classList.add('product-popup-open');
@@ -3726,7 +4051,123 @@ window.addEventListener('load', function() {
 })();
 </script>
 
-<script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.34/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+(function initProductsHero3D() {
+  const visual = document.getElementById('productsHeroVisual');
+  const stage = document.getElementById('productsHeroStage') || visual;
+  const canvas = document.getElementById('productsHeroCanvas');
+  if (!visual || !canvas) return;
+
+  if (window.location.protocol === 'file:') {
+    console.warn('Open products.html via http:// to load the 3D hero model.');
+    return;
+  }
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true,
+    powerPreference: 'high-performance'
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  camera.position.set(1.4, 1.2, 3.2);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.2;
+  controls.enablePan = false;
+  controls.enableZoom = false;
+  controls.minDistance = 1.5;
+  controls.maxDistance = 6;
+  controls.target.set(0, 0.95, 0);
+
+  // Natural sunlight
+  const hemi = new THREE.HemisphereLight(0xb1d0ff, 0xf0e6d8, 0.85);
+  scene.add(hemi);
+
+  const sun = new THREE.DirectionalLight(0xfff1dd, 2.35);
+  sun.position.set(4.5, 8, 2.5);
+  scene.add(sun);
+
+  const skyFill = new THREE.DirectionalLight(0xd7e7ff, 0.45);
+  skyFill.position.set(-3.5, 3, -2);
+  scene.add(skyFill);
+
+  function resize() {
+    const w = stage.clientWidth || 1;
+    const h = stage.clientHeight || 1;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  }
+
+  function frameModel(object) {
+    const box = new THREE.Box3().setFromObject(object);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    object.position.sub(center);
+    object.position.y += size.y * 0.08;
+
+    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+    const fitDist = maxDim / (2 * Math.tan((camera.fov * Math.PI) / 360));
+    camera.position.set(fitDist * 0.35, fitDist * 0.12, fitDist * 1.35);
+    controls.target.set(0, size.y * 0.02, 0);
+    controls.update();
+  }
+
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath('js/draco/');
+  dracoLoader.preload();
+
+  const loader = new GLTFLoader();
+  loader.setDRACOLoader(dracoLoader);
+  loader.load(
+    'img/imgs/Meshy_AI_Radiant_Warrior_optimized.glb',
+    (gltf) => {
+      const modelRoot = gltf.scene;
+      modelRoot.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = false;
+          child.receiveShadow = false;
+        }
+      });
+      scene.add(modelRoot);
+      frameModel(modelRoot);
+      visual.classList.add('is-loaded', 'revealed');
+      resize();
+      dracoLoader.dispose();
+    },
+    undefined,
+    (err) => {
+      console.error('Failed to load products hero GLB', err);
+      visual.classList.add('revealed');
+    }
+  );
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  animate();
+})();
+</script>
 
 </body>
 </html>
