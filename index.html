@@ -328,6 +328,61 @@ body::-webkit-scrollbar {
   background-color: #fff;
   position: relative;
 }
+.exhi-list__banner--videos {
+  width: 100%;
+}
+.exhi-banner-videos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+.exhi-banner-videos--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.exhi-banner-videos--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.exhi-banner-videos--1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+.exhi-banner-videos--1 .exhi-banner-videos__item {
+  aspect-ratio: 16 / 9;
+  max-height: min(56vh, 560px);
+}
+.exhi-banner-videos__item {
+  position: relative;
+  overflow: hidden;
+  background: #0d0d0b;
+  aspect-ratio: 9 / 16;
+  max-height: min(62vh, 640px);
+  border-radius: 20px;
+}
+.exhi-banner-video,
+.exhi-list video,
+.common-popup video,
+video {
+  border-radius: 20px;
+}
+.exhi-banner-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+@media (max-width: 767.98px) {
+  .exhi-banner-videos {
+    gap: 4px;
+  }
+  .exhi-banner-videos--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .exhi-banner-videos__item {
+    max-height: min(48vh, 420px);
+  }
+}
 .exhi-list__cta {
   display: flex;
   gap: 1rem;
@@ -716,6 +771,7 @@ body::-webkit-scrollbar {
 </script>
 <!-- End Google Tag Manager -->
 
+  <link rel="stylesheet" href="css/gatorade-cursor.css">
 </head>
 <body class="landing" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
@@ -961,8 +1017,29 @@ body::-webkit-scrollbar {
                   <div class="row-list__inner">
                     <div class="row-list__l">
                       <div class="exhi-list__title inview-group__item">The New Gatorade Experience</div>
-                      <div class="exhi-list__banner inview-group__item">
-                        <img src="img/athlete-soccer-energy.jpg" alt="Gatorade Sports Drink">
+                      <div class="exhi-list__banner exhi-list__banner--videos inview-group__item">
+                        <div class="exhi-banner-videos exhi-banner-videos--4" aria-label="Gatorade bottle morph videos">
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Liquid morphs into bottle">
+                              <source src="vid/Liquid_morphs_into_bottle_1080p_202609082347.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Liquid morphs into bottle shape">
+                              <source src="vid/Liquid_morphs_into_bottle_shape_202609082333.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Red liquid morphing into bottle">
+                              <source src="vid/Red_liquid_morphing_into_bottle_202609082340.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Liquid morphs into bottle">
+                              <source src="vid/Liquid_morphs_into_bottle_1080p_20260914095622.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                        </div>
                       </div>
                       <div class="exhi-list__desc inview-group__item">
                         <p>Introducing the new Gatorade formula, engineered for athletes who demand more. Our advanced electrolyte blend doesn't just hydrate; it powers your performance from the first drop to the final push. With enhanced sodium, potassium, and carbohydrate ratios, every sip is optimized to keep you at your peak longer.
@@ -1005,8 +1082,14 @@ body::-webkit-scrollbar {
                   <div class="row-list__inner">
                     <div class="row-list__l">
                       <div class="exhi-list__title inview-group__item">Advanced Electrolyte Science</div>
-                      <div class="exhi-list__banner inview-group__item">
-                        <img src="img/athlete-swimmer-energy.jpg" alt="Gatorade Electrolyte Formula">
+                      <div class="exhi-list__banner exhi-list__banner--videos inview-group__item">
+                        <div class="exhi-banner-videos exhi-banner-videos--1" aria-label="Gatorade electrolyte science video">
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Athletes showing internal anatomy">
+                              <source src="vid/athletes-internal-anatomy.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                        </div>
                       </div>
                       <div class="exhi-list__desc inview-group__item">
                         <p>The new Gatorade formula is built on decades of sports science research.
@@ -1057,8 +1140,19 @@ body::-webkit-scrollbar {
                   <div class="row-list__inner">
                     <div class="row-list__l">
                       <div class="exhi-list__title inview-group__item">Performance That Fuels Champions</div>
-                      <div class="exhi-list__banner inview-group__item">
-                        <img src="img/athlete-racer-energy.jpg" alt="Gatorade Performance">
+                      <div class="exhi-list__banner exhi-list__banner--videos inview-group__item">
+                        <div class="exhi-banner-videos exhi-banner-videos--2" aria-label="Gatorade athlete performance videos">
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Athletes breathing with energy">
+                              <source src="vid/athletes-breathing-glitch.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                          <div class="exhi-banner-videos__item">
+                            <video class="exhi-banner-video" muted playsinline loop preload="none" aria-label="Athletes preparing for explosive movement">
+                              <source src="vid/athletes-preparing-explosive.mp4" type="video/mp4">
+                            </video>
+                          </div>
+                        </div>
                       </div>
                       <div class="exhi-list__desc inview-group__item">
                         <p>Trusted by athletes for over 50 years, Gatorade has been the secret weapon behind countless championships, record-breaking performances, and unforgettable moments in sports history. From the training field to the podium, champions choose Gatorade.&nbsp;</p>
@@ -1497,6 +1591,66 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<script>
+// Lazy-load + autoplay banner videos only when near viewport (keeps page responsive)
+document.addEventListener('DOMContentLoaded', function () {
+  var videos = Array.prototype.slice.call(document.querySelectorAll('.exhi-banner-video'));
+  if (!videos.length) return;
+
+  function ensureSrc(video) {
+    if (video.dataset.loaded === '1') return;
+    var source = video.querySelector('source');
+    var src = video.getAttribute('data-src') || (source && (source.getAttribute('data-src') || source.getAttribute('src')));
+    if (!src) return;
+    if (source) {
+      source.setAttribute('src', src);
+      source.removeAttribute('data-src');
+    } else {
+      video.setAttribute('src', src);
+    }
+    video.removeAttribute('data-src');
+    video.load();
+    video.dataset.loaded = '1';
+  }
+
+  function playSafe(video) {
+    ensureSrc(video);
+    var p = video.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  }
+
+  function stopSafe(video) {
+    video.pause();
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    videos.forEach(playSafe);
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var video = entry.target;
+      if (entry.isIntersecting) {
+        playSafe(video);
+      } else {
+        stopSafe(video);
+      }
+    });
+  }, { rootMargin: '200px 0px', threshold: 0.15 });
+
+  videos.forEach(function (video) {
+    var source = video.querySelector('source');
+    if (source && source.getAttribute('src')) {
+      source.setAttribute('data-src', source.getAttribute('src'));
+      source.removeAttribute('src');
+    }
+    video.setAttribute('preload', 'none');
+    observer.observe(video);
+  });
+});
+</script>
+<script src="js/gatorade-cursor.js"></script>
 <script src="js/common.min.js"></script>
 <script>
 // Only load index.min.js as module when not on file:// protocol

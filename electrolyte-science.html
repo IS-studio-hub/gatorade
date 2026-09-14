@@ -1509,7 +1509,7 @@ cubic-bezier(0.16, 1, 0.3, 1);
   background-color: #000;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 10050;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0);
   transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
@@ -2269,53 +2269,6 @@ body.electrolyte-bn-page .bn-mono * {
   width: 0;
 }
 
-/* Custom cursor */
-#bnCursor {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  width: 10px;
-  height: 10px;
-  background: var(--ink);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width 0.3s var(--ease-soft), height 0.3s var(--ease-soft), background 0.25s ease;
-}
-#bnCursor .bn-cursor-label {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  color: var(--bg);
-  opacity: 0;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-}
-#bnCursor.expand {
-  width: 48px;
-  height: 48px;
-  background: rgba(13,13,11,0.1);
-  backdrop-filter: blur(2px);
-}
-#bnCursor.view {
-  width: 76px;
-  height: 76px;
-  background: var(--accent);
-}
-#bnCursor.view .bn-cursor-label { opacity: 1; }
-#bnCursor.on-dark { background: var(--bg); }
-@media (hover: none) {
-  #bnCursor { display: none; }
-}
-@media (hover: hover) {
-  body.electrolyte-bn-page,
-  body.electrolyte-bn-page a,
-  body.electrolyte-bn-page button {
-    cursor: none !important;
-  }
-}
 
 /* Mini top nav — sticky inside middle column only */
 .bn-nav {
@@ -2441,45 +2394,83 @@ body.loaded .bn-hero-reveal { transform: translateY(0); }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
+  overflow: visible;
+  z-index: 4;
 }
-.bn-hero-stickers--front { z-index: 2; pointer-events: none; }
+.bn-hero-stickers--front { z-index: 5; pointer-events: none; }
 .bn-hsticker {
   position: absolute;
   left: calc(var(--x, 50) * 1%);
   top: calc(var(--y, 50) * 1%);
-  width: clamp(64px, calc(var(--w, 10) * 0.85vw), 160px);
-  will-change: transform;
-  transition: opacity 0.55s ease;
+  width: clamp(72px, calc(var(--w, 10) * 0.9vw), 168px);
+  transform: translate3d(-50%, -50%, 0) rotate(var(--r, 0deg));
+  transform-origin: center center;
+  will-change: transform, left, top;
+  transition: filter 0.2s ease, opacity 0.2s ease;
   pointer-events: auto;
   touch-action: none;
-  cursor: grab;
+  cursor: grab !important;
+  z-index: 1;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bn-hsticker.is-dragging {
+  cursor: grabbing !important;
+  z-index: 50;
+  opacity: 0.98;
+  transition: none;
+  filter: drop-shadow(0 18px 34px rgba(0,0,0,0.22));
+}
+.bn-hsticker.is-replace-target {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 10px;
 }
 .bn-hsticker img,
 .bn-hsticker .bn-chip {
   display: block;
   width: 100%;
   height: auto;
-  transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+  transform: none;
+  pointer-events: none; /* whole sticker receives drag */
   user-select: none;
+  -webkit-user-drag: none;
   filter: drop-shadow(0 10px 26px rgba(0,0,0,0.07));
 }
 .bn-hsticker .bn-chip {
-  width: auto;
-  min-width: 100%;
-  padding: 0.7em 0.9em;
+  width: max-content;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.7em 0.95em;
   border-radius: 999px;
   text-align: center;
   font-size: clamp(1rem, 2vw, 1.6rem);
   font-weight: 500;
   color: #fff;
   background: var(--accent);
+  white-space: nowrap;
+}
+.bn-hsticker:has(.bn-chip) {
+  width: auto;
 }
 .bn-hsticker .bn-chip--blue { background: #1468a2; }
 .bn-hsticker .bn-chip--ink { background: var(--ink); }
 .bn-hsticker .bn-chip--lime { background: #c5d445; color: #111; }
 .bn-hsticker img { border-radius: 8px; }
+.bn-hero-meta {
+  pointer-events: none;
+}
+.bn-hero-meta a,
+.bn-hero-meta button {
+  pointer-events: auto;
+}
+.bn-hero-stage {
+  z-index: 1;
+  pointer-events: none;
+}
+.bn-hero-stage .bn-hm-unit--img {
+  pointer-events: auto;
+}
 
 .bn-hero-meta {
   display: flex;
@@ -2490,8 +2481,13 @@ body.loaded .bn-hero-reveal { transform: translateY(0); }
   transform: translateY(12px);
   transition: opacity 0.8s ease 0.85s, transform 0.8s var(--ease) 0.85s;
   position: relative;
-  z-index: 3;
+  z-index: 6;
   gap: 1rem;
+  pointer-events: none;
+}
+.bn-hero-meta a,
+.bn-hero-meta button {
+  pointer-events: auto;
 }
 body.loaded .bn-hero-meta {
   opacity: 1;
@@ -2504,6 +2500,64 @@ body.loaded .bn-hero-meta {
   text-underline-offset: 3px;
 }
 .bn-hero-meta-link:hover { opacity: 0.65; }
+
+.bn-hero-meta-remove {
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: transparent;
+  border: 1.5px solid rgba(255,112,2,0.45);
+  border-radius: 999px;
+  padding: 0.55em 1em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.bn-hero-meta-remove:hover,
+.bn-hero-meta-remove.is-active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.bn-hsticker-trash {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 70;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  padding: 0;
+  transform: scale(0.92);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.bn-hsticker-trash svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  pointer-events: none;
+}
+.bn-hsticker-trash:hover {
+  background: #c6373c;
+  transform: scale(1.05);
+}
+#bnHero.is-delete-mode .bn-hsticker-trash {
+  display: inline-flex;
+}
+#bnHero.is-delete-mode .bn-hsticker {
+  cursor: default !important;
+}
+
 .bn-hero-meta-right {
   display: flex;
   flex-direction: column;
@@ -2553,153 +2607,218 @@ body.loaded .bn-hero-meta {
   box-shadow: 0 14px 28px rgba(0,0,0,0.28);
 }
 
-/* Sticker modal */
+
+/* Sticker side drawer */
 .bn-sticker-modal {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 11000;
-  display: none;
+  z-index: 12000;
+  pointer-events: none;
+  visibility: hidden;
 }
-.bn-sticker-modal.open { display: block; }
+.bn-sticker-modal.open {
+  pointer-events: auto;
+  visibility: visible;
+}
+html.bn-modal-open,
+body.bn-modal-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+.bn-sticker-modal.open,
+.bn-sticker-modal.open .bn-sm-card,
+.bn-sticker-modal.open .bn-sm-body {
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
 .bn-sm-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(20,18,16,0.55);
+  background: rgba(20,18,16,0.45);
   backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 0.28s ease;
 }
+.bn-sticker-modal.open .bn-sm-backdrop { opacity: 1; }
 .bn-sm-card {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(440px, calc(100vw - 40px));
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: min(420px, 92vw);
+  max-height: none;
+  height: 100%;
+  max-height: 100dvh;
+  transform: translateX(104%);
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--ink);
-  border-radius: 14px;
-  padding: 28px 26px 24px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  border-radius: 16px 0 0 16px;
+  padding: 0;
+  box-shadow: -18px 0 50px rgba(0,0,0,0.28);
+  transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  pointer-events: auto;
+  touch-action: auto;
+}
+.bn-sticker-modal.open .bn-sm-card {
+  transform: translateX(0);
+}
+.bn-sm-head {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  padding: 22px 22px 14px;
+  background: var(--bg);
+  border-bottom: 1px solid rgba(13,13,11,0.08);
+}
+.bn-sm-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 18px 22px 22px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(13,13,11,0.35) transparent;
+}
+.bn-sm-body::-webkit-scrollbar { width: 8px; }
+.bn-sm-body::-webkit-scrollbar-thumb {
+  background: rgba(13,13,11,0.28);
+  border-radius: 999px;
 }
 .bn-sm-x {
   position: absolute;
   top: 12px;
-  right: 14px;
-  width: 30px;
-  height: 30px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
   border: none;
+  border-radius: 0;
   background: transparent;
-  font-size: 22px;
-  color: var(--ink-muted);
-  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ink);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
 }
-.bn-sm-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-.bn-sm-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 18px; }
+.bn-sm-x:hover { background: transparent; color: var(--accent); }
+.bn-sm-title { font-size: 20px; font-weight: 500; margin: 0 36px 6px 0; }
+.bn-sm-sub { font-size: 13px; color: var(--ink-muted); margin: 0; line-height: 1.45; }
+.bn-sm-gallery-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0 0 10px;
+}
+.bn-sm-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.bn-sm-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1.5px solid rgba(13,13,11,0.14);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0;
+  background: #eae8e2;
+}
+.bn-sm-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.bn-sm-thumb:hover,
+.bn-sm-thumb.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255,112,2,0.25);
+}
+.bn-sm-hint {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin: 0 0 16px;
+  line-height: 1.45;
+}
 .bn-sm-drop {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 130px;
-  padding: 18px;
+  min-height: 84px;
+  padding: 14px;
   border: 1.5px dashed rgba(13,13,11,0.28);
   border-radius: 10px;
   font-size: 13px;
   color: var(--ink-muted);
-  cursor: pointer;
 }
 .bn-sm-drop:hover { border-color: var(--accent); }
 .bn-sm-drop u { color: var(--accent); }
 .bn-sm-preview { margin-top: 14px; text-align: center; }
-.bn-sm-preview img { max-width: 100%; max-height: 160px; border-radius: 8px; }
+.bn-sm-preview img { max-width: 100%; max-height: 140px; border-radius: 8px; }
 .bn-sm-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 22px;
+  flex: 0 0 auto;
+  width: 100%;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(13,13,11,0.1);
+  background: var(--bg);
 }
 .bn-sm-cancel,
 .bn-sm-place {
+  flex: 1 1 50%;
+  width: 50%;
   font: inherit;
   font-size: 12px;
-  letter-spacing: 0.04em;
-  padding: 10px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  border: 1px solid rgba(13,13,11,0.22);
-  background: transparent;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 1.05em 0.75em;
+  border: none;
 }
+.bn-sm-cancel {
+  background: #e8e6e0;
+  color: var(--ink);
+  border-right: 1px solid rgba(13,13,11,0.1);
+}
+.bn-sm-cancel:hover { background: #dedcd5; }
 .bn-sm-place {
   background: var(--accent);
-  border-color: var(--accent);
   color: #fff;
 }
-.bn-sm-place:disabled { opacity: 0.4; cursor: not-allowed; }
+.bn-sm-place:hover:not(:disabled) { filter: brightness(1.05); }
+.bn-sm-place:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.bn-hm-unit--img.is-replace-target {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+@media (max-width: 560px) {
+  .bn-sm-card {
+    width: min(100vw, 100%);
+    border-radius: 0;
+  }
+  .bn-sm-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
-/* Showreel */
-#bnReel {
-  padding: 0 var(--bn-pad);
-}
-.bn-reel-wrap {
-  position: relative;
-  height: min(70svh, 640px);
-  min-height: 360px;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #0c0c0b;
-  transform: scale(0.92);
-  transition: transform 0.8s var(--ease);
-}
-.bn-reel-wrap.is-in { transform: scale(1); }
-.bn-reel-wrap video {
-  position: absolute;
-  inset: -8% 0;
-  width: 100%;
-  height: 116%;
-  object-fit: cover;
-}
-.bn-reel-tag {
-  position: absolute;
-  left: 24px;
-  bottom: 24px;
-  z-index: 2;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  background: rgba(13,13,11,0.55);
-  backdrop-filter: blur(6px);
-  padding: 10px 14px;
-  border-radius: 999px;
-}
-.bn-reel-play {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border: 0;
-  background: transparent;
-  color: #fff;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-}
-.bn-reel-play span {
-  width: 82px;
-  height: 82px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.55);
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  backdrop-filter: blur(4px);
-  background: rgba(0,0,0,0.25);
-  transition: transform 0.25s, border-color 0.25s;
-}
-.bn-reel-play:hover span {
-  transform: scale(1.07);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.bn-reel-play.is-hidden { display: none; }
 
 /* Intro */
 #bnIntro {
@@ -3033,7 +3152,7 @@ body.loaded .bn-hero-meta {
     display: none;
   }
   .bn-services-detail-content.visible { display: flex; }
-  .bn-hsticker.hide-mobile { display: none; }
+  .bn-hsticker.hide-mobile { display: block; }
 }
 
 @media (max-width: 768px) {
@@ -3182,6 +3301,7 @@ img, video, canvas, svg, iframe, spline-viewer {
   window.addEventListener('resize', apply, { passive: true });
 })();
 </script>
+  <link rel="stylesheet" href="css/gatorade-cursor.css">
 </head>
 <body class="landing electrolyte-bn-page" data-at-top="false" data-menu-active="false">
 <!-- Google Tag Manager (noscript) -->
@@ -3377,23 +3497,11 @@ img, video, canvas, svg, iframe, spline-viewer {
         <div class="bn-preloader-counter">0</div>
         <div class="bn-preloader-line"></div>
       </div>
-      <div id="bnCursor" aria-hidden="true"><span class="bn-cursor-label">VIEW</span></div>
-
-      <header class="bn-nav" id="bnNav">
-        <a class="bn-nav__logo" href="index.html">Gatorade</a>
-        <div class="bn-nav__coords">29.65° N, 82.32° W<br>EST. 1965 · GSSI</div>
-        <div class="bn-nav__pills">
-          <a class="bn-nav__pill" href="products.html">Products</a>
-          <a class="bn-nav__pill" href="formula.html">Formula</a>
-          <a class="bn-nav__pill" href="contact.html">Contact</a>
-        </div>
-      </header>
-
-      <section id="bnHero">
-        <div class="bn-hero-stickers" id="bnStickersBack" aria-hidden="true">
-          <div class="bn-hsticker hide-mobile" style="--x:18; --y:28; --w:11; --r:-8deg" data-parallax="0.04"><img src="img/athlete-colored-sweat.jpg" alt="" draggable="false"></div>
+<section id="bnHero">
+                <div class="bn-hero-stickers" id="bnStickersBack">
+          <div class="bn-hsticker hide-mobile" style="--x:18; --y:28; --w:11; --r:-8deg" data-parallax="0.04"><img src="img/athlete-orange-sweat-stadium.jpg" alt="" draggable="false"></div>
           <div class="bn-hsticker" style="--x:72; --y:22; --w:9; --r:7deg" data-parallax="0.06"><div class="bn-chip">Na+</div></div>
-          <div class="bn-hsticker hide-mobile" style="--x:80; --y:58; --w:10; --r:-5deg" data-parallax="0.03"><img src="img/athlete-sprinter-energy.jpg" alt="" draggable="false"></div>
+          <div class="bn-hsticker hide-mobile" style="--x:80; --y:58; --w:10; --r:-5deg" data-parallax="0.03"><img src="img/athlete-soccer-energy.jpg" alt="" draggable="false"></div>
           <div class="bn-hsticker" style="--x:24; --y:68; --w:8; --r:6deg" data-parallax="0.05"><div class="bn-chip bn-chip--blue">K+</div></div>
         </div>
 
@@ -3418,26 +3526,18 @@ img, video, canvas, svg, iframe, spline-viewer {
           </div>
         </div>
 
-        <div class="bn-hero-stickers bn-hero-stickers--front" id="bnStickersFront" aria-hidden="true">
+                <div class="bn-hero-stickers bn-hero-stickers--front" id="bnStickersFront">
           <div class="bn-hsticker" style="--x:62; --y:34; --w:8; --r:10deg" data-parallax="0.08"><div class="bn-chip bn-chip--ink">Cl−</div></div>
           <div class="bn-hsticker hide-mobile" style="--x:48; --y:72; --w:9; --r:-4deg" data-parallax="0.05"><div class="bn-chip bn-chip--lime">Mg²+</div></div>
-          <div class="bn-hsticker hide-mobile" style="--x:12; --y:48; --w:12; --r:3deg" data-parallax="0.07"><img src="img/athlete-swimmer-energy.jpg" alt="" draggable="false"></div>
+          <div class="bn-hsticker hide-mobile" style="--x:12; --y:48; --w:12; --r:3deg" data-parallax="0.07"><img src="img/DF-orange.jpg" alt="" draggable="false"></div>
         </div>
 
         <div class="bn-hero-meta">
-          <a class="bn-hero-meta-link" href="#bnServices" data-cursor="view">See how electrolytes transform performance</a>
+          <button type="button" class="bn-hero-meta-remove" id="bnStickerRemove" aria-pressed="false">Remove stickers</button>
           <div class="bn-hero-meta-right">
-            <button type="button" class="bn-sticker-cta" id="bnStickerCta" data-cursor="view">Add your<br>sticker (SCROLL)</button>
-            <a class="bn-hero-scroll" href="#bnReel">(SCROLL)</a>
+            <button type="button" class="bn-sticker-cta" id="bnStickerCta" data-cursor="view">Add your<br>sticker</button>
+            <a class="bn-hero-scroll" href="#bnIntro">(SCROLL)</a>
           </div>
-        </div>
-      </section>
-
-      <section id="bnReel" data-cursor-dark>
-        <div class="bn-reel-wrap" id="bnReelWrap">
-          <video id="bnReelVideo" src="vid/brithing.mp4" muted loop playsinline preload="metadata"></video>
-          <div class="bn-reel-tag">GSSI® — Science Reel</div>
-          <button type="button" class="bn-reel-play" id="bnReelPlay" data-cursor="view" aria-label="Play showreel"><span>PLAY</span></button>
         </div>
       </section>
 
@@ -3557,17 +3657,24 @@ img, video, canvas, svg, iframe, spline-viewer {
         </div>
       </section>
 
-      <div class="bn-sticker-modal" id="bnStickerModal" aria-hidden="true">
+                        <div class="bn-sticker-modal" id="bnStickerModal" aria-hidden="true">
         <div class="bn-sm-backdrop" data-close-modal></div>
         <div class="bn-sm-card" role="dialog" aria-modal="true" aria-labelledby="bnSmTitle">
-          <button type="button" class="bn-sm-x" data-close-modal aria-label="Close">×</button>
-          <h3 class="bn-sm-title" id="bnSmTitle">Place your sticker</h3>
-          <p class="bn-sm-sub">Upload an image (JPG or PNG) and it appears on the hero.</p>
-          <label class="bn-sm-drop" id="bnSmDrop">
-            Drag an image here<br>or <u>choose a file</u>
-            <input type="file" id="bnSmFile" accept="image/png,image/jpeg,image/webp" hidden>
-          </label>
-          <div class="bn-sm-preview" id="bnSmPreview" hidden></div>
+          <div class="bn-sm-head">
+            <button type="button" class="bn-sm-x" data-close-modal aria-label="Close">×</button>
+            <h3 class="bn-sm-title" id="bnSmTitle">Add a sticker</h3>
+            <p class="bn-sm-sub" id="bnSmSub">Pick an image to add as a sticker. Click a running-text image first to swap that image instead.</p>
+          </div>
+          <div class="bn-sm-body">
+            <p class="bn-sm-gallery-label">From the site</p>
+            <div class="bn-sm-gallery" id="bnSmGallery" role="listbox" aria-label="Site images"></div>
+            <p class="bn-sm-hint">Tip: click a running-text image to replace it, or drag it onto the hero as a sticker.</p>
+            <label class="bn-sm-drop" id="bnSmDrop">
+              Or upload your own<br><u>choose a file</u>
+              <input type="file" id="bnSmFile" accept="image/png,image/jpeg,image/webp" hidden>
+            </label>
+            <div class="bn-sm-preview" id="bnSmPreview" hidden></div>
+          </div>
           <div class="bn-sm-actions">
             <button type="button" class="bn-sm-cancel" data-close-modal>Cancel</button>
             <button type="button" class="bn-sm-place" id="bnSmPlace" disabled>Place sticker</button>
@@ -3784,36 +3891,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }, 90);
   window.setTimeout(finishPreloader, 2800);
 
-  // Custom cursor
-  var cursor = document.getElementById('bnCursor');
-  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (cursor && finePointer) {
-    window.addEventListener('mousemove', function (e) {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    }, { passive: true });
-    document.querySelectorAll('a, button, [data-cursor]').forEach(function (el) {
-      el.addEventListener('mouseenter', function () {
-        var mode = el.getAttribute('data-cursor');
-        cursor.classList.remove('view', 'expand');
-        if (mode === 'view' || el.matches('.bn-project-card, .bn-reel-play, .bn-sticker-cta, .bn-hero-meta-link, .bn-footer-btn, .bn-nav__pill')) {
-          cursor.classList.add('view');
-        } else {
-          cursor.classList.add('expand');
-        }
-      });
-      el.addEventListener('mouseleave', function () {
-        cursor.classList.remove('view', 'expand');
-      });
-    });
-    document.querySelectorAll('[data-cursor-dark]').forEach(function (el) {
-      el.addEventListener('mouseenter', function () { cursor.classList.add('on-dark'); });
-      el.addEventListener('mouseleave', function () { cursor.classList.remove('on-dark'); });
-    });
-  } else if (cursor) {
-    cursor.style.display = 'none';
-  }
-
   // Nav scroll
   var nav = document.getElementById('bnNav');
   window.addEventListener('scroll', function () {
@@ -3821,138 +3898,548 @@ document.addEventListener('DOMContentLoaded', function () {
     nav.classList.toggle('is-scrolled', window.scrollY > 20);
   }, { passive: true });
 
-  // Sticker parallax
+
+
+  // Stickers + marquee image swap
+  var hero = document.getElementById('bnHero');
   var stickers = Array.prototype.slice.call(document.querySelectorAll('.bn-hsticker'));
   var mx = 0, my = 0;
+  var draggingSticker = null;
+  var replaceTarget = null; // .bn-hsticker element
+  var marqueeReplaceSlot = null; // string slot id
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var EXTRA_SITE_IMAGES = ["img/athlete-colored-sweat.jpg","img/athlete-colored-sweat-green.jpg","img/athlete-sprinter-energy.jpg","img/athlete-swimmer-energy.jpg","img/athlete-orange-sweat-stadium.jpg","img/athlete-soccer-energy.jpg","img/athlete-racer-energy.jpg","img/athlete-orange-sweat-towel.jpg","img/DF-orange.jpg","img/imgs/about-finale-sprint.jpg","img/imgs/products-finale-gymnast.jpg","img/athletes/fake/maya-voss.jpg","img/athletes/fake/kane-rivera.jpg","img/athletes/fake/nova-hale.jpg","img/athletes/fake/reed-okonkwo.jpg","img/athletes/fake/blair-quinn.jpg","img/athletes/fake/anika-shore.jpg","img/athletes/fake/jax-moreau.jpg"];
+
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
+  function uniqueUrls(list) {
+    var seen = {}, out = [];
+    list.forEach(function (u) {
+      if (!u) return;
+      var key = String(u).split('?')[0];
+      if (seen[key]) return;
+      seen[key] = true;
+      out.push(key);
+    });
+    return out;
+  }
+  function marqueeImageUrls() {
+    return Array.prototype.map.call(document.querySelectorAll('.bn-hm-unit--img'), function (img) {
+      return img.getAttribute('src');
+    });
+  }
+  function siteImagePool() {
+    return uniqueUrls(marqueeImageUrls().concat(EXTRA_SITE_IMAGES));
+  }
+
+  // Tag marquee images with slots so duplicates stay in sync
+  (function tagMarqueeSlots() {
+    var imgs = document.querySelectorAll('.bn-hero-track .bn-hm-unit--img');
+    var half = Math.floor(imgs.length / 2) || imgs.length;
+    imgs.forEach(function (img, i) {
+      var slot = String(i % half);
+      img.setAttribute('data-marquee-slot', slot);
+      img.setAttribute('title', 'Click to change this running-text image');
+      img.style.cursor = 'pointer';
+    });
+  })();
+
+
+  function setStickerPos(el, clientX, clientY) {
+    if (!hero) return;
+    var rect = hero.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    var x = ((clientX - rect.left) / rect.width) * 100;
+    var y = ((clientY - rect.top) / rect.height) * 100;
+    el.style.setProperty('--x', clamp(x, 3, 97).toFixed(2));
+    el.style.setProperty('--y', clamp(y, 4, 96).toFixed(2));
+  }
+
+  function applyParallax(el) {
+    if (!el || el === draggingSticker || el.classList.contains('is-dragging')) return;
+    var depth = parseFloat(el.getAttribute('data-parallax') || '0.03');
+    var px = mx * depth * 36;
+    var py = my * depth * 28;
+    var r = getComputedStyle(el).getPropertyValue('--r').trim() || '0deg';
+    el.style.transform = 'translate3d(calc(-50% + ' + px.toFixed(2) + 'px), calc(-50% + ' + py.toFixed(2) + 'px), 0) rotate(' + r + ')';
+  }
+
+  function resetStickerTransform(el) {
+    var r = getComputedStyle(el).getPropertyValue('--r').trim() || '0deg';
+    el.style.transform = 'translate3d(-50%, -50%, 0) rotate(' + r + ')';
+  }
+
+  function clearReplaceTarget() {
+    if (replaceTarget) replaceTarget.classList.remove('is-replace-target');
+    replaceTarget = null;
+    document.querySelectorAll('.bn-hm-unit--img.is-replace-target').forEach(function (img) {
+      img.classList.remove('is-replace-target');
+    });
+    marqueeReplaceSlot = null;
+    var sub = document.getElementById('bnSmSub');
+    if (sub) {
+      sub.textContent = 'Pick an image to add as a sticker, or click a running-text image first to replace it.';
+    }
+  }
+
+  function setStickerReplaceTarget(el) {
+    clearReplaceTarget();
+    replaceTarget = el;
+    el.classList.add('is-replace-target');
+    var sub = document.getElementById('bnSmSub');
+    if (sub) sub.textContent = 'Replace sticker: choose an image below.';
+  }
+
+  function setMarqueeReplaceSlot(slot) {
+    clearReplaceTarget();
+    marqueeReplaceSlot = String(slot);
+    document.querySelectorAll('.bn-hm-unit--img[data-marquee-slot="' + marqueeReplaceSlot + '"]').forEach(function (img) {
+      img.classList.add('is-replace-target');
+    });
+    var sub = document.getElementById('bnSmSub');
+    if (sub) sub.textContent = 'Replace running-text image: choose a new image below.';
+  }
+
+  function applyMarqueeImage(url) {
+    if (marqueeReplaceSlot == null) return false;
+    document.querySelectorAll('.bn-hm-unit--img[data-marquee-slot="' + marqueeReplaceSlot + '"]').forEach(function (img) {
+      img.src = url;
+    });
+    clearReplaceTarget();
+    return true;
+  }
+
+  function ensureImageSticker(el, url) {
+    var img = el.querySelector('img');
+    if (img) {
+      img.src = url;
+      img.setAttribute('draggable', 'false');
+      return el;
+    }
+    el.innerHTML = '<img src="' + url + '" alt="" draggable="false">';
+    return el;
+  }
+
+  function placeImageSticker(url, clientX, clientY) {
+    if (!url) return null;
+    if (marqueeReplaceSlot != null) {
+      applyMarqueeImage(url);
+      return null;
+    }
+    if (replaceTarget) {
+      ensureImageSticker(replaceTarget, url);
+      var done = replaceTarget;
+      clearReplaceTarget();
+      return done;
+    }
+    var layer = document.getElementById('bnStickersFront') || document.getElementById('bnStickersBack');
+    if (!layer) return null;
+    var el = document.createElement('div');
+    el.className = 'bn-hsticker';
+    if (clientX != null && clientY != null) setStickerPos(el, clientX, clientY);
+    else {
+      el.style.setProperty('--x', String(38 + Math.random() * 24));
+      el.style.setProperty('--y', String(30 + Math.random() * 30));
+    }
+    el.style.setProperty('--w', String(9 + Math.random() * 4));
+    el.style.setProperty('--r', (Math.random() * 14 - 7).toFixed(1) + 'deg');
+    el.setAttribute('data-parallax', '0.03');
+    el.innerHTML = '<img src="' + url + '" alt="" draggable="false">';
+    layer.appendChild(el);
+    stickers.push(el);
+    enableStickerDrag(el);
+    resetStickerTransform(el);
+    return el;
+  }
+
+  var dragRaf = 0;
+  var pendingX = 0, pendingY = 0;
+
+  function enableStickerDrag(el) {
+    if (!el || el.dataset.dragReady === '1') return;
+    el.dataset.dragReady = '1';
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', 'Drag to move. Click to replace.');
+    el.querySelectorAll('img').forEach(function (img) {
+      img.setAttribute('draggable', 'false');
+    });
+    resetStickerTransform(el);
+
+    var moved = false;
+    var pointerId = null;
+
+    el.addEventListener('pointerdown', function (e) {
+      if (e.button != null && e.button !== 0) return;
+      // ignore if modal open
+      if (document.getElementById('bnStickerModal') && document.getElementById('bnStickerModal').classList.contains('open')) return;
+      moved = false;
+      pointerId = e.pointerId;
+      draggingSticker = el;
+      el.classList.add('is-dragging');
+      // bring to front layer while dragging
+      var front = document.getElementById('bnStickersFront');
+      if (front && el.parentElement !== front) front.appendChild(el);
+      el.style.zIndex = '60';
+      resetStickerTransform(el);
+      try { el.setPointerCapture(e.pointerId); } catch (err) {}
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      setStickerPos(el, pendingX, pendingY);
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    el.addEventListener('pointermove', function (e) {
+      if (draggingSticker !== el || e.pointerId !== pointerId) return;
+      moved = true;
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      if (!dragRaf) {
+        dragRaf = requestAnimationFrame(function () {
+          dragRaf = 0;
+          if (draggingSticker === el) setStickerPos(el, pendingX, pendingY);
+        });
+      }
+      e.preventDefault();
+    });
+
+    function endDrag(e) {
+      if (draggingSticker !== el) return;
+      if (e && pointerId != null && e.pointerId !== pointerId) return;
+      draggingSticker = null;
+      pointerId = null;
+      el.classList.remove('is-dragging');
+      el.style.zIndex = '';
+      resetStickerTransform(el);
+      try { if (e) el.releasePointerCapture(e.pointerId); } catch (err) {}
+      if (!moved) {
+        if (deleteMode) return;
+        if (replaceTarget === el) clearReplaceTarget();
+        else setStickerReplaceTarget(el);
+      }
+    }
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  }
+
+  // Re-query in case DOM changed; enable all stickers including chips
+  stickers = Array.prototype.slice.call(document.querySelectorAll('.bn-hsticker'));
+  stickers.forEach(enableStickerDrag);
+
+  // Delete mode: show trash icons on stickers
+  var removeBtn = document.getElementById('bnStickerRemove');
+  var deleteMode = false;
+  var TRASH_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>';
+
+  function ensureTrashButton(el) {
+    if (!el || el.querySelector('.bn-hsticker-trash')) return;
+    var trash = document.createElement('button');
+    trash.type = 'button';
+    trash.className = 'bn-hsticker-trash';
+    trash.setAttribute('aria-label', 'Remove sticker');
+    trash.innerHTML = TRASH_SVG;
+    trash.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+    trash.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      removeSticker(el);
+    });
+    el.appendChild(trash);
+  }
+
+  function removeSticker(el) {
+    if (!el) return;
+    if (replaceTarget === el) clearReplaceTarget();
+    if (draggingSticker === el) draggingSticker = null;
+    stickers = stickers.filter(function (s) { return s !== el; });
+    el.remove();
+  }
+
+  function setDeleteMode(on) {
+    deleteMode = !!on;
+    if (hero) hero.classList.toggle('is-delete-mode', deleteMode);
+    if (removeBtn) {
+      removeBtn.classList.toggle('is-active', deleteMode);
+      removeBtn.setAttribute('aria-pressed', deleteMode ? 'true' : 'false');
+      removeBtn.textContent = deleteMode ? 'Done removing' : 'Remove stickers';
+    }
+    if (deleteMode) {
+      clearReplaceTarget();
+      document.querySelectorAll('.bn-hsticker').forEach(ensureTrashButton);
+    }
+  }
+
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      setDeleteMode(!deleteMode);
+    });
+  }
+
+  var _placeImageSticker = placeImageSticker;
+  placeImageSticker = function (url, clientX, clientY) {
+    var el = _placeImageSticker(url, clientX, clientY);
+    if (el) ensureTrashButton(el);
+    if (deleteMode) document.querySelectorAll('.bn-hsticker').forEach(ensureTrashButton);
+    return el;
+  };
+  document.querySelectorAll('.bn-hsticker').forEach(ensureTrashButton);
+
+
   window.addEventListener('mousemove', function (e) {
+    if (draggingSticker) return;
     mx = (e.clientX / window.innerWidth - 0.5) * 2;
     my = (e.clientY / window.innerHeight - 0.5) * 2;
   }, { passive: true });
+
   function tickStickers() {
-    stickers.forEach(function (el) {
-      var depth = parseFloat(el.getAttribute('data-parallax') || '0.04');
-      el.style.transform = 'translate3d(' + (mx * depth * 80) + 'px,' + (my * depth * 60) + 'px,0)';
-    });
+    if (!draggingSticker) {
+      stickers.forEach(applyParallax);
+    }
     requestAnimationFrame(tickStickers);
   }
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) tickStickers();
+  if (!reduceMotion) tickStickers();
+  else stickers.forEach(resetStickerTransform);
 
-  // Services tabs
-  var items = document.querySelectorAll('.bn-service-item');
-  var details = document.querySelectorAll('.bn-services-detail-content');
-  function activateService(index) {
-    items.forEach(function (item, i) {
-      var on = i === index;
-      item.classList.toggle('is-active', on);
-      item.setAttribute('aria-selected', on ? 'true' : 'false');
-    });
-    details.forEach(function (detail, i) {
-      detail.classList.toggle('visible', i === index);
-    });
-  }
-  items.forEach(function (item) {
-    item.addEventListener('mouseenter', function () {
-      activateService(parseInt(item.getAttribute('data-service'), 10));
-    });
-    item.addEventListener('click', function () {
-      activateService(parseInt(item.getAttribute('data-service'), 10));
-    });
-    item.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        activateService(parseInt(item.getAttribute('data-service'), 10));
+  // Running-text images: click to select for replace; drag to pull onto hero as sticker
+  document.querySelectorAll('.bn-hm-unit--img').forEach(function (img) {
+    img.setAttribute('draggable', 'false');
+    var startX = 0, startY = 0, pulling = false, created = null;
+    img.addEventListener('pointerdown', function (e) {
+      if (e.button != null && e.button !== 0) return;
+      startX = e.clientX;
+      startY = e.clientY;
+      pulling = false;
+      created = null;
+      function onMove(ev) {
+        var dx = ev.clientX - startX;
+        var dy = ev.clientY - startY;
+        if (!pulling && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+          pulling = true;
+          clearReplaceTarget();
+          created = placeImageSticker(img.getAttribute('src'), ev.clientX, ev.clientY);
+          if (created) {
+            draggingSticker = created;
+            created.classList.add('is-dragging');
+            img.classList.add('is-dragging-source');
+          }
+        }
+        if (pulling && created) setStickerPos(created, ev.clientX, ev.clientY);
       }
+      function onUp(ev) {
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('pointercancel', onUp);
+        if (pulling && created) {
+          draggingSticker = null;
+          created.classList.remove('is-dragging');
+          img.classList.remove('is-dragging-source');
+        } else {
+          // click = select marquee slot for replace, then open picker
+          var slot = img.getAttribute('data-marquee-slot');
+          if (slot != null) {
+            setMarqueeReplaceSlot(slot);
+            openModal();
+          }
+        }
+      }
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+      e.preventDefault();
+      e.stopPropagation();
     });
   });
 
-  // Projects drag scroll
-  var strip = document.getElementById('bnProjectsStrip');
-  var badge = document.getElementById('bnDragBadge');
-  if (strip) {
-    var isDown = false, startX = 0, scrollLeft = 0;
-    strip.addEventListener('mousedown', function (e) {
-      isDown = true;
-      strip.classList.add('is-dragging');
-      startX = e.pageX - strip.offsetLeft;
-      scrollLeft = strip.scrollLeft;
-      if (badge) badge.classList.add('is-hidden');
+  if (hero) {
+    hero.addEventListener('dragover', function (e) {
+      if (e.dataTransfer) e.preventDefault();
     });
-    window.addEventListener('mouseup', function () {
-      isDown = false;
-      strip.classList.remove('is-dragging');
-    });
-    strip.addEventListener('mouseleave', function () {
-      isDown = false;
-      strip.classList.remove('is-dragging');
-    });
-    strip.addEventListener('mousemove', function (e) {
-      if (!isDown) return;
+    hero.addEventListener('drop', function (e) {
       e.preventDefault();
-      var x = e.pageX - strip.offsetLeft;
-      strip.scrollLeft = scrollLeft - (x - startX) * 1.25;
-    });
-    strip.addEventListener('scroll', function () {
-      if (badge) badge.classList.add('is-hidden');
-    }, { passive: true });
-  }
-
-  // Reel
-  var reelWrap = document.getElementById('bnReelWrap');
-  var reelVideo = document.getElementById('bnReelVideo');
-  var reelPlay = document.getElementById('bnReelPlay');
-  if (reelWrap && 'IntersectionObserver' in window) {
-    var reelIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) reelWrap.classList.add('is-in');
-      });
-    }, { threshold: 0.35 });
-    reelIO.observe(reelWrap);
-  }
-  if (reelPlay && reelVideo) {
-    reelPlay.addEventListener('click', function () {
-      reelVideo.muted = false;
-      reelVideo.play();
-      reelPlay.classList.add('is-hidden');
+      var url = e.dataTransfer.getData('application/x-bn-sticker') || e.dataTransfer.getData('text/uri-list');
+      if (url) {
+        placeImageSticker(url.split('\n')[0].trim(), e.clientX, e.clientY);
+        closeModal();
+        return;
+      }
+      if (e.dataTransfer.files && e.dataTransfer.files[0] && e.dataTransfer.files[0].type.match(/^image\//)) {
+        placeImageSticker(URL.createObjectURL(e.dataTransfer.files[0]), e.clientX, e.clientY);
+      }
     });
   }
 
-  // Reveals
-  var reveals = document.querySelectorAll('.bn-reveal');
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) entry.target.classList.add('is-visible');
-      });
-    }, { threshold: 0.18 });
-    reveals.forEach(function (el) { io.observe(el); });
-  } else {
-    reveals.forEach(function (el) { el.classList.add('is-visible'); });
-  }
-
-  // Sticker modal + place
+  // Modal
   var modal = document.getElementById('bnStickerModal');
   var openBtn = document.getElementById('bnStickerCta');
   var fileInput = document.getElementById('bnSmFile');
   var drop = document.getElementById('bnSmDrop');
   var preview = document.getElementById('bnSmPreview');
   var placeBtn = document.getElementById('bnSmPlace');
+  var gallery = document.getElementById('bnSmGallery');
   var pendingUrl = '';
+
+  function renderGallery() {
+    if (!gallery) return;
+    gallery.innerHTML = '';
+    siteImagePool().forEach(function (src) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bn-sm-thumb';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('aria-label', 'Use this image');
+      btn.dataset.src = src;
+      btn.draggable = true;
+      btn.innerHTML = '<img src="' + src + '" alt="">';
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        pendingUrl = src;
+        placeImageSticker(src);
+        closeModal();
+      });
+      btn.addEventListener('dragstart', function (e) {
+        e.dataTransfer.setData('application/x-bn-sticker', src);
+        e.dataTransfer.setData('text/uri-list', src);
+        e.dataTransfer.effectAllowed = 'copy';
+      });
+      gallery.appendChild(btn);
+    });
+  }
+
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+
+  function lockPageScroll() {
+    document.documentElement.classList.add('bn-modal-open');
+    document.body.classList.add('bn-modal-open', 'lock-scroll');
+    try {
+      if (window.common && common.lenis && typeof common.lenis.stop === 'function') common.lenis.stop();
+      else if (window.common && common.lenis && typeof common.lenis.destroy === 'function') common.lenis.destroy();
+    } catch (err) {}
+  }
+  function unlockPageScroll() {
+    document.documentElement.classList.remove('bn-modal-open');
+    document.body.classList.remove('bn-modal-open', 'lock-scroll');
+    try {
+      if (window.common && common.lenis && typeof common.lenis.start === 'function') {
+        common.lenis.start();
+      } else if (window.common) {
+        if (common.lenis && typeof common.lenis.destroy === 'function') {
+          try { common.lenis.destroy(); } catch (e1) {}
+        }
+        common.lenis = new Lenis();
+      }
+    } catch (err) {}
+  }
   function openModal() {
     if (!modal) return;
+    if (modal.parentElement !== document.body) document.body.appendChild(modal);
+    renderGallery();
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
+    lockPageScroll();
+    var body = modal.querySelector('.bn-sm-body');
+    if (body) body.scrollTop = 0;
   }
   function closeModal() {
     if (!modal) return;
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
+    unlockPageScroll();
+    pendingUrl = '';
+    if (placeBtn) placeBtn.disabled = true;
+    if (preview) { preview.hidden = true; preview.innerHTML = ''; }
+    if (typeof clearReplaceTarget === 'function') clearReplaceTarget();
   }
-  if (openBtn) openBtn.addEventListener('click', openModal);
-  document.querySelectorAll('[data-close-modal]').forEach(function (el) {
-    el.addEventListener('click', closeModal);
+
+  function onModalWheel(e) {
+    if (!modal || !modal.classList.contains('open')) return;
+    var body = modal.querySelector('.bn-sm-body');
+    var card = modal.querySelector('.bn-sm-card');
+    if (!body) {
+      e.preventDefault();
+      return;
+    }
+    // Mouse wheel + trackpad: while over the drawer, scroll the drawer body directly
+    if (card && (card === e.target || card.contains(e.target))) {
+      var dy = e.deltaY;
+      if (e.deltaMode === 1) dy *= 16; // lines → px
+      else if (e.deltaMode === 2) dy *= body.clientHeight; // pages → px
+      body.scrollTop += dy;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+      return;
+    }
+    // Outside drawer: keep page locked
+    e.preventDefault();
+  }
+  function onModalTouchMove(e) {
+    if (!modal || !modal.classList.contains('open')) return;
+    var body = modal.querySelector('.bn-sm-body');
+    if (body && (body === e.target || body.contains(e.target))) return;
+    e.preventDefault();
+  }
+  document.addEventListener('wheel', onModalWheel, { passive: false, capture: true });
+  document.addEventListener('touchmove', onModalTouchMove, { passive: false, capture: true });
+
+  if (openBtn) {
+    openBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      // Add mode (not replace) unless already selected
+      if (!replaceTarget && marqueeReplaceSlot == null) {
+        var sub = document.getElementById('bnSmSub');
+        if (sub) sub.textContent = 'Pick an image to add as a sticker on the hero.';
+      }
+      openModal();
+    });
+  }
+  if (modal) {
+    var backdrop = modal.querySelector('.bn-sm-backdrop');
+    var closeX = modal.querySelector('.bn-sm-x');
+    var cancelBtn = modal.querySelector('.bn-sm-cancel');
+    var card = modal.querySelector('.bn-sm-card');
+    if (backdrop) {
+      backdrop.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+    if (closeX) {
+      closeX.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+    if (card) {
+      card.addEventListener('click', function (e) { e.stopPropagation(); });
+    }
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal && modal.classList.contains('open')) closeModal();
   });
   if (drop && fileInput) {
-    drop.addEventListener('click', function () { fileInput.click(); });
+    drop.addEventListener('click', function (e) {
+      e.preventDefault();
+      fileInput.click();
+    });
     drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('is-over'); });
     drop.addEventListener('dragleave', function () { drop.classList.remove('is-over'); });
     drop.addEventListener('drop', function (e) {
@@ -3966,35 +4453,24 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   function handleFile(file) {
     if (!file || !file.type.match(/^image\//)) return;
-    if (pendingUrl) URL.revokeObjectURL(pendingUrl);
-    pendingUrl = URL.createObjectURL(file);
-    preview.hidden = false;
-    preview.innerHTML = '<img src="' + pendingUrl + '" alt="Sticker preview">';
-    placeBtn.disabled = false;
+    var url = URL.createObjectURL(file);
+    pendingUrl = url;
+    if (preview) {
+      preview.hidden = false;
+      preview.innerHTML = '<img src="' + url + '" alt="Sticker preview">';
+    }
+    if (placeBtn) placeBtn.disabled = false;
   }
   if (placeBtn) {
-    placeBtn.addEventListener('click', function () {
+    placeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
       if (!pendingUrl) return;
-      var layer = document.getElementById('bnStickersFront') || document.getElementById('bnStickersBack');
-      if (!layer) return;
-      var el = document.createElement('div');
-      el.className = 'bn-hsticker';
-      el.style.setProperty('--x', String(30 + Math.random() * 40));
-      el.style.setProperty('--y', String(25 + Math.random() * 45));
-      el.style.setProperty('--w', String(8 + Math.random() * 5));
-      el.style.setProperty('--r', (Math.random() * 16 - 8).toFixed(1) + 'deg');
-      el.setAttribute('data-parallax', '0.05');
-      el.innerHTML = '<img src="' + pendingUrl + '" alt="" draggable="false">';
-      layer.appendChild(el);
-      stickers.push(el);
+      placeImageSticker(pendingUrl);
       closeModal();
-      placeBtn.disabled = true;
-      preview.hidden = true;
-      preview.innerHTML = '';
-      pendingUrl = '';
       if (fileInput) fileInput.value = '';
     });
   }
+
 });
 </script>
 
@@ -4104,6 +4580,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<script src="js/gatorade-cursor.js"></script>
 <script src="js/common.min.js"></script>
 <script>
 // Only load index.min.js as module when not on file:// protocol

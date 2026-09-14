@@ -1,0 +1,269 @@
+/* Shared Gatorade pointer — match homepage default / hover / active */
+
+/* Kill legacy BeNorth ink cursor if markup remains */
+#bnCursor {
+  display: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Default on interactive targets: red ring (same as homepage empty space) */
+  a,
+  button,
+  [role="button"],
+  [onclick],
+  .ico-link,
+  .lang-link,
+  .js-menu-toggle,
+  .js-anchor-btn-scroll,
+  summary {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="%23c6373c" stroke-width="2"/></svg>') 28 28, auto !important;
+  }
+
+  /* Hover + click/active: filled red (same language as menu links) */
+  a:hover,
+  a:active,
+  button:hover,
+  button:active,
+  [role="button"]:hover,
+  [role="button"]:active,
+  [onclick]:hover,
+  [onclick]:active,
+  .ico-link:hover,
+  .ico-link:active,
+  .lang-link:hover,
+  .lang-link:active,
+  .js-menu-toggle:hover,
+  .js-menu-toggle:active {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, pointer !important;
+  }
+
+  /* BeNorth content — override old cursor:none so homepage cursors show */
+  body.electrolyte-bn-page .electrolyte-page,
+  body.electrolyte-bn-page .electrolyte-page a,
+  body.electrolyte-bn-page .electrolyte-page button,
+  body.electrolyte-bn-page .electrolyte-page [role="button"] {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="%23c6373c" stroke-width="2"/></svg>') 28 28, auto !important;
+  }
+  body.electrolyte-bn-page .electrolyte-page a:hover,
+  body.electrolyte-bn-page .electrolyte-page a:active,
+  body.electrolyte-bn-page .electrolyte-page button:hover,
+  body.electrolyte-bn-page .electrolyte-page button:active,
+  body.electrolyte-bn-page .electrolyte-page [role="button"]:hover,
+  body.electrolyte-bn-page .electrolyte-page [role="button"]:active {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, pointer !important;
+  }
+
+  /* Chrome with DOM follower dots — hide system cursor */
+  .page-logo,
+  .page-logo *,
+  .page-logo-cursor,
+  .menu-trigger,
+  .menu-trigger *,
+  .menu-trigger-container,
+  .menu-trigger-container *,
+  .menu-trigger-cursor,
+  .circle-btn,
+  .circle-btn *,
+  .circle-btn-cursor,
+  .cta-btn--primary,
+  .cta-btn--primary *,
+  .cta-btn--secondary,
+  .cta-btn--secondary *,
+  .cta-btn-cursor {
+    cursor: none !important;
+  }
+
+  /* Menu panel: filled red */
+  .menu__link,
+  .menu__link *,
+  .menu__item,
+  .menu__txt,
+  .menu__marquee {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, pointer !important;
+  }
+
+  /* Join CTA: white filled */
+  .rd-btn,
+  .rd-btn:hover,
+  .rd-btn:active,
+  .rd-btn *,
+  .rd-btn:hover *,
+  .rd-btn:active * {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23ffffff"/></svg>') 10 10, pointer !important;
+  }
+
+  /* Footer / work CTA: black filled */
+  .ft__col--logo,
+  .ft__col--logo *,
+  .ft-logo,
+  .ft-logo *,
+  .ft-menu__link,
+  .ft-menu__link *,
+  .work-cta,
+  .work-cta:hover,
+  .work-cta:active,
+  .work-cta * {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23000000"/></svg>') 10 10, pointer !important;
+  }
+
+  /* Stickers keep grab */
+  .bn-hsticker,
+  .bn-hsticker:hover,
+  .bn-hsticker:active {
+    cursor: grab !important;
+  }
+  .bn-hsticker.is-dragging {
+    cursor: grabbing !important;
+  }
+}
+
+/* Touch / coarse: native cursors */
+html.is-touch *,
+html.is-touch *::before,
+html.is-touch *::after {
+  cursor: auto !important;
+}
+html.is-touch a,
+html.is-touch button,
+html.is-touch [role="button"] {
+  cursor: pointer !important;
+}
+html.is-touch .menu-trigger-cursor,
+html.is-touch .page-logo-cursor,
+html.is-touch .circle-btn-cursor,
+html.is-touch .cta-btn-cursor,
+html.is-touch #bnCursor {
+  display: none !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  #bnCursor,
+  .menu-trigger-cursor,
+  .page-logo-cursor,
+  .circle-btn-cursor,
+  .cta-btn-cursor {
+    display: none !important;
+  }
+}
+
+/* Drawers + pop-ups — homepage cursors (high specificity to beat page cursor:none) */
+.bn-sticker-modal,
+.bn-sticker-modal *,
+html body .bn-sticker-modal a,
+html body .bn-sticker-modal button,
+html body .bn-sticker-modal button:not(.product-card):not(.product-popup__close),
+html body .bn-sticker-modal [role="button"],
+html body .bn-sticker-modal label,
+html body .bn-sticker-modal .bn-sm-x,
+html body .bn-sticker-modal .bn-sm-cancel,
+html body .bn-sticker-modal .bn-sm-place,
+html body .bn-sticker-modal .bn-sm-thumb,
+html body .bn-sticker-modal .bn-sm-drop,
+html body .bn-sticker-modal .bn-sm-backdrop,
+html body .bn-sticker-modal .bn-sm-body,
+html body .bn-sticker-modal .bn-sm-card,
+html body .bn-sticker-modal .bn-sm-head,
+.product-popup,
+.product-popup *,
+html body .product-popup a,
+html body .product-popup button,
+html body .product-popup button:not(.product-card):not(.product-popup__close),
+html body .product-popup [role="button"],
+html body .product-popup [data-popup-close],
+html body .product-popup__close,
+html body .product-popup__backdrop,
+.common-popup,
+.common-popup *,
+html body .common-popup a,
+html body .common-popup button,
+html body .common-popup button:not(.product-card):not(.product-popup__close),
+.popup,
+.popup *,
+html body .popup a,
+html body .popup button {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="%23c6373c" stroke-width="2"/></svg>') 28 28, auto !important;
+}
+
+html body .bn-sticker-modal a:hover,
+html body .bn-sticker-modal a:active,
+html body .bn-sticker-modal button:hover,
+html body .bn-sticker-modal button:active,
+html body .bn-sticker-modal button:not(.product-card):not(.product-popup__close):hover,
+html body .bn-sticker-modal button:not(.product-card):not(.product-popup__close):active,
+html body .bn-sticker-modal [role="button"]:hover,
+html body .bn-sticker-modal [role="button"]:active,
+html body .bn-sticker-modal label:hover,
+html body .bn-sticker-modal label:active,
+html body .bn-sticker-modal .bn-sm-x:hover,
+html body .bn-sticker-modal .bn-sm-x:active,
+html body .bn-sticker-modal .bn-sm-cancel:hover,
+html body .bn-sticker-modal .bn-sm-cancel:active,
+html body .bn-sticker-modal .bn-sm-place:hover,
+html body .bn-sticker-modal .bn-sm-place:active,
+html body .bn-sticker-modal .bn-sm-thumb:hover,
+html body .bn-sticker-modal .bn-sm-thumb:active,
+html body .bn-sticker-modal .bn-sm-drop:hover,
+html body .bn-sticker-modal .bn-sm-drop:active,
+html body .bn-sticker-modal .bn-sm-backdrop:hover,
+html body .bn-sticker-modal .bn-sm-backdrop:active,
+html body .product-popup a:hover,
+html body .product-popup a:active,
+html body .product-popup button:hover,
+html body .product-popup button:active,
+html body .product-popup [role="button"]:hover,
+html body .product-popup [role="button"]:active,
+html body .product-popup [data-popup-close]:hover,
+html body .product-popup [data-popup-close]:active,
+html body .product-popup__close:hover,
+html body .product-popup__close:active,
+html body .product-popup__backdrop:hover,
+html body .product-popup__backdrop:active,
+html body .product-popup__thumbs img:hover,
+html body .product-popup__thumbs img:active,
+html body .common-popup a:hover,
+html body .common-popup a:active,
+html body .common-popup button:hover,
+html body .common-popup button:active,
+html body .common-popup .js-popup-close:hover,
+html body .common-popup .js-popup-close:active,
+html body .common-popup .js-close-cursor:hover,
+html body .common-popup .js-close-cursor:active,
+html body .popup a:hover,
+html body .popup a:active,
+html body .popup button:hover,
+html body .popup button:active {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, pointer !important;
+}
+
+html body .bn-sticker-modal .bn-sm-place:disabled,
+html body .bn-sticker-modal .bn-sm-place:disabled:hover {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="%23c6373c" stroke-width="2"/></svg>') 28 28, auto !important;
+}
+
+/* Even when html.is-touch is set on desktop-like devices, keep custom cursors in overlays */
+html.is-touch .bn-sticker-modal,
+html.is-touch .bn-sticker-modal *,
+html.is-touch .product-popup,
+html.is-touch .product-popup *,
+html.is-touch .common-popup,
+html.is-touch .common-popup *,
+html.is-touch .popup,
+html.is-touch .popup * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="%23c6373c" stroke-width="2"/></svg>') 28 28, auto !important;
+}
+html.is-touch .bn-sticker-modal a:hover,
+html.is-touch .bn-sticker-modal button:hover,
+html.is-touch .bn-sticker-modal .bn-sm-x:hover,
+html.is-touch .bn-sticker-modal .bn-sm-cancel:hover,
+html.is-touch .bn-sticker-modal .bn-sm-place:hover,
+html.is-touch .bn-sticker-modal .bn-sm-thumb:hover,
+html.is-touch .bn-sticker-modal .bn-sm-drop:hover,
+html.is-touch .bn-sticker-modal .bn-sm-backdrop:hover,
+html.is-touch .product-popup button:hover,
+html.is-touch .product-popup__close:hover,
+html.is-touch .product-popup__backdrop:hover,
+html.is-touch .common-popup button:hover,
+html.is-touch .common-popup .js-popup-close:hover {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23c6373c"/></svg>') 10 10, pointer !important;
+}
+
